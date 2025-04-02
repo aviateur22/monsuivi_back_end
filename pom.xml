@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ctoutweb.monsuivi</groupId>
+    <artifactId>MonSuivi</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <modules>
+        <module>core</module>
+        <module>infra</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <war.name>monsuivi-app</war.name>
+
+                <!-- API version-->
+                <api.version>v1</api.version>
+
+                <!-- Database -->
+                <database.schema>sc_monsuivi</database.schema>
+
+                <!--Horaire -->
+                <zone.id>Europe/Paris</zone.id>
+
+                <!--Log -->
+                <log.level>DEBUG</log.level>
+
+                <!--mail -->
+                <mailer.from>admin@ctoutweb.fr</mailer.from>
+                <mailer.port>587</mailer.port>
+                <mailer.smtp>smtp.gmail.com</mailer.smtp>
+                <mailer.secure>true</mailer.secure>
+                <mailer.smtp.auth>true</mailer.smtp.auth>
+
+                <!--JWT -->
+                <jwt.validity.hour>72</jwt.validity.hour>
+                <jwt.issuer>ctoutweb</jwt.issuer>
+
+                <!--CSRF -->
+                <csrf.access.token>fldjfdslmdmlj</csrf.access.token>
+
+                <!--Cookie-->
+                <cookie.domain>customDomain</cookie.domain>
+                <cookie.path>/</cookie.path>
+                <cookie.secure>false</cookie.secure>
+                <cookie.samesite>Lax</cookie.samesite>
+                <cookie.is.httponly>true</cookie.is.httponly>
+                <cookie.maxage.day>1</cookie.maxage.day>
+
+                <!--Chiffrement-->
+                <crypto.name>AES</crypto.name>
+                <crypto.algorithm>AES/CBC/PKCS5Padding</crypto.algorithm>
+                <crypto.secret.key.algo>PBKDF2WithHmacSHA256</crypto.secret.key.algo>
+
+                <!--AWS -->
+                <aws.region>eu-central-1</aws.region>
+                <aws.bucket.name>lalamiam-app</aws.bucket.name>
+
+                <!--Cors -->
+                <cors.domains>http://localhost:4200,http://localhost:4200</cors.domains>
+            </properties>
+        </profile>
+    </profiles>
+</project>
