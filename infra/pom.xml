@@ -11,6 +11,8 @@
 
     <artifactId>infra</artifactId>
 
+    <packaging>war</packaging>
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -34,6 +36,14 @@
                 <version>10.17.0</version>
                 <configuration>
                     <configFiles>src/main/resources/flyway.conf</configFiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <packagingExcludes>WEB-INF/lib/tomcat-*.jar</packagingExcludes>
+                    <warName>${war.name}</warName>
                 </configuration>
             </plugin>
             <plugin>
