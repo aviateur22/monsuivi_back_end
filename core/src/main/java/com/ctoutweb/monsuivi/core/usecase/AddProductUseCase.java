@@ -1,8 +1,8 @@
 package com.ctoutweb.monsuivi.core.usecase;
 
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductRepositoryGateway;
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductInput;
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductOutput;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductRepositoryGateway;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductInput;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductOutput;
 import com.ctoutweb.monsuivi.core.annotation.CoreService;
 import com.ctoutweb.monsuivi.core.exception.CoreException;
 import com.ctoutweb.monsuivi.core.model.usecase.IUseCase;

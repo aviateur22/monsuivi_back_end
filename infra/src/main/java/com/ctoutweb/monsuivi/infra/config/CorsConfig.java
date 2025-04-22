@@ -16,6 +16,12 @@ public class CorsConfig {
   @Value("${cors.domains}")
   String corsDomains;
 
+  @Value("${api.version}")
+  String apiVersion;
+
+  @Value("${application.name}")
+  String applicationName;
+
   @Bean(name = "corsConfiguration")
   public CorsConfigurationSource corsConfigurationSource() {
     UrlBasedCorsConfigurationSource source =new UrlBasedCorsConfigurationSource();
@@ -26,8 +32,8 @@ public class CorsConfig {
     productCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
     productCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST"));
     productCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
-    source.registerCorsConfiguration("/product/**", productCorsConfig);
-
+    source.registerCorsConfiguration(apiVersion+"/product/**", productCorsConfig);
+    source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/product/**", productCorsConfig);
     return source;
   }
 }

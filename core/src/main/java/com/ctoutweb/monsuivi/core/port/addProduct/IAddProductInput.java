@@ -1,4 +1,4 @@
-package com.ctoutweb.monsuivi.core.addproduct.port;
+package com.ctoutweb.monsuivi.core.port.addProduct;
 
 import com.ctoutweb.monsuivi.core.entity.product.IProduct;
 

@@ -5,13 +5,13 @@ $do$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'monsuivi') THEN
         CREATE ROLE monsuivi WITH LOGIN PASSWORD 'monsuivi';
-        GRANT CONNECT ON DATABASE monsuivi TO monsuivi;
+        GRANT CONNECT ON DATABASE monsuivi TO monsuivi_moe;
     END IF;
 END
 $do$;
 
 CREATE SCHEMA IF NOT EXISTS sc_monsuivi;
-ALTER SCHEMA sc_monsuivi OWNER TO monsuivi;
+ALTER SCHEMA sc_monsuivi OWNER TO monsuivi_moe;
 
 DROP TABLE IF EXISTS sc_monsuivi."login", sc_monsuivi."jwt", sc_monsuivi."delay_login", sc_monsuivi."seller_account", sc_monsuivi."role_seller", sc_monsuivi."role", sc_monsuivi."image",sc_monsuivi.product, sc_monsuivi."seller" CASCADE;
 
@@ -43,7 +43,6 @@ CREATE TABLE if NOT EXISTS sc_monsuivi.product(
 CREATE INDEX IF NOT EXISTS idx_product_seller ON sc_monsuivi.product (seller_id);
 CREATE INDEX IF NOT EXISTS idx_product_name ON sc_monsuivi.product (product_name);
 CREATE INDEX IF NOT EXISTS idx_product_category ON sc_monsuivi.product (product_category);
-
 
 -- Professionnel image --
 CREATE TABLE if NOT EXISTS sc_monsuivi.image(
@@ -121,25 +120,25 @@ create table IF NOT EXISTS sc_monsuivi.delay_login(
 CREATE INDEX IF NOT EXISTS idx_delay_login ON sc_monsuivi.delay_login(seller_id);
 
 
-ALTER table IF EXISTS sc_monsuivi.seller OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.product OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.image OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.jwt OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.role OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.role_seller OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.seller_account OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.login OWNER TO monsuivi;
-ALTER table IF EXISTS sc_monsuivi.delay_login OWNER TO monsuivi;
+ALTER table IF EXISTS sc_monsuivi.seller OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.product OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.image OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.jwt OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.role OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.role_seller OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.seller_account OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.login OWNER TO monsuivi_moe;
+ALTER table IF EXISTS sc_monsuivi.delay_login OWNER TO monsuivi_moe;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.seller TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.image TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.product TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.jwt TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.role TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.role_seller TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.seller_account TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.login TO monsuivi;
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.delay_login TO monsuivi;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.seller TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.image TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.product TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.jwt TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.role TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.role_seller TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.seller_account TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.login TO monsuivi_moe;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.delay_login TO monsuivi_moe;
 
 CREATE SEQUENCE if not exists sc_monsuivi.seller_pk_seq START WITH 1 INCREMENT BY 1 NO CYCLE;
 CREATE SEQUENCE if not exists sc_monsuivi.product_pk_seq START WITH 1 INCREMENT BY 1 NO CYCLE;
@@ -150,36 +149,36 @@ CREATE SEQUENCE if not exists sc_monsuivi.seller_account_pk_seq START WITH 1 INC
 CREATE SEQUENCE if not exists sc_monsuivi.login_pk_seq START WITH 1 INCREMENT BY 1 NO CYCLE;
 CREATE SEQUENCE if not exists sc_monsuivi.delay_login_pk_seq START WITH 1 INCREMENT BY 1 NO CYCLE;
 
-ALTER SEQUENCE if exists sc_monsuivi.seller_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.seller_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.seller_pk_seq owned by sc_monsuivi.seller.id;
 ALTER TABLE sc_monsuivi.seller ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.seller_pk_seq');
 
-ALTER SEQUENCE if exists sc_monsuivi.product_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.product_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.product_pk_seq owned by sc_monsuivi.product.id;
 ALTER TABLE sc_monsuivi.product ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.product_pk_seq');
 
 
-ALTER SEQUENCE if exists sc_monsuivi.image_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.image_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.image_pk_seq owned by sc_monsuivi.image.id;
 ALTER TABLE sc_monsuivi.image ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.image_pk_seq');
 
-ALTER SEQUENCE if exists sc_monsuivi.jwt_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.jwt_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.jwt_pk_seq owned by sc_monsuivi.jwt.id;
 ALTER TABLE sc_monsuivi.jwt ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.jwt_pk_seq');
 
-ALTER SEQUENCE if exists sc_monsuivi.role_seller_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.role_seller_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.role_seller_pk_seq owned by sc_monsuivi.role_seller.id;
 ALTER TABLE sc_monsuivi.role_seller ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.role_seller_pk_seq');
 
-ALTER SEQUENCE if exists sc_monsuivi.seller_account_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.seller_account_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.seller_account_pk_seq owned by sc_monsuivi.seller_account.id;
 ALTER TABLE sc_monsuivi.seller_account ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.seller_account_pk_seq');
 
-ALTER SEQUENCE if exists sc_monsuivi.login_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.login_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.login_pk_seq owned by sc_monsuivi.login.id;
 ALTER TABLE sc_monsuivi.login ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.login_pk_seq');
 
-ALTER SEQUENCE if exists sc_monsuivi.delay_login_pk_seq OWNER TO monsuivi;
+ALTER SEQUENCE if exists sc_monsuivi.delay_login_pk_seq OWNER TO monsuivi_moe;
 ALTER SEQUENCE if exists sc_monsuivi.delay_login_pk_seq owned by sc_monsuivi.delay_login.id;
 ALTER TABLE sc_monsuivi.delay_login ALTER COLUMN id SET DEFAULT NEXTVAL('sc_monsuivi.delay_login_pk_seq');
 

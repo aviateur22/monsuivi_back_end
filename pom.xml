@@ -33,7 +33,7 @@
                 <war.name>monsuivi-app</war.name>
 
                 <!-- API version-->
-                <api.version>v1</api.version>
+                <api.version>/api/v1</api.version>
 
                 <!-- Database -->
                 <database.schema>sc_monsuivi</database.schema>
@@ -43,6 +43,113 @@
 
                 <!--Log -->
                 <log.level>DEBUG</log.level>
+                <log.file>logs/app.log</log.file>
+
+                <!--mail -->
+                <mailer.from>admin@ctoutweb.fr</mailer.from>
+                <mailer.port>587</mailer.port>
+                <mailer.smtp>smtp.gmail.com</mailer.smtp>
+                <mailer.secure>true</mailer.secure>
+                <mailer.smtp.auth>true</mailer.smtp.auth>
+
+                <!--JWT -->
+                <jwt.validity.hour>72</jwt.validity.hour>
+                <jwt.issuer>ctoutweb</jwt.issuer>
+
+                <!--CSRF -->
+                <csrf.access.token>fldjfdslmdmlj</csrf.access.token>
+
+                <!--Cookie-->
+                <cookie.domain>customDomain</cookie.domain>
+                <cookie.path>/</cookie.path>
+                <cookie.secure>false</cookie.secure>
+                <cookie.samesite>Lax</cookie.samesite>
+                <cookie.is.httponly>true</cookie.is.httponly>
+                <cookie.maxage.day>1</cookie.maxage.day>
+
+                <!--Chiffrement-->
+                <crypto.name>AES</crypto.name>
+                <crypto.algorithm>AES/CBC/PKCS5Padding</crypto.algorithm>
+                <crypto.secret.key.algo>PBKDF2WithHmacSHA256</crypto.secret.key.algo>
+
+                <!--AWS -->
+                <aws.region>eu-central-1</aws.region>
+                <aws.bucket.name>lalamiam-app</aws.bucket.name>
+
+                <!--Cors -->
+                <cors.domains>http://localhost:4200,http://localhost:4200</cors.domains>
+            </properties>
+        </profile>
+        <profile>
+            <id>moe</id>
+            <properties>
+                <war.name>moe-monsuivi-app</war.name>
+
+                <!-- API version-->
+                <api.version>/api/v1</api.version>
+
+                <!-- Database -->
+                <database.schema>sc_monsuivi</database.schema>
+
+                <!--Horaire -->
+                <zone.id>Europe/Paris</zone.id>
+
+                <!--Log -->
+                <log.level>DEBUG</log.level>
+                <log.file>/var/log/monsuivi-app/monsuivi-app.log</log.file>
+
+                <!--mail -->
+                <mailer.from>admin@ctoutweb.fr</mailer.from>
+                <mailer.port>587</mailer.port>
+                <mailer.smtp>smtp.gmail.com</mailer.smtp>
+                <mailer.secure>true</mailer.secure>
+                <mailer.smtp.auth>true</mailer.smtp.auth>
+
+                <!--JWT -->
+                <jwt.validity.hour>72</jwt.validity.hour>
+                <jwt.issuer>ctoutweb</jwt.issuer>
+
+                <!--CSRF -->
+                <csrf.access.token>fldjfdslmdmlj</csrf.access.token>
+
+                <!--Cookie-->
+                <cookie.domain>customDomain</cookie.domain>
+                <cookie.path>/</cookie.path>
+                <cookie.secure>false</cookie.secure>
+                <cookie.samesite>Lax</cookie.samesite>
+                <cookie.is.httponly>true</cookie.is.httponly>
+                <cookie.maxage.day>1</cookie.maxage.day>
+
+                <!--Chiffrement-->
+                <crypto.name>AES</crypto.name>
+                <crypto.algorithm>AES/CBC/PKCS5Padding</crypto.algorithm>
+                <crypto.secret.key.algo>PBKDF2WithHmacSHA256</crypto.secret.key.algo>
+
+                <!--AWS -->
+                <aws.region>eu-central-1</aws.region>
+                <aws.bucket.name>lalamiam-app</aws.bucket.name>
+
+                <!--Cors -->
+                <cors.domains>https://moe.cbasic.fr,http://moe.cbasic.fr,http://localhost:4200</cors.domains>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <war.name>prod-monsuivi-app</war.name>
+
+                <!-- API version-->
+                <api.version>/api/v1</api.version>
+
+                <!-- Database -->
+                <database.schema>sc_monsuivi</database.schema>
+
+                <!--Horaire -->
+                <zone.id>Europe/Paris</zone.id>
+
+                <!--Log -->
+                <log.level>INFO</log.level>
+                <log.file>/var/log/monsuivi-app/prod-monsuivi-app.log</log.file>
 
                 <!--mail -->
                 <mailer.from>admin@ctoutweb.fr</mailer.from>

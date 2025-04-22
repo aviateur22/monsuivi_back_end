@@ -1,18 +1,18 @@
 package com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper;
 
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductInput;
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductOutput;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductInput;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductOutput;
 import com.ctoutweb.monsuivi.core.entity.product.IProduct;
 import com.ctoutweb.monsuivi.core.entity.product.ProductState;
 import com.ctoutweb.monsuivi.core.entity.product.ProductCategory;
 import com.ctoutweb.monsuivi.infra.InfraFactory;
+import com.ctoutweb.monsuivi.infra.adapter.common.Mapper;
 import com.ctoutweb.monsuivi.infra.dto.AddProductDto;
 import com.ctoutweb.monsuivi.infra.dto.response.AddProductDtoResponse;
 import com.ctoutweb.monsuivi.infra.exception.BadRequestException;
 import com.ctoutweb.monsuivi.infra.model.document.IImageToSave;
 import com.ctoutweb.monsuivi.infra.repository.entity.ImageEntity;
 import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
-import com.ctoutweb.monsuivi.infra.repository.entity.SellerEntity;
 import com.ctoutweb.monsuivi.infra.util.DateUtil;
 import com.ctoutweb.monsuivi.infra.util.TextUtil;
 import org.apache.commons.io.FilenameUtils;
@@ -37,8 +37,10 @@ public class AddProductMapper {
   @Value("${zone.id}")
   private String zoneId;
   private final InfraFactory infraFactory;
-  public AddProductMapper(InfraFactory infraFactory) {
+  private final Mapper mapper;
+  public AddProductMapper(InfraFactory infraFactory, Mapper mapper) {
     this.infraFactory = infraFactory;
+    this.mapper = mapper;
   }
 
   /**
@@ -54,7 +56,7 @@ public class AddProductMapper {
     product.setCreatedAt(DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now()));
     product.setProductBuyAt(LocalDate.now());
     product.setProductDesiredSoldPrice(productCoreInformation.getProductDesiredSoldPrice());
-    product.setSeller(getSellerEntityFromSellerId(sellerId));
+    product.setSeller(mapper.getSellerEntityFromSellerId(sellerId));
     product.setProductCategory(productCoreInformation.getProductCategory().toString().toLowerCase());
     return product;
   }
@@ -85,7 +87,6 @@ public class AddProductMapper {
     imageEntity.setProduct(productEntity);
     imageEntity.setImagePath(imagePath);
     imageEntity.setCreatedAt(DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now()));
-    imageEntity.setSeller(getSellerEntityFromSellerId(productEntity.getSeller().getId()));
     return imageEntity;
   }
 
@@ -136,11 +137,6 @@ public class AddProductMapper {
     return new AddProductDtoResponse(productOutput.getProductId(), productOutput.getResponseMessage());
   }
 
-  private SellerEntity getSellerEntityFromSellerId(long sellerId) {
-    SellerEntity seller = new SellerEntity();
-    seller.setId(sellerId);
-    return  seller;
-  }
 
   /**
    * Mep le AddProductDto vers IProduct

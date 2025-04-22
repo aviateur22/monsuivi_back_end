@@ -33,11 +33,11 @@ public class ExceptionHandlerWrapper {
    * @param exception  MethodArgumentNotValidException
    * @return ResponseEntity<IErrorMessage>
    */
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<IErrorMessage> handleValidationErrors(MethodArgumentNotValidException exception) {
-    LOGGER.error(String.format("[ExceptionHandlerWrapper] - handleValidationErrors: %s ", exception));
-    return new ResponseEntity<>(infraFactory.getErrorMessageImpl("Des données sont manquantes pour compléter la demande"), HttpStatus.BAD_REQUEST);
-
-  }
+//  @ExceptionHandler(MethodArgumentNotValidException.class)
+//  public ResponseEntity<IErrorMessage> handleValidationErrors(MethodArgumentNotValidException exception) {
+//    LOGGER.error(String.format("[ExceptionHandlerWrapper] - handleValidationErrors: %s ", exception));
+//    return new ResponseEntity<>(infraFactory.getErrorMessageImpl("Des données sont manquantes pour compléter la demande"), HttpStatus.BAD_REQUEST);
+//
+//  }
 
 }

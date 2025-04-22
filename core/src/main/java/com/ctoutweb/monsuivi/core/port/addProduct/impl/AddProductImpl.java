@@ -1,6 +1,6 @@
-package com.ctoutweb.monsuivi.core.entity.addProduct;
+package com.ctoutweb.monsuivi.core.port.addProduct.impl;
 
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductInput;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductInput;
 import com.ctoutweb.monsuivi.core.entity.product.IProduct;
 
 public record AddProductImpl() implements IAddProductInput {

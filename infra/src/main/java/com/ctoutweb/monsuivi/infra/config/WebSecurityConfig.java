@@ -1,6 +1,9 @@
 package com.ctoutweb.monsuivi.infra.config;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +17,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+  private static final Logger LOGGER = LogManager.getLogger();
+  @Value("${api.version}")
+  private String apiVersion;
   private final CorsConfigurationSource corsConfigurationSource;
   private final AccessDeniedHandler accessDeniedHandler;
   private final AuthenticationEntryPoint authenticationEntryPoint;
@@ -25,6 +31,7 @@ public class WebSecurityConfig {
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    LOGGER.debug(apiVersion);
     http
             .csrf(csrf->csrf.disable())
             .cors(cors->cors.configurationSource(corsConfigurationSource))
@@ -34,8 +41,7 @@ public class WebSecurityConfig {
             )
             .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(request->request
-                    .requestMatchers("/product/**", "/").permitAll()
-                    .requestMatchers("/").permitAll()
+                    .requestMatchers(apiVersion+"/product/**", apiVersion+"/api").permitAll()
                     .anyRequest().authenticated());
 
     return http.build();

@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -42,6 +43,10 @@ public class ProductEntity {
   @ManyToOne
   @JoinColumn(name="seller_id", nullable=false)
   private SellerEntity seller;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+  private List<ImageEntity> images;
+
 
   public Long getId() {
     return id;
@@ -131,17 +136,25 @@ public class ProductEntity {
     this.productDesiredSoldPrice = productDesiredSoldPrice;
   }
 
+  public List<ImageEntity> getImages() {
+    return images;
+  }
+
+  public void setImages(List<ImageEntity> images) {
+    this.images = images;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ProductEntity that = (ProductEntity) o;
-    return Objects.equals(id, that.id) && Objects.equals(productName, that.productName) && Objects.equals(productPurchasePrice, that.productPurchasePrice) && Objects.equals(productSoldPrice, that.productSoldPrice) && Objects.equals(productCategory, that.productCategory) && Objects.equals(productSoldAt, that.productSoldAt) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(seller, that.seller);
+    ProductEntity product = (ProductEntity) o;
+    return Objects.equals(id, product.id) && Objects.equals(productName, product.productName) && Objects.equals(productPurchasePrice, product.productPurchasePrice) && Objects.equals(productSoldPrice, product.productSoldPrice) && Objects.equals(productDesiredSoldPrice, product.productDesiredSoldPrice) && Objects.equals(productCategory, product.productCategory) && Objects.equals(productSoldAt, product.productSoldAt) && Objects.equals(productBuyAt, product.productBuyAt) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(seller, product.seller) && Objects.equals(images, product.images);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, productName, productPurchasePrice, productSoldPrice, productCategory, productSoldAt, createdAt, updatedAt, seller);
+    return Objects.hash(id, productName, productPurchasePrice, productSoldPrice, productDesiredSoldPrice, productCategory, productSoldAt, productBuyAt, createdAt, updatedAt, seller, images);
   }
 
   @Override
@@ -150,12 +163,15 @@ public class ProductEntity {
             "id=" + id +
             ", productName='" + productName + '\'' +
             ", productPurchasePrice=" + productPurchasePrice +
-            ", productDesiredSoldPrice=" + productSoldPrice +
+            ", productSoldPrice=" + productSoldPrice +
+            ", productDesiredSoldPrice=" + productDesiredSoldPrice +
             ", productCategory='" + productCategory + '\'' +
             ", productSoldAt=" + productSoldAt +
+            ", productBuyAt=" + productBuyAt +
             ", createdAt=" + createdAt +
             ", updatedAt=" + updatedAt +
             ", seller=" + seller +
+            ", images=" + images +
             '}';
   }
 }

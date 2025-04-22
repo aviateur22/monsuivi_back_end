@@ -29,10 +29,6 @@ public class ImageEntity {
    * Relation
    */
   @ManyToOne
-  @JoinColumn(name = "seller_id", nullable = false)
-  private SellerEntity seller;
-
-  @ManyToOne
   @JoinColumn(name = "product_id", nullable = false)
   private ProductEntity product;
 
@@ -68,14 +64,6 @@ public class ImageEntity {
     this.updatedAt = updatedAt;
   }
 
-  public SellerEntity getSeller() {
-    return seller;
-  }
-
-  public void setSeller(SellerEntity seller) {
-    this.seller = seller;
-  }
-
   public ProductEntity getProduct() {
     return product;
   }
@@ -89,12 +77,12 @@ public class ImageEntity {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ImageEntity that = (ImageEntity) o;
-    return Objects.equals(id, that.id) && Objects.equals(imagePath, that.imagePath) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(seller, that.seller) && Objects.equals(product, that.product);
+    return Objects.equals(id, that.id) && Objects.equals(imagePath, that.imagePath) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(product, that.product);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, imagePath, createdAt, updatedAt, seller, product);
+    return Objects.hash(id, imagePath, createdAt, updatedAt,  product);
   }
 
   @Override
@@ -104,7 +92,6 @@ public class ImageEntity {
             ", imagePath='" + imagePath + '\'' +
             ", createdAt=" + createdAt +
             ", updatedAt=" + updatedAt +
-            ", seller=" + seller +
             ", product=" + product +
             '}';
   }

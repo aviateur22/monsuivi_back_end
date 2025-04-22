@@ -1,7 +1,7 @@
 package com.ctoutweb.monsuivi.infra.adapter.addProduct;
 
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductOutput;
-import com.ctoutweb.monsuivi.core.addproduct.port.IAddProductRepositoryGateway;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductOutput;
+import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductRepositoryGateway;
 import com.ctoutweb.monsuivi.core.entity.product.IProduct;
 import com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper.AddProductMapper;
 import com.ctoutweb.monsuivi.infra.repository.IImageRepository;
