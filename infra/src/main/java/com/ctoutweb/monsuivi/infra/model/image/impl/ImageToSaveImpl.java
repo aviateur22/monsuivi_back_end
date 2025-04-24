@@ -1,6 +1,6 @@
-package com.ctoutweb.monsuivi.infra.model.document.impl;
+package com.ctoutweb.monsuivi.infra.model.image.impl;
 
-import com.ctoutweb.monsuivi.infra.model.document.IImageToSave;
+import com.ctoutweb.monsuivi.infra.model.image.IImageToSave;
 
 import java.io.InputStream;
 

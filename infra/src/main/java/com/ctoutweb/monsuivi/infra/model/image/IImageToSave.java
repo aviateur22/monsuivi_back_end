@@ -1,4 +1,4 @@
-package com.ctoutweb.monsuivi.infra.model.document;
+package com.ctoutweb.monsuivi.infra.model.image;
 
 
 import java.io.InputStream;

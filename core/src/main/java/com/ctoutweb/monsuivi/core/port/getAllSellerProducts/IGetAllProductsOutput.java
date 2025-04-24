@@ -1,4 +1,4 @@
-package com.ctoutweb.monsuivi.core.port.displayAllProducts;
+package com.ctoutweb.monsuivi.core.port.getAllSellerProducts;
 
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 import com.ctoutweb.monsuivi.core.entity.responseMessage.IResponsMessage;

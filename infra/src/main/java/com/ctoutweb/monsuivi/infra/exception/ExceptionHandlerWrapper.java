@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -28,6 +27,16 @@ public class ExceptionHandlerWrapper {
     return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.BAD_REQUEST);
   }
 
+  @ExceptionHandler(value = {ServiceException.class})
+  public ResponseEntity<IErrorMessage> mapperException(ServiceException exception) {
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(value = {Exception.class})
+  public ResponseEntity<IErrorMessage> globalException(Exception exception) {
+    LOGGER.error(()->exception);
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
   /**
    * Capture l'exception d'un champs manquant (Dto à null) avant l'éxecution du DtoValidator
    * @param exception  MethodArgumentNotValidException

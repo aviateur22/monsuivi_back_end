@@ -1,7 +1,7 @@
 package com.ctoutweb.monsuivi.core.port.addProduct.impl;
 
 import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductInput;
-import com.ctoutweb.monsuivi.core.entity.product.IProduct;
+import com.ctoutweb.monsuivi.core.entity.product.IProductToAdd;
 
 public record AddProductImpl() implements IAddProductInput {
   @Override
@@ -10,7 +10,7 @@ public record AddProductImpl() implements IAddProductInput {
   }
 
   @Override
-  public IProduct getProductToSell() {
+  public IProductToAdd getProductToSell() {
     return null;
   }
 }

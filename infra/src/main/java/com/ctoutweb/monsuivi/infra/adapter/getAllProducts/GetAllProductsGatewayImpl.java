@@ -1,32 +1,40 @@
 package com.ctoutweb.monsuivi.infra.adapter.getAllProducts;
 
-import com.ctoutweb.monsuivi.core.port.displayAllProducts.IGetAllProductsGateway;
-import com.ctoutweb.monsuivi.core.port.displayAllProducts.IGetAllProductsOutput;
-import com.ctoutweb.monsuivi.infra.adapter.common.Mapper;
+import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
+import com.ctoutweb.monsuivi.core.factory.CoreFactory;
+import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsGateway;
+import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
+import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
+import com.ctoutweb.monsuivi.infra.adapter.getAllProducts.mapper.GetAllProductMapper;
 import com.ctoutweb.monsuivi.infra.repository.IImageRepository;
 import com.ctoutweb.monsuivi.infra.repository.IProductRepository;
 import com.ctoutweb.monsuivi.infra.repository.ISellerRepository;
-import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class GetAllProductsGatewayImpl implements IGetAllProductsGateway {
   private static final Logger LOGGER = LogManager.getLogger();
   private final ISellerRepository sellerRepository;
   private final IProductRepository productRepository;
-  private final IImageRepository imageRepository;
-  private final Mapper mapper;
+  private final AdapterCommonMapper commonMapper;
+  private final CoreFactory coreFactory;
+  private final GetAllProductMapper getAllProductMapper;
 
   public GetAllProductsGatewayImpl(
           ISellerRepository sellerRepository,
           IProductRepository productRepository,
-          IImageRepository imageRepository, Mapper mapper) {
+          AdapterCommonMapper mapper,
+          CoreFactory coreFactory,
+          GetAllProductMapper getAllProductMapper) {
     this.sellerRepository = sellerRepository;
     this.productRepository = productRepository;
-    this.imageRepository = imageRepository;
-    this.mapper = mapper;
+    this.coreFactory = coreFactory;
+    this.commonMapper = mapper;
+    this.getAllProductMapper = getAllProductMapper;
   }
 
   @Override
@@ -38,7 +46,11 @@ public class GetAllProductsGatewayImpl implements IGetAllProductsGateway {
   @Override
   public IGetAllProductsOutput getAllProducts(long sellerIdent, String responsMessage) {
     LOGGER.debug(()->String.format("[GetAllProductsGatewayImpl]-[getAllProducts]. SellerId: %s", sellerIdent));
-    List<ProductEntity> products = productRepository.findBySeller(mapper.getSellerEntityFromSellerId(sellerIdent));
-    return null;
+    List<IProductSummarize> products = productRepository.findBySeller(commonMapper.getSellerEntityFromSellerId(sellerIdent))
+            .stream()
+            .map(productEntity-> getAllProductMapper.mapProductEntityToProductSummarize(productEntity))
+            .toList();
+
+    return coreFactory.getGetAllProductsOutputImpl(responsMessage, products);
   }
 }

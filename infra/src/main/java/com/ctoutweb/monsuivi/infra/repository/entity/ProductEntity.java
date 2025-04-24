@@ -26,6 +26,9 @@ public class ProductEntity {
   private Double productDesiredSoldPrice;
   @Column(name = "product_category")
   private String productCategory;
+
+  @Column(name = "product_status")
+  private String productStatus;
   @Column(name = "product_sold_at")
   private LocalDate productSoldAt;
   @Column(name = "product_buy_at")
@@ -142,6 +145,14 @@ public class ProductEntity {
 
   public void setImages(List<ImageEntity> images) {
     this.images = images;
+  }
+
+  public String getProductStatus() {
+    return productStatus;
+  }
+
+  public void setProductStatus(String productStatus) {
+    this.productStatus = productStatus;
   }
 
   @Override

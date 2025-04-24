@@ -1,4 +1,4 @@
-package com.ctoutweb.monsuivi.core.port.displayAllProducts;
+package com.ctoutweb.monsuivi.core.port.getAllSellerProducts;
 
 public interface IGetAllProductsGateway {
   public boolean isSellerFind(long sellerIdent);
