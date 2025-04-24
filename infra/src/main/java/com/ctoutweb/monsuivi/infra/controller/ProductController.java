@@ -49,7 +49,7 @@ public class ProductController {
     return new ResponseEntity(addProductMapper.getAddProductResponseDto(output.getOutputBoundary()), HttpStatus.OK);
   }
 
-  @GetMapping("/{sellerId}")
+  @GetMapping("/seller/{sellerId}")
   public ResponseEntity getSellerProducts(@PathVariable Long sellerId) {
     var sellerProducts = productService.getAllSellerProducts(sellerId);
     return new ResponseEntity(sellerProducts, HttpStatus.OK);

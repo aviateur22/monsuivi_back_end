@@ -11,11 +11,12 @@ import java.util.List;
 @CoreService
 public class CoreFactory {
   public IProductSummarize getProductSummarizeImpl(
+          long id,
           String imagePath,
           String productName,
           String statusCode,
           String categorycode){
-    return new ProductSummarizeImpl(imagePath, productName, statusCode, categorycode);
+    return new ProductSummarizeImpl(id, imagePath, productName, statusCode, categorycode);
   }
 
   public IGetAllProductsOutput getGetAllProductsOutputImpl(

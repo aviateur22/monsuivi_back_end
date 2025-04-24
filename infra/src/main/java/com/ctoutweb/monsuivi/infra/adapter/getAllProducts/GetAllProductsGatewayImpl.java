@@ -46,7 +46,7 @@ public class GetAllProductsGatewayImpl implements IGetAllProductsGateway {
   @Override
   public IGetAllProductsOutput getAllProducts(long sellerIdent, String responsMessage) {
     LOGGER.debug(()->String.format("[GetAllProductsGatewayImpl]-[getAllProducts]. SellerId: %s", sellerIdent));
-    List<IProductSummarize> products = productRepository.findBySeller(commonMapper.getSellerEntityFromSellerId(sellerIdent))
+    List<IProductSummarize> products = productRepository.findBySellerOrderByCreatedAtDesc(commonMapper.getSellerEntityFromSellerId(sellerIdent))
             .stream()
             .map(productEntity-> getAllProductMapper.mapProductEntityToProductSummarize(productEntity))
             .toList();

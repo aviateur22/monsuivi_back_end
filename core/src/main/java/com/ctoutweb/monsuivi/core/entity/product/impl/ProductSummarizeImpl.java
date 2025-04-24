@@ -3,10 +3,16 @@ package com.ctoutweb.monsuivi.core.entity.product.impl;
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 
 public record ProductSummarizeImpl(
+        long id,
         String imagePath,
         String productName,
         String statusCode,
         String categorycode) implements IProductSummarize {
+  @Override
+  public long getId() {
+    return id;
+  }
+
   @Override
   public String getProductImagePath() {
     return imagePath;

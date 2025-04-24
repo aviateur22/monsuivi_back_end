@@ -6,10 +6,16 @@ import com.ctoutweb.monsuivi.infra.model.product.ISummarizeProduct;
 import com.ctoutweb.monsuivi.infra.model.product.ProductCategory;
 
 public record SummarizeProductImpl(
+        long id,
         String title,
         IProductCategory productCategory,
         IProductStatus productStatus,
         String imageToShow) implements ISummarizeProduct {
+  @Override
+  public long getId() {
+    return id;
+  }
+
   @Override
   public String getTitle() {
     return title;

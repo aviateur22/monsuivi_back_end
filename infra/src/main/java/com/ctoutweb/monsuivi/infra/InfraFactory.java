@@ -16,11 +16,12 @@ import org.springframework.stereotype.Component;
 public class InfraFactory {
 
   public ISummarizeProduct getProductSummarizeImpl(
+          long id,
           String title,
           IProductCategory category,
           IProductStatus productStatus,
           String imageToshow) {
-    return new SummarizeProductImpl(title, category, productStatus, imageToshow);
+    return new SummarizeProductImpl(id,title, category, productStatus, imageToshow);
   }
 
   public IProductCategory getProductCategoryImpl(String code, String category) {

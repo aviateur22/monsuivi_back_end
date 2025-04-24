@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface IProductRepository extends JpaRepository<ProductEntity, Long> {
-  List<ProductEntity> findBySeller(SellerEntity seller);
+  List<ProductEntity> findBySellerOrderByCreatedAtDesc(SellerEntity seller);
 }

@@ -43,6 +43,7 @@ public class GetAllProductMapper {
       imagePath = product.getImages().get(0).getImagePath();
 
     return coreFactory.getProductSummarizeImpl(
+            product.getId(),
             imagePath,
             product.getProductName(),
             product.getProductStatus(),
@@ -88,6 +89,7 @@ public class GetAllProductMapper {
     ProductStatus productStatus = ProductStatus.getProductStatus(productSummarize.getProductStatusCode());
 
     return infraFactory.getProductSummarizeImpl(
+            productSummarize.getId(),
             productSummarize.getProductName(),
             infraFactory.getProductCategoryImpl(productCategory.getCode(), productCategory.getLabel()),
             infraFactory.getProductStatusImpl(productStatus.getProductStatusCode(), productStatus.getProductStatusLabel()),

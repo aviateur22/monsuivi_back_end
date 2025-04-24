@@ -1,5 +1,6 @@
 package com.ctoutweb.monsuivi.infra.exception;
 
+import com.ctoutweb.monsuivi.core.exception.CoreException;
 import com.ctoutweb.monsuivi.infra.InfraFactory;
 import com.ctoutweb.monsuivi.infra.model.error.IErrorMessage;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,11 @@ public class ExceptionHandlerWrapper {
   @ExceptionHandler(value = {ServiceException.class})
   public ResponseEntity<IErrorMessage> mapperException(ServiceException exception) {
     return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(value = {CoreException.class})
+  public ResponseEntity<IErrorMessage> coreExcpetion(CoreException exception) {
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(value = {Exception.class})
