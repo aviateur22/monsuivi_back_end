@@ -1,16 +1,17 @@
 package com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper;
 
+import com.ctoutweb.monsuivi.core.entity.product.impl.ProductToAddImpl;
 import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductInput;
 import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductOutput;
-import com.ctoutweb.monsuivi.core.entity.product.IProduct;
-import com.ctoutweb.monsuivi.core.entity.product.ProductState;
-import com.ctoutweb.monsuivi.core.entity.product.ProductCategory;
+import com.ctoutweb.monsuivi.core.entity.product.IProductToAdd;
 import com.ctoutweb.monsuivi.infra.InfraFactory;
-import com.ctoutweb.monsuivi.infra.adapter.common.Mapper;
+import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
 import com.ctoutweb.monsuivi.infra.dto.AddProductDto;
 import com.ctoutweb.monsuivi.infra.dto.response.AddProductDtoResponse;
 import com.ctoutweb.monsuivi.infra.exception.BadRequestException;
-import com.ctoutweb.monsuivi.infra.model.document.IImageToSave;
+import com.ctoutweb.monsuivi.infra.model.image.IImageToSave;
+import com.ctoutweb.monsuivi.infra.model.product.ProductCategory;
+import com.ctoutweb.monsuivi.infra.model.product.ProductStatus;
 import com.ctoutweb.monsuivi.infra.repository.entity.ImageEntity;
 import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
 import com.ctoutweb.monsuivi.infra.util.DateUtil;
@@ -27,9 +28,6 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
-import static com.ctoutweb.monsuivi.infra.constant.Constant.*;
 
 @Component
 public class AddProductMapper {
@@ -37,19 +35,19 @@ public class AddProductMapper {
   @Value("${zone.id}")
   private String zoneId;
   private final InfraFactory infraFactory;
-  private final Mapper mapper;
-  public AddProductMapper(InfraFactory infraFactory, Mapper mapper) {
+  private final AdapterCommonMapper mapper;
+  public AddProductMapper(InfraFactory infraFactory, AdapterCommonMapper mapper) {
     this.infraFactory = infraFactory;
     this.mapper = mapper;
   }
 
   /**
-   * Renvoie un produtcEntity
+   * Renvoie un produtcEntity pour sauvegarde
    * @param productCoreInformation
    * @param sellerId
    * @return
    */
-  public ProductEntity mapToProductEntity(IProduct productCoreInformation, long sellerId) {
+  public ProductEntity mapToProductEntity(IProductToAdd productCoreInformation, long sellerId) {
     ProductEntity product = new ProductEntity();
     product.setProductName(productCoreInformation.getProductName());
     product.setProductPurchasePrice(productCoreInformation.getProductPurchasePrice());
@@ -57,7 +55,8 @@ public class AddProductMapper {
     product.setProductBuyAt(LocalDate.now());
     product.setProductDesiredSoldPrice(productCoreInformation.getProductDesiredSoldPrice());
     product.setSeller(mapper.getSellerEntityFromSellerId(sellerId));
-    product.setProductCategory(productCoreInformation.getProductCategory().toString().toLowerCase());
+    product.setProductCategory(productCoreInformation.getProductCategoryCode());
+    product.setProductStatus(productCoreInformation.getProductStatusCode());
     return product;
   }
 
@@ -122,7 +121,7 @@ public class AddProductMapper {
       }
 
       @Override
-      public IProduct getProductToSell() {
+      public IProductToAdd getProductToSell() {
         return getCoreProduct(addProductDto);
       }
     };
@@ -137,69 +136,31 @@ public class AddProductMapper {
     return new AddProductDtoResponse(productOutput.getProductId(), productOutput.getResponseMessage());
   }
 
-
   /**
-   * Mep le AddProductDto vers IProduct
+   * Map le AddProductDto vers le core entity IProductToAdd
    * @param productDto AddProductDto
    * @return IProduct
    */
-  private IProduct getCoreProduct(AddProductDto productDto) {
-    return new IProduct() {
-      @Override
-      public File getProductImage() {
-        return getFileFromMultipart(productDto.uploadProductImage());
-      }
-
-      @Override
-      public Double getProductPurchasePrice() {
-        return productDto.productPurchasePrice();
-      }
-
-      @Override
-      public String getProductName() {
-        return productDto.productName();
-      }
-
-      @Override
-      public ZonedDateTime getProductCreationDate() {
-        return DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now());
-      }
-
-      @Override
-      public Double getProductDesiredSoldPrice() {
-        return productDto.productDesiredSoldPrice();
-      }
-
-      @Override
-      public Double getProductSoldPrice() {
-        return productDto.productDesiredSoldPrice();
-      }
-
-      @Override
-      public ProductState getProductState() {
-        return ProductState.FOR_SALE;
-      }
-
-      @Override
-      public ProductCategory getProductCategory() {
-        return getProductCategoryFromDto(productDto.productCategory());
-      }
-    };
+  private IProductToAdd getCoreProduct(AddProductDto productDto) {
+    return new ProductToAddImpl(
+            getFileFromMultipart(productDto.uploadProductImage()),
+                    productDto.productPurchasePrice(),
+                    productDto.productName(),
+                    productDto.productDesiredSoldPrice(),
+                    getProductCategoryCode(productDto.productCategory()),
+                    ProductStatus.FOR_SALE.getProductStatusCode(),
+            DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now())
+    );
   }
 
   /**
    * Récupération de la catégory du produit
-   * @param productCategory String
+   * @param productCategory String - Données envoyée depuis le frontEnd
    * @return ProductType
    */
-  private ProductCategory getProductCategoryFromDto(String productCategory) {
+  private String getProductCategoryCode(String productCategory) {
     LOGGER.debug(()->String.format("[AddProductMapper] - getProductCategoryFromDto. productCategory: %s", productCategory));
-    return switch (productCategory.toLowerCase()) {
-      case BOOK_CATEGORY -> ProductCategory.BOOK;
-      case CLOTHING_CATEGORY -> ProductCategory.CLOTHING;
-      case GAME_CATEGORY -> ProductCategory.GAME;
-      default -> throw new BadRequestException("La catégorie n'est pas correcte");
-    };
+    return ProductCategory.getProductCategory(productCategory).getCode();
   }
 
   /**

@@ -2,7 +2,7 @@ package com.ctoutweb.monsuivi.infra.adapter.addProduct;
 
 import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductOutput;
 import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductRepositoryGateway;
-import com.ctoutweb.monsuivi.core.entity.product.IProduct;
+import com.ctoutweb.monsuivi.core.entity.product.IProductToAdd;
 import com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper.AddProductMapper;
 import com.ctoutweb.monsuivi.infra.repository.IImageRepository;
 import com.ctoutweb.monsuivi.infra.repository.IProductRepository;
@@ -48,7 +48,7 @@ public class AddProductRepositoryGatewayImpl implements IAddProductRepositoryGat
   }
 
   @Override
-  public IAddProductOutput saveProductInformations(IProduct productToSave, long sellerIdent, String responseMessage) {
+  public IAddProductOutput saveProductInformations(IProductToAdd productToSave, long sellerIdent, String responseMessage) {
     LOGGER.debug(()->String.format("[AddProductRepositoryGatewayImpl] - saveProductInformations. SellerId: %s, productToSave: %s", sellerIdent, productToSave));
 
    // Sauvegarde les données du produit

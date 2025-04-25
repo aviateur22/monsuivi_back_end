@@ -1,17 +1,19 @@
 package com.ctoutweb.monsuivi.core.usecase;
 
+import com.ctoutweb.monsuivi.core.annotation.CoreService;
 import com.ctoutweb.monsuivi.core.exception.CoreException;
 import com.ctoutweb.monsuivi.core.model.usecase.IUseCase;
 import com.ctoutweb.monsuivi.core.model.usecase.InputBase;
 import com.ctoutweb.monsuivi.core.model.usecase.OutputBase;
-import com.ctoutweb.monsuivi.core.port.displayAllProducts.IGetAllProductsGateway;
-import com.ctoutweb.monsuivi.core.port.displayAllProducts.IGetAllProductsInput;
-import com.ctoutweb.monsuivi.core.port.displayAllProducts.IGetAllProductsOutput;
+import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsGateway;
+import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsInput;
+import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
 
-public class DisplayAllProductsUseCase implements IUseCase<DisplayAllProductsUseCase.Input, DisplayAllProductsUseCase.Output> {
+@CoreService
+public class GetAllSellerProductsUseCase implements IUseCase<GetAllSellerProductsUseCase.Input, GetAllSellerProductsUseCase.Output> {
   private final IGetAllProductsGateway getAllProductsGateway;
 
-  public DisplayAllProductsUseCase(IGetAllProductsGateway getAllProductsGateway) {
+  public GetAllSellerProductsUseCase(IGetAllProductsGateway getAllProductsGateway) {
     this.getAllProductsGateway = getAllProductsGateway;
   }
   @Override

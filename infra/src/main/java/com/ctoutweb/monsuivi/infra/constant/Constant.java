@@ -10,4 +10,8 @@ public class Constant {
   public static final String GAME_CATEGORY = "game";
   public static final String CLOTHING_CATEGORY = "clothe";
 
+  // Status des produits
+  public static final String FOR_SALE = "S";
+  public static final String SOLD = "sold";
+
 }

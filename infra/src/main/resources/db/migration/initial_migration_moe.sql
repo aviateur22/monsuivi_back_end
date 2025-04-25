@@ -33,6 +33,7 @@ CREATE TABLE if NOT EXISTS sc_monsuivi.product(
     "product_name" text NOT NULL,
     "product_purchase_price" float not null,
     "product_category" text NOT NULL,
+    "product_status" text NOT NULL,
     "product_desired_sold_price" float,
     "product_sold_price" float,
     "product_sold_at" DATE,

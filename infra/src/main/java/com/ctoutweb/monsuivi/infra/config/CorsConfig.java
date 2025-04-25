@@ -32,8 +32,8 @@ public class CorsConfig {
     productCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
     productCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST"));
     productCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
-    source.registerCorsConfiguration(apiVersion+"/product/**", productCorsConfig);
-    source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/product/**", productCorsConfig);
+    source.registerCorsConfiguration(apiVersion+"/products/**", productCorsConfig);
+    source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/products/**", productCorsConfig);
     return source;
   }
 }

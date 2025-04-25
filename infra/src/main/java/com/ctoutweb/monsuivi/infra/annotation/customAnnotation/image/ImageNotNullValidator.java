@@ -14,7 +14,7 @@ public class ImageNotNullValidator implements ConstraintValidator<ImageNotNull, 
 
   @Override
   public boolean isValid(MultipartFile image, ConstraintValidatorContext context) {
-    if(!image.isEmpty() || image.getSize() > 0)
+    if(image != null && !image.isEmpty() && image.getSize() > 0)
       return true;
 
     context.buildConstraintViolationWithTemplate(message)
