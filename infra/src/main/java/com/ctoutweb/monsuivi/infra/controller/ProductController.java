@@ -5,12 +5,15 @@ import com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper.AddProductMapper;
 import com.ctoutweb.monsuivi.infra.annotation.DtoValidator;
 import com.ctoutweb.monsuivi.infra.dto.AddProductDto;
 import com.ctoutweb.monsuivi.infra.service.IProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("${api.version}/products")
@@ -53,5 +56,11 @@ public class ProductController {
   public ResponseEntity getSellerProducts(@PathVariable Long sellerId) {
     var sellerProducts = productService.getAllSellerProducts(sellerId);
     return new ResponseEntity(sellerProducts, HttpStatus.OK);
+  }
+
+  // Base64 image endpoint (from earlier)
+  @GetMapping("/image/{imagePath}")
+  public void getImage(@PathVariable String imagePath, HttpServletResponse response) {
+    productService.streamProductImage(imagePath, response);
   }
 }

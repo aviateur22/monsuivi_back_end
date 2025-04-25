@@ -1,11 +1,11 @@
 package com.ctoutweb.monsuivi.infra.service.impl;
 
 import com.ctoutweb.monsuivi.infra.InfraFactory;
-import com.ctoutweb.monsuivi.infra.constant.Constant;
 import com.ctoutweb.monsuivi.infra.exception.ServiceException;
 import com.ctoutweb.monsuivi.infra.service.IFileService;
 import com.ctoutweb.monsuivi.infra.model.image.IImageToSave;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +22,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Base64;
 
 @Service
@@ -67,7 +68,8 @@ public class AwsS3FileServiceImpl implements IFileService {
   }
 
   @Override
-  public String downloadFile(String filePath) {
+  public void streamFile(String filePath, HttpServletResponse httpResponse) {
+    LOGGER.error(()->"[AwsS3FileServiceImpl]-[downloadFile] - Début récupération fichier AWS");
     GetObjectRequest getObjectRequest = GetObjectRequest
             .builder()
             .bucket(bucketName)
@@ -76,22 +78,22 @@ public class AwsS3FileServiceImpl implements IFileService {
             .build();
 
     try(ResponseInputStream<GetObjectResponse> response = client.getObject(getObjectRequest);
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
-      byte[] temp = new byte[1024];
+        OutputStream out = httpResponse.getOutputStream()) {
+      httpResponse.setContentType("image/jpeg");
+      httpResponse.setHeader("Content-Disposition", "inline; filename=\"article-" + filePath + ".jpg\"");
+
+      byte[] buffer = new byte[8192];
       int bytesRead;
-      while ((bytesRead = response.read(temp)) != -1) {
-        buffer.write(temp, 0, bytesRead);
+      while ((bytesRead = response.read(buffer)) != -1) {
+        out.write(buffer, 0, bytesRead);
       }
 
-      byte[] fileBytes = buffer.toByteArray();
-      String mimeType = response.response().contentType();
-      String base64 = Base64.getEncoder().encodeToString(fileBytes);
+      out.flush();
 
-      return "data:" + mimeType + ";base64," + base64;
-
-    } catch (IOException exception) {
+    } catch (Exception exception) {
       LOGGER.error(()->"[AwsS3FileServiceImpl]-[downloadFile] - Echec récupération fichier AWS");
       LOGGER.error(()->exception);
+      httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
       throw new ServiceException("Echec récupération image");
     }
   }
