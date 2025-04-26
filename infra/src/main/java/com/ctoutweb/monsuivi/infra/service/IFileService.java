@@ -1,6 +1,7 @@
 package com.ctoutweb.monsuivi.infra.service;
 
 import com.ctoutweb.monsuivi.infra.model.image.IImageToSave;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface IFileService {
 
@@ -12,10 +13,8 @@ public interface IFileService {
   String uploadFile(IImageToSave documentToSave);
 
   /**
-   * Recupération de l'image
-   * au format base 64
+   * Renvoie un fichier par stream
    * @param filePath String - path de l'image
-   * @return String Imagebase64
    */
-  String downloadFile(String filePath);
+  void streamFile(String filePath, HttpServletResponse httpResponse);
 }

@@ -6,12 +6,10 @@ import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutpu
 import com.ctoutweb.monsuivi.infra.InfraFactory;
 import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
-import com.ctoutweb.monsuivi.infra.model.product.IProductCategory;
 import com.ctoutweb.monsuivi.infra.model.product.ISummarizeProduct;
 import com.ctoutweb.monsuivi.infra.model.product.ProductCategory;
 import com.ctoutweb.monsuivi.infra.model.product.ProductStatus;
 import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
-import com.ctoutweb.monsuivi.infra.service.IFileService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -22,14 +20,11 @@ public class GetAllProductMapper {
   private static final Logger LOGGER = LogManager.getLogger();
   private final InfraFactory infraFactory;
   private final CoreFactory coreFactory;
-  private final IFileService fileService;
   public GetAllProductMapper(
           InfraFactory factory,
-          CoreFactory coreFactory,
-          IFileService fileService) {
+          CoreFactory coreFactory) {
     this.infraFactory = factory;
     this.coreFactory = coreFactory;
-    this.fileService = fileService;
   }
 
   /**
@@ -93,17 +88,7 @@ public class GetAllProductMapper {
             productSummarize.getProductName(),
             infraFactory.getProductCategoryImpl(productCategory.getCode(), productCategory.getLabel()),
             infraFactory.getProductStatusImpl(productStatus.getProductStatusCode(), productStatus.getProductStatusLabel()),
-            mapPathToImageToShow(productSummarize.getProductImagePath())
+            productSummarize.getProductImagePath()
     );
-  }
-
-  /**
-   * Map le path de l'image en base64
-   * @param imagePath String - Path pour acceder à l'image
-   * @return IImageToShow
-   */
-  public String mapPathToImageToShow(String imagePath) {
-    LOGGER.debug(()->"[GetAllProductMapper]-[mapPathToImageToShow] - Convertion path to base64");
-    return fileService.downloadFile(imagePath);
   }
 }
