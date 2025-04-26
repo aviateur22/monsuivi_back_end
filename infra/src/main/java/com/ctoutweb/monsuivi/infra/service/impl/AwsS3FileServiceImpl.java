@@ -2,6 +2,7 @@ package com.ctoutweb.monsuivi.infra.service.impl;
 
 import com.ctoutweb.monsuivi.infra.InfraFactory;
 import com.ctoutweb.monsuivi.infra.exception.ServiceException;
+import com.ctoutweb.monsuivi.infra.helper.CompressFileHelper;
 import com.ctoutweb.monsuivi.infra.service.IFileService;
 import com.ctoutweb.monsuivi.infra.model.image.IImageToSave;
 import jakarta.annotation.PostConstruct;
@@ -20,10 +21,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Base64;
 
 @Service
 public class AwsS3FileServiceImpl implements IFileService {
@@ -40,10 +38,15 @@ public class AwsS3FileServiceImpl implements IFileService {
   @Value("${aws.region}")
   private String region;
 
+  @Value("${is.file.to.compress:true}")
+  private boolean isFileToCompress;
   private final InfraFactory factory;
+  private final CompressFileHelper compressFileHelper;
+
   S3Client client;
-  public AwsS3FileServiceImpl(InfraFactory factory) {
+  public AwsS3FileServiceImpl(InfraFactory factory, CompressFileHelper compressFileHelper) {
     this.factory = factory;
+    this.compressFileHelper = compressFileHelper;
   }
 
   @PostConstruct
@@ -58,13 +61,25 @@ public class AwsS3FileServiceImpl implements IFileService {
   }
   @Override
   public String uploadFile(IImageToSave documentToSave) {
-    PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(bucketName).key(
-            String.format("%s.%s", documentToSave.getRandomFileName(), documentToSave.getFileExtension()))
+    String fileUploadName = String.format("%s.%s", documentToSave.getRandomFileName(), documentToSave.getFileExtension());
+    final long finalSize = documentToSave.getFileSize();
+    LOGGER.debug(()->String.format("[AwsS3FileServiceImpl]-[uploadFile] - taille du fichier: %s", finalSize ));
+
+    // Verification de la compression avant sauvegarde
+    if(isFileToCompress)
+      documentToSave = compressFileHelper.compress(documentToSave);
+
+    LOGGER.debug(()->String.format("[AwsS3FileServiceImpl]-[uploadFile] - taille du fichier: %s", finalSize ));
+
+    PutObjectRequest putObjectRequest = PutObjectRequest
+            .builder()
+            .bucket(bucketName)
+            .key(fileUploadName)
             .build();
     client.putObject(putObjectRequest, RequestBody.fromInputStream(documentToSave.getRegisterFileStream(), documentToSave.getFileSize()));
 
     // Renvoie le path du fichier sur AWS
-    return String.format("%s.%s", documentToSave.getRandomFileName(), documentToSave.getFileExtension());
+    return fileUploadName;
   }
 
   @Override
