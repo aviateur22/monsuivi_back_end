@@ -38,6 +38,7 @@ CREATE TABLE if NOT EXISTS sc_monsuivi.product(
     "product_sold_price" float,
     "product_sold_at" DATE,
     "product_buy_at" DATE NOT NULL,
+    "is_actif" BOOLEAN DEFAULT TRUE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
     "updated_at" TIMESTAMPTZ
 );

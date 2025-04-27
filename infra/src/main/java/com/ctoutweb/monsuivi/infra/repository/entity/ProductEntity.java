@@ -26,11 +26,12 @@ public class ProductEntity {
   private Double productDesiredSoldPrice;
   @Column(name = "product_category")
   private String productCategory;
-
   @Column(name = "product_status")
   private String productStatus;
   @Column(name = "product_sold_at")
   private LocalDate productSoldAt;
+  @Column(name = "is_actif")
+  private Boolean isActif;
   @Column(name = "product_buy_at")
   private LocalDate productBuyAt;
   @CreationTimestamp
@@ -155,6 +156,14 @@ public class ProductEntity {
     this.productStatus = productStatus;
   }
 
+  public Boolean getIsActif() {
+    return isActif;
+  }
+
+  public void setIsActif(Boolean actif) {
+    isActif = actif;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -181,7 +190,7 @@ public class ProductEntity {
             ", productBuyAt=" + productBuyAt +
             ", createdAt=" + createdAt +
             ", updatedAt=" + updatedAt +
-            ", seller=" + seller +
+            //", seller=" + seller +
             ", images=" + images +
             '}';
   }

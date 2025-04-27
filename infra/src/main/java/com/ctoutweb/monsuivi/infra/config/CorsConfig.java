@@ -30,7 +30,7 @@ public class CorsConfig {
     CorsConfiguration productCorsConfig = new CorsConfiguration();
     productCorsConfig.setAllowCredentials(true);
     productCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
-    productCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST"));
+    productCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
     productCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
     source.registerCorsConfiguration(apiVersion+"/products/**", productCorsConfig);
     source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/products/**", productCorsConfig);

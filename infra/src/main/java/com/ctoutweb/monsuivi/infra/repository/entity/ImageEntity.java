@@ -92,7 +92,7 @@ public class ImageEntity {
             ", imagePath='" + imagePath + '\'' +
             ", createdAt=" + createdAt +
             ", updatedAt=" + updatedAt +
-            ", product=" + product +
+           // ", product=" + product +
             '}';
   }
 }

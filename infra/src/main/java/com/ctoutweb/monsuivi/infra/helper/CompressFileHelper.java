@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 @Component
 public class CompressFileHelper {
@@ -20,17 +19,17 @@ public class CompressFileHelper {
       LOGGER.debug(()->"[CompressFileHelper]-[compress] - Compression du fichier");
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       Thumbnails.of(imageToSave.getRegisterFileStream())
-              .scale(1.0)
+              .size(800, 800)
               .outputQuality(0.1)
               .toOutputStream(outputStream);
 
       byte[] compressedBytes = outputStream.toByteArray();
+      outputStream.close();
 
       LOGGER.debug(()->String.format("[CompressFileHelper]-[getFieSize] - taille du fichier: %s", compressedBytes.length));
 
       imageToSave.setFileStream(new ByteArrayInputStream(compressedBytes));
       imageToSave.setFileSize(compressedBytes.length);
-
       return imageToSave;
     } catch (IOException exception) {
       LOGGER.error(()->"[CompressFileHelper]-[compress] - Erreur dans le compression du fichier");

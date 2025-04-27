@@ -3,8 +3,10 @@ package com.ctoutweb.monsuivi.infra.repository.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.bind.annotation.Mapping;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +26,12 @@ public class SellerEntity {
   @UpdateTimestamp
   @Column(name = "updated_at")
   private ZonedDateTime updatedAt;
+
+  /**
+   * Relation
+   */
+  @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
+  private List<ProductEntity> products;
 
   public Long getId() {
     return id;
@@ -73,6 +81,14 @@ public class SellerEntity {
     this.updatedAt = updatedAt;
   }
 
+  public List<ProductEntity> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<ProductEntity> products) {
+    this.products = products;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -93,8 +109,9 @@ public class SellerEntity {
             ", nickname='" + nickname + '\'' +
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
-            ", createdAt=" + createdAt +
-            ", updatedAt=" + updatedAt +
+            ", createdAt=" + createdAt + '\'' +
+            ", updatedAt=" + updatedAt + '\'' +
+            ", products=" + products +
             '}';
   }
 }

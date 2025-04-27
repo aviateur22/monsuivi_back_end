@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS sc_monsuivi."login", sc_monsuivi."jwt", sc_monsuivi."delay_
 CREATE TABLE if NOT EXISTS sc_monsuivi.seller(
     "id" BIGINT PRIMARY KEY,
     "nickname" text,
-    "email" text not null,
+    "email" text not null UNIQUE,
     "password" text not null,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
     "updated_at" TIMESTAMPTZ
@@ -38,6 +38,7 @@ CREATE TABLE if NOT EXISTS sc_monsuivi.product(
     "product_sold_price" float,
     "product_sold_at" DATE,
     "product_buy_at" DATE NOT NULL,
+    "is_actif" BOOLEAN DEFAULT TRUE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
     "updated_at" TIMESTAMPTZ
 );
@@ -186,7 +187,9 @@ ALTER TABLE sc_monsuivi.delay_login ALTER COLUMN id SET DEFAULT NEXTVAL('sc_mons
 
 --Clear password: test
 INSERT INTO sc_monsuivi.seller ("nickname", "email" , "password") VALUES
-('seller', 'client@hotmail.fr', '$2y$10$9PSCTWQiEIbXulYGOZi7.u6x5S6.8XuM0dL3EH72sigNHLlUW2wzy');
+('seller', 'client@hotmail.fr', '$2y$10$9PSCTWQiEIbXulYGOZi7.u6x5S6.8XuM0dL3EH72sigNHLlUW2wzy'),
+('sellerBis', 'clientZ@hotmail.fr', '$2y$10$9PSCTWQiEIbXulYGOZi7.u6x5S6.8XuM0dL3EH72sigNHLlUW2wzy');
+
 
 INSERT INTO sc_monsuivi.role ("id", "role") VALUES
 (1, 'ROLE_SELLER'),
