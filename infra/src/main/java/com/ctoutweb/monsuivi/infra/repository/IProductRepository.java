@@ -6,8 +6,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IProductRepository extends JpaRepository<ProductEntity, Long> {
-  List<ProductEntity> findBySellerOrderByCreatedAtDesc(SellerEntity seller);
+  /**
+   * Recherche d'une liste de produit actif appartenant a un vendeur
+   * @param seller SellerEntity - Identifiant vendeur
+   * @return List<ProductEntity>
+   */
+  List<ProductEntity> findByIsActifTrueAndSellerOrderByCreatedAtDesc(SellerEntity seller);
+
+  /**
+   * Recherche d'un produit par product id et seller id
+   * @param long productId
+   * @param seller Selleterentity
+   * @return Optional<ProductEntity>
+   */
+  Optional<ProductEntity>findByIdAndSeller(long productId, SellerEntity seller);
 }

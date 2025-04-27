@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -48,11 +49,11 @@ public class ExceptionHandlerWrapper {
    * @param exception  MethodArgumentNotValidException
    * @return ResponseEntity<IErrorMessage>
    */
-//  @ExceptionHandler(MethodArgumentNotValidException.class)
-//  public ResponseEntity<IErrorMessage> handleValidationErrors(MethodArgumentNotValidException exception) {
-//    LOGGER.error(String.format("[ExceptionHandlerWrapper] - handleValidationErrors: %s ", exception));
-//    return new ResponseEntity<>(infraFactory.getErrorMessageImpl("Des données sont manquantes pour compléter la demande"), HttpStatus.BAD_REQUEST);
-//
-//  }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<IErrorMessage> handleValidationErrors(MethodArgumentNotValidException exception) {
+    LOGGER.error(String.format("[ExceptionHandlerWrapper] - handleValidationErrors: %s ", exception));
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl("Des données sont manquantes pour compléter la demande"), HttpStatus.BAD_REQUEST);
+
+  }
 
 }

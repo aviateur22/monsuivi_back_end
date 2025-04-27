@@ -6,7 +6,6 @@ import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsGatew
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
 import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
 import com.ctoutweb.monsuivi.infra.adapter.getAllProducts.mapper.GetAllProductMapper;
-import com.ctoutweb.monsuivi.infra.repository.IImageRepository;
 import com.ctoutweb.monsuivi.infra.repository.IProductRepository;
 import com.ctoutweb.monsuivi.infra.repository.ISellerRepository;
 import org.apache.logging.log4j.LogManager;
@@ -46,7 +45,7 @@ public class GetAllProductsGatewayImpl implements IGetAllProductsGateway {
   @Override
   public IGetAllProductsOutput getAllProducts(long sellerIdent, String responsMessage) {
     LOGGER.debug(()->String.format("[GetAllProductsGatewayImpl]-[getAllProducts]. SellerId: %s", sellerIdent));
-    List<IProductSummarize> products = productRepository.findBySellerOrderByCreatedAtDesc(commonMapper.getSellerEntityFromSellerId(sellerIdent))
+    List<IProductSummarize> products = productRepository.findByIsActifTrueAndSellerOrderByCreatedAtDesc(commonMapper.getSellerEntityFromSellerId(sellerIdent))
             .stream()
             .map(productEntity-> getAllProductMapper.mapProductEntityToProductSummarize(productEntity))
             .toList();

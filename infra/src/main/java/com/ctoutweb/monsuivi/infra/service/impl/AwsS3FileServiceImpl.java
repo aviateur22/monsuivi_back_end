@@ -69,8 +69,6 @@ public class AwsS3FileServiceImpl implements IFileService {
     if(isFileToCompress)
       documentToSave = compressFileHelper.compress(documentToSave);
 
-    LOGGER.debug(()->String.format("[AwsS3FileServiceImpl]-[uploadFile] - taille du fichier: %s", finalSize ));
-
     PutObjectRequest putObjectRequest = PutObjectRequest
             .builder()
             .bucket(bucketName)

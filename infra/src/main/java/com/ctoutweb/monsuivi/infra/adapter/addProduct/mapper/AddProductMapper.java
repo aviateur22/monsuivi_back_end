@@ -29,6 +29,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import static com.ctoutweb.monsuivi.infra.constant.Constant.IS_PRODUCT_ACTIF_AT_CREATION;
+
 @Component
 public class AddProductMapper {
   private static final Logger LOGGER = LogManager.getLogger();
@@ -53,6 +55,7 @@ public class AddProductMapper {
     product.setProductPurchasePrice(productCoreInformation.getProductPurchasePrice());
     product.setCreatedAt(DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now()));
     product.setProductBuyAt(LocalDate.now());
+    product.setIsActif(IS_PRODUCT_ACTIF_AT_CREATION);
     product.setProductDesiredSoldPrice(productCoreInformation.getProductDesiredSoldPrice());
     product.setSeller(mapper.getSellerEntityFromSellerId(sellerId));
     product.setProductCategory(productCoreInformation.getProductCategoryCode());
