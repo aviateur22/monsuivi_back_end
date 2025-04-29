@@ -15,13 +15,22 @@ public interface IProductRepository extends JpaRepository<ProductEntity, Long> {
    * @param seller SellerEntity - Identifiant vendeur
    * @return List<ProductEntity>
    */
-  List<ProductEntity> findByIsActifTrueAndSellerOrderByCreatedAtDesc(SellerEntity seller);
+  List<ProductEntity> findByIsActifTrueAndSellerOrderByProductBuyAtDesc(SellerEntity seller);
 
   /**
    * Recherche d'un produit par product id et seller id
-   * @param long productId
+   * @param productId long
    * @param seller Selleterentity
    * @return Optional<ProductEntity>
    */
   Optional<ProductEntity>findByIdAndSeller(long productId, SellerEntity seller);
+
+  /**
+   * Recherche d'un produit actif par product id et seller id
+   * @param productId long
+   * @param seller Selleterentity
+   * @return Optional<ProductEntity>
+   */
+  Optional<ProductEntity>findByIdAndSellerAndIsActifTrue(long productId, SellerEntity seller);
+
 }

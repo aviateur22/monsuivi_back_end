@@ -4,6 +4,7 @@ import com.ctoutweb.monsuivi.core.factory.CoreFactory;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsInput;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
 import com.ctoutweb.monsuivi.infra.InfraFactory;
+import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
 import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 import com.ctoutweb.monsuivi.infra.model.product.ISummarizeProduct;
@@ -20,11 +21,13 @@ public class GetAllProductMapper {
   private static final Logger LOGGER = LogManager.getLogger();
   private final InfraFactory infraFactory;
   private final CoreFactory coreFactory;
+  private final AdapterCommonMapper commonMapper;
   public GetAllProductMapper(
           InfraFactory factory,
-          CoreFactory coreFactory) {
+          CoreFactory coreFactory, AdapterCommonMapper commonMapper) {
     this.infraFactory = factory;
     this.coreFactory = coreFactory;
+    this.commonMapper = commonMapper;
   }
 
   /**
@@ -33,13 +36,9 @@ public class GetAllProductMapper {
    * @return IProductSummarize
    */
   public IProductSummarize mapProductEntityToProductSummarize(ProductEntity product) {
-    String imagePath = "";
-    if(!product.getImages().isEmpty())
-      imagePath = product.getImages().get(0).getImagePath();
-
     return coreFactory.getProductSummarizeImpl(
             product.getId(),
-            imagePath,
+            commonMapper.getFirstProductImagePath(product),
             product.getProductName(),
             product.getProductStatus(),
             product.getProductCategory());

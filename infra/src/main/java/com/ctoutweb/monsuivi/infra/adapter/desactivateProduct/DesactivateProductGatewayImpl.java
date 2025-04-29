@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 public class DesactivateProductGatewayImpl implements IDesactivateProductGateway {
   private static final Logger LOGGER = LogManager.getLogger();
   private final IProductRepository productRepository;
-  private final InfraFactory infraFactory;
   private final CoreFactory coreFactory;
   private final AdapterCommonMapper commonMapper;
 
@@ -25,9 +24,11 @@ public class DesactivateProductGatewayImpl implements IDesactivateProductGateway
    */
   private ProductEntity productToDesactivate = null;
 
-  public DesactivateProductGatewayImpl(IProductRepository productRepository, InfraFactory infraFactory, CoreFactory coreFactory, AdapterCommonMapper adapterCommonMapper) {
+  public DesactivateProductGatewayImpl(
+          IProductRepository productRepository,
+          CoreFactory coreFactory,
+          AdapterCommonMapper adapterCommonMapper) {
     this.productRepository = productRepository;
-    this.infraFactory = infraFactory;
     this.coreFactory = coreFactory;
     this.commonMapper = adapterCommonMapper;
   }
