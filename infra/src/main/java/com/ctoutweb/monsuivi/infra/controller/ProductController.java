@@ -5,7 +5,10 @@ import com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper.AddProductMapper;
 import com.ctoutweb.monsuivi.infra.annotation.DtoValidator;
 import com.ctoutweb.monsuivi.infra.dto.AddProductDto;
 import com.ctoutweb.monsuivi.infra.dto.DesactivateProductDto;
+import com.ctoutweb.monsuivi.infra.dto.UpdateProductDto;
 import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
+import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
+import com.ctoutweb.monsuivi.infra.dto.response.ProductUpdateResponseDto;
 import com.ctoutweb.monsuivi.infra.service.IProductService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -72,5 +75,19 @@ public class ProductController {
             desactivateProductDto.sellerId());
 
     return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  @GetMapping("/{productId}/seller-id/{sellerId}")
+  public ResponseEntity<GetProductDetailResponseDto> getProductDetail(
+            @PathVariable Long productId, @PathVariable Long sellerId) {
+      GetProductDetailResponseDto dto = productService.getDetailProduct(productId, sellerId);
+      return new ResponseEntity<>(dto, HttpStatus.OK);
+  }
+
+  @PutMapping()
+  public ResponseEntity<ProductUpdateResponseDto> updateProduct(
+          @RequestBody UpdateProductDto productDto) {
+    ProductUpdateResponseDto dto = productService.updateProduct(productDto);
+    return new ResponseEntity<>(dto, HttpStatus.OK);
   }
 }
