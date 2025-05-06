@@ -1,9 +1,8 @@
 package com.ctoutweb.monsuivi.infra.dto;
 
+import com.ctoutweb.monsuivi.infra.annotation.customAnnotation.localDate.IsValidLocalDate;
+import com.ctoutweb.monsuivi.infra.annotation.customAnnotation.productStatus.isProductStatusValid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.cglib.core.Local;
-
-import java.time.LocalDate;
 
 public record UpdateProductDto(
         @NotNull(message = "L'identifiant du produit est obligatoire")
@@ -14,6 +13,13 @@ public record UpdateProductDto(
         double productPurchasePrice,
         double productSoldPrice,
         @NotNull(message = "Le date de vente est obligatoire")
-        LocalDate productSoldDate
+        @IsValidLocalDate(message = "Le format de la date d'achat n'est pas correcte")
+        String productBuyDay,
+        @IsValidLocalDate(message = "Le format de la date de vente n'est pas correcte")
+        String productSoldDay,
+
+        @NotNull(message = "Le statut du produit est obligatoire")
+        @isProductStatusValid(message = "Le statut du produit n'est pas valide")
+        String productStatus
 ) {
 }

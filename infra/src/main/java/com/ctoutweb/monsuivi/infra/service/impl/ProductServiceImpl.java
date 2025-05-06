@@ -15,6 +15,7 @@ import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
 import com.ctoutweb.monsuivi.infra.dto.response.ProductUpdateResponseDto;
 import com.ctoutweb.monsuivi.infra.service.IFileService;
 import com.ctoutweb.monsuivi.infra.service.IProductService;
+import com.ctoutweb.monsuivi.infra.util.DateUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
@@ -113,7 +114,9 @@ public class ProductServiceImpl implements IProductService {
                     dto.sellerId(),
                     dto.productPurchasePrice(),
                     dto.productSoldPrice(),
-                    dto.productSoldDate()
+                    DateUtil.convertStringDdMmYyToLocalDate(dto.productBuyDay()),
+                    DateUtil.convertStringDdMmYyToLocalDate(dto.productSoldDay()),
+                    dto.productStatus()
             )
     );
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[updateProduct] - input: %s", input));

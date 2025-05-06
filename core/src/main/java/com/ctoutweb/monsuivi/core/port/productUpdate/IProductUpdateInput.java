@@ -7,5 +7,7 @@ public interface IProductUpdateInput {
   Long getSellerId();
   double getProductPurchasePrice();
   double getProductSoldPrice();
-  LocalDate getProductSoldDate();
+  LocalDate getProductBuyDay();
+  LocalDate getProductSoldDay();
+  String getProductStatus();
 }

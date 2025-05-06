@@ -36,7 +36,9 @@ public class ProductUpdateGatewayImpl implements IProductUpdateGateway {
   public IProductDetail updateProduct(IProductUpdateInput product) {
     this.productDetail.setProductPurchasePrice(product.getProductPurchasePrice());
     this.productDetail.setProductSoldPrice(product.getProductSoldPrice());
-    this.productDetail.setProductBuyAt(product.getProductSoldDate());
+    this.productDetail.setProductBuyAt(product.getProductBuyDay());
+    this.productDetail.setProductSoldAt(product.getProductSoldDay());
+    this.productDetail.setProductStatus(product.getProductStatus());
 
     ProductEntity updatedProduct = productRepository.save(productDetail);
 

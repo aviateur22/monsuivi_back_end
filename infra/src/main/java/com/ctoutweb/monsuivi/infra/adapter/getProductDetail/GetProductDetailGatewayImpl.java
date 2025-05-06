@@ -3,7 +3,6 @@ package com.ctoutweb.monsuivi.infra.adapter.getProductDetail;
 import com.ctoutweb.monsuivi.core.entity.product.IProductDetail;
 import com.ctoutweb.monsuivi.core.port.getProductDetail.IGetProductDetailGateway;
 import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
-import com.ctoutweb.monsuivi.infra.adapter.getProductDetail.mapper.ProductDetailMapper;
 import com.ctoutweb.monsuivi.infra.repository.IProductRepository;
 import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
 import org.apache.logging.log4j.LogManager;
@@ -15,16 +14,13 @@ public class GetProductDetailGatewayImpl implements IGetProductDetailGateway {
   private static final Logger LOGGER = LogManager.getLogger();
   private final IProductRepository productRepository;
   private final AdapterCommonMapper commonMapper;
-  private final ProductDetailMapper productDetailMapper;
   private ProductEntity productDetail = null;
 
   public GetProductDetailGatewayImpl(
           IProductRepository productRepository,
-          AdapterCommonMapper commonMapper,
-          ProductDetailMapper productDetailMapper) {
+          AdapterCommonMapper commonMapper) {
     this.productRepository = productRepository;
     this.commonMapper = commonMapper;
-    this.productDetailMapper = productDetailMapper;
   }
 
   @Override

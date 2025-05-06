@@ -87,6 +87,7 @@ public class ProductController {
   @PutMapping()
   public ResponseEntity<ProductUpdateResponseDto> updateProduct(
           @RequestBody UpdateProductDto productDto) {
+    dtoValidator.validateDto(productDto);
     ProductUpdateResponseDto dto = productService.updateProduct(productDto);
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }

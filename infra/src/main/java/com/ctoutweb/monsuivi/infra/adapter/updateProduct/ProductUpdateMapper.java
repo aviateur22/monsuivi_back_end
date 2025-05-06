@@ -20,14 +20,21 @@ public class ProductUpdateMapper {
           Long sellerId,
           double productPurchasePrice,
           double productSoldPrice,
-          LocalDate productSoldDate
+          LocalDate productBuyDay,
+          LocalDate productSoldDay,
+          String productStatus
   ) {
-   return coreFactory.getProductUpdateInput(productId, sellerId, productPurchasePrice, productSoldPrice, productSoldDate);
+   return coreFactory.getProductUpdateInput(productId, sellerId, productPurchasePrice, productSoldPrice, productBuyDay, productSoldDay, productStatus);
   }
 
   public ProductUpdateResponseDto mapToResponseDto(IProductUpdateOuput output) {
     return new ProductUpdateResponseDto(
-            output.getProductId(),
+            output.getProductDetail().getProductId(),
+            output.getProductDetail().getProductPurchasePrice(),
+            output.getProductDetail().getProductSoldPrice(),
+            output.getProductDetail().getProductBuyAt(),
+            output.getProductDetail().getProductSoldAt(),
+            output.getProductDetail().getProductStatus(),
             output.getResponseMessage()
     );
   }

@@ -6,6 +6,8 @@ public interface IProductDetail {
   String getProductImagePath();
   Double getProductPurchasePrice();
   String getProductName();
-  LocalDate getProductCreationDate();
+  LocalDate getProductBuyAt();
+  LocalDate getProductSoldAt();
   Double getProductSoldPrice();
+  String getProductStatus();
 }

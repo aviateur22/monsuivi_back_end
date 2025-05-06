@@ -8,8 +8,10 @@ public record ProductDetailImpl(
         String imagePath,
         double productPurchasePrice,
         String productName,
-        LocalDate productCreationDate,
-        double productSoldPrice
+        LocalDate productBuyDay,
+        LocalDate productSoldDay,
+        double productSoldPrice,
+        String productStatus
 
 ) implements IProductDetail {
   @Override
@@ -33,12 +35,22 @@ public record ProductDetailImpl(
   }
 
   @Override
-  public LocalDate getProductCreationDate() {
-    return productCreationDate;
+  public LocalDate getProductBuyAt() {
+    return productBuyDay;
+  }
+
+  @Override
+  public LocalDate getProductSoldAt() {
+    return productSoldDay;
   }
 
   @Override
   public Double getProductSoldPrice() {
     return productSoldPrice;
+  }
+
+  @Override
+  public String getProductStatus() {
+    return productStatus;
   }
 }

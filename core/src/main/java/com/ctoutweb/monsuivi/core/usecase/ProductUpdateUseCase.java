@@ -31,7 +31,7 @@ public class ProductUpdateUseCase implements IUseCase<ProductUpdateUseCase.Input
     IProductDetail productDetailUpdated = productUpdateGateway.updateProduct(productUpdateInput);
 
     return new Output(
-            new ProductUpdateOutputImpl(productId, "Votre produit a été mis a jour")
+            new ProductUpdateOutputImpl(productDetailUpdated, "Votre produit a été mis a jour")
     );
   }
 

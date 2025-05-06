@@ -9,7 +9,9 @@ public record UpdateProductInputImpl(
         Long sellerId,
         double productPurchasePrice,
         double productSoldPrice,
-        LocalDate productSoldDate
+        LocalDate productBuyDay,
+        LocalDate productSoldDay,
+        String productStatus
 ) implements IProductUpdateInput {
   @Override
   public Long getProductId() {
@@ -32,7 +34,17 @@ public record UpdateProductInputImpl(
   }
 
   @Override
-  public LocalDate getProductSoldDate() {
-    return productSoldDate;
+  public LocalDate getProductBuyDay() {
+    return productBuyDay;
+  }
+
+  @Override
+  public LocalDate getProductSoldDay() {
+    return productSoldDay;
+  }
+
+  @Override
+  public String getProductStatus() {
+    return productStatus;
   }
 }

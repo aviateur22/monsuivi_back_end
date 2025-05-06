@@ -76,9 +76,11 @@ public class CoreFactory {
           String imagePath,
           double productPurchasePrice,
           String productName,
-          LocalDate productCreationDate,
-          double productSoldPrice) {
-    return new ProductDetailImpl(productid, imagePath, productPurchasePrice, productName, productCreationDate, productSoldPrice);
+          LocalDate productBuyDay,
+          LocalDate productSoldDay,
+          double productSoldPrice,
+          String productSatatus) {
+    return new ProductDetailImpl(productid, imagePath, productPurchasePrice, productName, productBuyDay, productSoldDay, productSoldPrice, productSatatus);
   }
 
   /**
@@ -89,12 +91,14 @@ public class CoreFactory {
           Long sellerId,
           double productPurchasePrice,
           double productSoldPrice,
-          LocalDate productSoldDate
+          LocalDate productBuyDay,
+          LocalDate productSoldDay,
+          String productStatus
   ) {
-    return new UpdateProductInputImpl(productId, sellerId, productPurchasePrice, productSoldPrice, productSoldDate);
+    return new UpdateProductInputImpl(productId, sellerId, productPurchasePrice, productSoldPrice, productBuyDay, productSoldDay, productStatus);
   }
 
-  public IProductUpdateOuput getProductUpdateOutput(long productId, String responseMessage ){
-    return new ProductUpdateOutputImpl(productId, responseMessage);
+  public IProductUpdateOuput getProductUpdateOutput(IProductDetail productDetail, String responseMessage ){
+    return new ProductUpdateOutputImpl(productDetail, responseMessage);
   }
 }

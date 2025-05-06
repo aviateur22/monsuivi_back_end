@@ -1,15 +1,16 @@
 package com.ctoutweb.monsuivi.infra.dto.response;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 public record GetProductDetailResponseDto(
         long productId,
         double productPurchasePrice,
         double productSoldPrice,
-        String photoName,
+        String productName,
         String photoImagePath,
-        LocalDate ProductCreationDate,
+        String productBuyAt,
+        String productSoldAt,
+        String productStatus,
         long sellerId,
         String responseMessage
 

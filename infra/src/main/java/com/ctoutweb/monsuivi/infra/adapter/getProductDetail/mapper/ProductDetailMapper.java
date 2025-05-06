@@ -6,6 +6,7 @@ import com.ctoutweb.monsuivi.core.port.getProductDetail.IGetProductDetailInput;
 import com.ctoutweb.monsuivi.core.port.getProductDetail.IGetProductDetailOutput;
 import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
 import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
+import com.ctoutweb.monsuivi.infra.util.DateUtil;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -45,7 +46,9 @@ public class ProductDetailMapper {
             productDetail.getProductSoldPrice(),
             productDetail.getProductName(),
             productDetail.getProductImagePath(),
-            productDetail.getProductCreationDate(),
+            DateUtil.formatToDdMmYy(productDetail.getProductBuyAt()),
+            DateUtil.formatToDdMmYy(productDetail.getProductSoldAt()),
+            productDetail.getProductStatus(),
             sellerId,
             responseMessage
     );

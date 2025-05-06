@@ -50,7 +50,9 @@ public class AdapterCommonMapper {
             product.getProductPurchasePrice(),
             product.getProductName(),
             product.getProductBuyAt(),
-            product.getProductSoldPrice() == null ? 0 : product.getProductSoldPrice()
+            product.getProductSoldAt(),
+            product.getProductSoldPrice() == null ? 0 : product.getProductSoldPrice(),
+            product.getProductStatus()
     );
   }
 }
