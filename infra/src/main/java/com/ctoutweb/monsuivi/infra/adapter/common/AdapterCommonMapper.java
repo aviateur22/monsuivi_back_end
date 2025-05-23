@@ -40,8 +40,8 @@ public class AdapterCommonMapper {
 
   /**
    * Map un product Entity vers un IProductDetail
-   * @param product
-   * @return
+   * @param product ProductEntity
+   * @return IProductDetail
    */
   public IProductDetail mapToProductDetail(ProductEntity product) {
     return coreFactory.getProductDetailImpl(
