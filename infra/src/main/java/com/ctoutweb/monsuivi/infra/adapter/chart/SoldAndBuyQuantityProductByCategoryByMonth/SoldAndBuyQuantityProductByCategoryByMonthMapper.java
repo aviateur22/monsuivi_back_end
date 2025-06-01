@@ -93,7 +93,7 @@ public class SoldAndBuyQuantityProductByCategoryByMonthMapper {
     var backgroundTouchColor = datas.stream().map(ISoldAndBuyProductQuantityByCategoryAndMonth::getProductBackgroundTouchColor).toList();
 
     // Phrase décrivant les données affichées
-    String responseMessage = String.format("Données sur vos produits achetés en %s %s", monthRequest, yearRequest);
+    String responseMessage = String.format("Quantité achetée par catégorie en %s %s", monthRequest, yearRequest);
 
     // Donnés pour affichage d'un grapphique de type Doughnut
     var buyProductDoughnutFormat = infraFactory.getChartJsDoughnut(labels, backgroundColor, backgroundTouchColor, productBuyQuantities);
@@ -117,7 +117,7 @@ public class SoldAndBuyQuantityProductByCategoryByMonthMapper {
     var backgroundTouchColor = datas.stream().map(ISoldAndBuyProductQuantityByCategoryAndMonth::getProductBackgroundTouchColor).toList();
 
     // Phrase décrivant les données affichées
-    String responseMessage = String.format("Données sur vos produits vendus en %s %s", monthRequest, yearRequest);
+    String responseMessage = String.format("Quantité vendue par catégorie en %s %s", monthRequest, yearRequest);
 
     // Donnés pour affichage d'un grapphique de type Doughnut
     var soldProductDoughnutFormat = infraFactory.getChartJsDoughnut(labels, backgroundColor, backgroundTouchColor, productSoldQuantities);

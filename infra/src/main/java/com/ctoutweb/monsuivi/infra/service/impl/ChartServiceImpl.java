@@ -124,8 +124,9 @@ public class ChartServiceImpl implements IChartService {
     var output = soldAndBuyProductQuantityByYearUseCase.execute(input);
 
     var datas = output.getOutputBoundary().getDatas();
+    var yearRequest = output.getOutputBoundary().getRequestedYear();
 
-    return null;
+    return soldAndBuyProductQuantityByYearMapper.mapToDto(datas, yearRequest);
   }
 
   @Override

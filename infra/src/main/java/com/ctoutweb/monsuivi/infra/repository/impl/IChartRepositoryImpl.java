@@ -117,7 +117,7 @@ public class IChartRepositoryImpl implements IChartRepository {
             "color," +
             "touch_color," +
             "to_char(smb.month, 'YYYY-MM') AS month," +
-            "sum(CASE WHEN p_buy.product_category IS NOT NULL THEN p_buy.product_purchase_price END) AS buy_price_product," +
+            "COALESCE(sum(CASE WHEN p_buy.product_category IS NOT NULL THEN p_buy.product_purchase_price END), 0) AS buy_price_product," +
             "COALESCE(sq.sold_price_product, 0) AS sold_price_product " +
             "FROM " +
             "product_category pc " +

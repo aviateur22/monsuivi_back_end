@@ -230,8 +230,8 @@ INSERT INTO sc_monsuivi.product_category ("id","category_name", "category_code")
 (3,'vétement', 'cl');
 
 INSERT INTO sc_monsuivi.product_category_color ("id","category_id", "color", "touch_color") VALUES
-(1, 1,'black', 'black'),
-(2, 2, 'red', 'red'),
-(3,3, 'yellow', 'yellow');
+(1, 1,'#f56218', '#f7915e'),
+(2, 2, '#802bf0', '#b889f5'),
+(3,3, '#fff536', '#faf58e');
 
 COMMIT;
