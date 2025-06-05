@@ -1,6 +1,5 @@
 package com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyProductPriceByYear;
 
-import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductPriceByCategoryAndYear;
 import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductPriceByYear;
 import com.ctoutweb.monsuivi.core.factory.CoreFactory;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByYear.ISoldAndBuyProductPriceByYearInput;

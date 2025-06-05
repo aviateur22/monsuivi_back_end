@@ -88,7 +88,7 @@ public class SoldAndBuyProductPriceByCategoryAndMonthMapper {
     // Phrase décrivant les données affichées
     String responseMessage = String.format("Dépense par catégorie en %s %s", monthRequest, yearRequest);
 
-    // Donnés pour affichage d'un grapphique de type Doughnut
+    // Donnés pour affichage d'un graphique de type Doughnut
     var buyProductDoughnutFormat = infraFactory.getChartJsDoughnut(labels, backgroundColor, backgroundTouchColor, productBuyPrices);
 
     return  infraFactory.getChartDataResponseImpl(buyProductDoughnutFormat, responseMessage);

@@ -66,4 +66,20 @@ public class ChartController {
     SoldAndBuyProductPriceByYearResponseDto dto = chartService.getSoldAndBuyProductPriceByYear(sellerId, year);
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }
+
+  @GetMapping("/product-price-by-month/seller/{sellerId}/month/{month}/year/{year}")
+  public ResponseEntity<SoldAndBuyProductPriceByMonthDto> getProductPriceByMonth(
+          @PathVariable Long sellerId, @PathVariable Short month, @PathVariable Short year
+  ){
+    SoldAndBuyProductPriceByMonthDto dto = chartService.getSoldAndBuyProductPriceByMonth(sellerId, month, year);
+    return new ResponseEntity<>(dto, HttpStatus.OK);
+  }
+
+  @GetMapping("/product-quantity-by-month/seller/{sellerId}/month/{month}/year/{year}")
+  public ResponseEntity<SoldAndBuyProductQuantityByMonthDto> getProductQuantityByMonth(
+          @PathVariable Long sellerId, @PathVariable Short month, @PathVariable Short year
+  ){
+    SoldAndBuyProductQuantityByMonthDto dto = chartService.getSoldAndBuyProductQuantityByMonth(sellerId, month, year);
+    return new ResponseEntity<>(dto, HttpStatus.OK);
+  }
 }

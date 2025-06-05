@@ -74,5 +74,31 @@ public interface IChartService {
           short year
   );
 
+  /**
+   * Récupération du prix total de vente et achat des produit pour 1 mois données
+   * @param sellerId - long
+   * @param month - short - mois demandé ex 01 pour janvier
+   * @param year - short - année demandé ex 2025
+   * @return SoldAndBuyProductPriceByMonthDto
+   */
+  SoldAndBuyProductPriceByMonthDto getSoldAndBuyProductPriceByMonth(
+          long sellerId,
+          short month,
+          short year
+  );
+
+  /**
+   * Récupération des quantité total de vente et achat des produits pour 1 mois
+   * @param sellerId - integer - Id du vendeur
+   * @param month - short - mois demandé ex 01 pour janvier
+   * @param year - short - année demandé ex 2025
+   * @return SoldAndBuyProductQuantityByMonthDto
+   */
+  SoldAndBuyProductQuantityByMonthDto getSoldAndBuyProductQuantityByMonth(
+          long sellerId,
+          short month,
+          short year
+  );
+
 
 }

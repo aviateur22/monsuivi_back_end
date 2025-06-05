@@ -4,7 +4,9 @@ import com.ctoutweb.monsuivi.core.usecase.chart.*;
 import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyPriceProductByCategoryAndMonth.SoldAndBuyProductPriceByCategoryAndMonthMapper;
 import com.ctoutweb.monsuivi.infra.adapter.chart.SoldAndBuyQuantityProductByCategoryByMonth.SoldAndBuyQuantityProductByCategoryByMonthMapper;
 import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyProductPriceBuyByCategoryAndYear.SoldAndBuyProductPriceByCategoryAndYearMapper;
+import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyProductPriceByMonth.SoldAndBuyProductPriceByMonthMapper;
 import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyProductPriceByYear.SoldAndBuyProductPriceByYearMapper;
+import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyProductQuantityByMonth.SoldAndBuyProductQuantityByMonthMapper;
 import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyProductQuantityByYear.SoldAndBuyProductQuantityByYearMapper;
 import com.ctoutweb.monsuivi.infra.adapter.chart.soldAndBuyQuantityProductByCategoryAndYear.SoldAndBuyProductQuantityByCategoryAndYearMapper;
 import com.ctoutweb.monsuivi.infra.dto.response.chart.*;
@@ -20,14 +22,16 @@ public class ChartServiceImpl implements IChartService {
   private final SoldAndBuyProductQuantityByCategoryAndYearUseCase soldAndBuyProductQuantityByCategoryAndYearUseCase;
   private final SoldAndBuyProductQuantityByYearUseCase soldAndBuyProductQuantityByYearUseCase;
   private final SoldAndBuyProductPriceByYearUseCase soldAndBuyProductPriceByYearUseCase;
+  private final SoldAndBuyProductPriceByMonthUseCase soldAndBuyProductPriceByMonthUseCase;
+  private final SoldAndBuyProductQuantityByMonthUseCase soldAndBuyProductQuantityByMonthUseCase;
   private final SoldAndBuyQuantityProductByCategoryByMonthMapper soldAndBuyQuantityProductByCategoryByMonthMapper;
   private final SoldAndBuyProductPriceByCategoryAndMonthMapper soldAndBuyProductPriceByCategoryAndMonthMapper;
   private final SoldAndBuyProductPriceByCategoryAndYearMapper soldAndBuyProductPriceByCategoryAndYearMapper;
   private final SoldAndBuyProductQuantityByCategoryAndYearMapper soldAndBuyProductQuantityByCategoryAndYearMapper;
   private final SoldAndBuyProductQuantityByYearMapper soldAndBuyProductQuantityByYearMapper;
   private final SoldAndBuyProductPriceByYearMapper soldAndBuyProductPriceByYearMapper;
-
-
+  private final SoldAndBuyProductPriceByMonthMapper soldAndBuyProductPriceByMonthMapper;
+  private final SoldAndBuyProductQuantityByMonthMapper soldAndBuyProductQuantityByMonthMapper;
 
   public ChartServiceImpl(
           SoldAndBuyProductQuantityByCategoryMonthUseCase soldAndBuyProductQuantityByCategoryMonthUseCase,
@@ -36,24 +40,32 @@ public class ChartServiceImpl implements IChartService {
           SoldAndBuyProductQuantityByCategoryAndYearUseCase soldAndBuyProductQuantityByCategoryAndYearUseCase,
           SoldAndBuyProductQuantityByYearUseCase soldAndBuyProductQuantityByYearUseCase,
           SoldAndBuyProductPriceByYearUseCase soldAndBuyProductPriceByYearUseCase,
+          SoldAndBuyProductPriceByMonthUseCase soldAndBuyProductPriceByMonthUseCase,
+          SoldAndBuyProductQuantityByMonthUseCase soldAndBuyProductQuantityByMonthUseCase,
           SoldAndBuyQuantityProductByCategoryByMonthMapper soldAndBuyQuantityProductByCategoryByMonthMapper,
           SoldAndBuyProductPriceByCategoryAndMonthMapper soldAndBuyProductPriceByCategoryAndMonthMapper,
           SoldAndBuyProductPriceByCategoryAndYearMapper soldAndBuyProductPriceByCategoryAndYearMapper,
           SoldAndBuyProductQuantityByCategoryAndYearMapper soldAndBuyProductQuantityByCategoryAndYearMapper,
           SoldAndBuyProductQuantityByYearMapper soldAndBuyProductQuantityByYearMapper,
-          SoldAndBuyProductPriceByYearMapper soldAndBuyProductPriceByYearMapper) {
+          SoldAndBuyProductPriceByYearMapper soldAndBuyProductPriceByYearMapper,
+          SoldAndBuyProductPriceByMonthMapper soldAndBuyProductPriceByMonthMapper,
+          SoldAndBuyProductQuantityByMonthMapper soldAndBuyProductQuantityByMonthMapper) {
     this.soldAndBuyProductQuantityByCategoryMonthUseCase = soldAndBuyProductQuantityByCategoryMonthUseCase;
     this.soldAndBuyProductPriceByCategoryAndMonthUseCase = soldAndBuyProductPriceByCategoryAndMonthUseCase;
     this.soldAndBuyProductPriceByCategoryAndYearUseCase = soldAndBuyProductPriceByCategoryAndYearUseCase;
     this.soldAndBuyProductQuantityByCategoryAndYearUseCase = soldAndBuyProductQuantityByCategoryAndYearUseCase;
     this.soldAndBuyProductQuantityByYearUseCase = soldAndBuyProductQuantityByYearUseCase;
     this.soldAndBuyProductPriceByYearUseCase = soldAndBuyProductPriceByYearUseCase;
+    this.soldAndBuyProductPriceByMonthUseCase = soldAndBuyProductPriceByMonthUseCase;
+    this.soldAndBuyProductQuantityByMonthUseCase = soldAndBuyProductQuantityByMonthUseCase;
     this.soldAndBuyQuantityProductByCategoryByMonthMapper = soldAndBuyQuantityProductByCategoryByMonthMapper;
     this.soldAndBuyProductPriceByCategoryAndMonthMapper = soldAndBuyProductPriceByCategoryAndMonthMapper;
     this.soldAndBuyProductPriceByCategoryAndYearMapper = soldAndBuyProductPriceByCategoryAndYearMapper;
     this.soldAndBuyProductQuantityByCategoryAndYearMapper = soldAndBuyProductQuantityByCategoryAndYearMapper;
     this.soldAndBuyProductQuantityByYearMapper = soldAndBuyProductQuantityByYearMapper;
     this.soldAndBuyProductPriceByYearMapper = soldAndBuyProductPriceByYearMapper;
+    this.soldAndBuyProductPriceByMonthMapper = soldAndBuyProductPriceByMonthMapper;
+    this.soldAndBuyProductQuantityByMonthMapper = soldAndBuyProductQuantityByMonthMapper;
   }
 
   @Override
@@ -141,5 +153,35 @@ public class ChartServiceImpl implements IChartService {
     var yearRequest = output.getOutputBoundary().getRequestedYear();
 
     return soldAndBuyProductPriceByYearMapper.mapToDto(datas, yearRequest);
+  }
+
+  @Override
+  public SoldAndBuyProductPriceByMonthDto getSoldAndBuyProductPriceByMonth(long sellerId, short month, short year) {
+    SoldAndBuyProductPriceByMonthUseCase.Input input = new SoldAndBuyProductPriceByMonthUseCase.Input(
+            soldAndBuyProductPriceByMonthMapper.getInput(sellerId, month, year)
+    );
+
+    var output = soldAndBuyProductPriceByMonthUseCase.execute(input);
+
+    var datas = output.getOutputBoundary().getDatas();
+    var yearRequest = output.getOutputBoundary().getRequestedYear();
+    var monthRequest = output.getOutputBoundary().getRequestedMonth();
+
+    return soldAndBuyProductPriceByMonthMapper.mapToDto(datas, monthRequest, yearRequest);
+  }
+
+  @Override
+  public SoldAndBuyProductQuantityByMonthDto getSoldAndBuyProductQuantityByMonth(long sellerId, short month, short year) {
+    SoldAndBuyProductQuantityByMonthUseCase.Input input = new SoldAndBuyProductQuantityByMonthUseCase.Input(
+            soldAndBuyProductQuantityByMonthMapper.getInput(sellerId, month, year)
+    );
+
+    var output = soldAndBuyProductQuantityByMonthUseCase.execute(input);
+
+    var datas = output.getOutputBoundary().getDatas();
+    var yearRequest = output.getOutputBoundary().getRequestedYear();
+    var monthRequest = output.getOutputBoundary().getRequestedMonth();
+
+    return soldAndBuyProductQuantityByMonthMapper.mapToDto(datas, monthRequest, yearRequest);
   }
 }

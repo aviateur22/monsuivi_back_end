@@ -17,6 +17,10 @@ import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAnd
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAndYear.ISoldAndBuyProductPriceBuyByCategoryAndYearOutput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAndYear.impl.SoldAndBuyProductPriceBuyByCategoryAndYearInputImpl;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAndYear.impl.SoldAndBuyProductPriceBuyByCategoryAndYearOutputImpl;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByMonth.ISoldAndBuyProductPriceByMonthInput;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByMonth.ISoldAndBuyProductPriceByMonthOutput;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByMonth.impl.SoldAndBuyProductPriceByMonthInputImpl;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByMonth.impl.SoldAndBuyProductPriceByMonthOutputImpl;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByYear.ISoldAndBuyProductPriceByYearInput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByYear.ISoldAndBuyProductPriceByYearOutput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByYear.impl.SoldAndBuyProductPriceByYearInputImpl;
@@ -29,6 +33,10 @@ import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByCategory
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByCategoryByMonth.ISoldAndBuyProductByCategoryByMonthOutput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByCategoryByMonth.impl.SoldAndBuyProductByCategoryByMonthOutputImpl;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByCategoryByMonth.impl.SoldAndBuyProductByCategoryByMonthInputImpl;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.ISoldAndBuyProductQuantityByMonthInput;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.ISoldAndBuyProductQuantityByMonthOutput;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.impl.SoldAndBuyProductQuantityByMonthInputImpl;
+import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.impl.SoldAndBuyProductQuantityByMonthOutpuImpl;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.ISoldAndBuyProductQuantityByYearInput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.ISoldAndBuyProductQuantityByYearOutput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.impl.SoldAndBuyProductQuantityByYearInputImpl;
@@ -298,5 +306,66 @@ public class CoreFactory {
             totalPrice,
             requestedYear
     );
+  }
+
+  /**
+   * Factory - ISoldAndBuyProductPriceByMonth
+   */
+  public ISoldAndBuyProductPriceByMonthInput getSoldAndBuyProductPriceByMonthInputImpl(
+          long sellerId,
+          short year,
+          short month
+  ) {
+    return new SoldAndBuyProductPriceByMonthInputImpl(sellerId, year, month);
+  }
+
+  public ISoldAndBuyProductPriceByMonthOutput getSoldAndBuyProductPriceByMonthOutputImpl(
+          List<ISoldAndBuyProductPriceByMonth> datas,
+          String requestedMonth,
+          short requestedYear
+  ) {
+    return new SoldAndBuyProductPriceByMonthOutputImpl(
+            datas,
+            requestedMonth,
+            requestedYear
+    );
+  }
+
+  public ISoldAndBuyProductPriceByMonth getSoldAndBuyProductPriceByMonthImpl(
+          String monthWithYear,
+          String priceType,
+          Double totalPrice
+  ) {
+    return new SoldAndBuyProductPriceByMonthImpl(monthWithYear, priceType, totalPrice);
+  }
+
+  /**
+   * Factory - ISoldAndBuyProductQuantityByMonth
+   */
+  public ISoldAndBuyProductQuantityByMonthInput getSoldAndBuyProductQuantityByMonthInputImpl(
+          long sellerId,
+          short year,
+          short month
+  ) {
+    return new SoldAndBuyProductQuantityByMonthInputImpl(sellerId, year, month);
+  }
+
+  public ISoldAndBuyProductQuantityByMonthOutput getSoldAndBuyProductQuantityByMonthOutputImpl(
+          List<ISoldAndBuyProductQuantityByMonth> datas,
+          String requestedMonth,
+          short requestedYear
+  ) {
+    return new SoldAndBuyProductQuantityByMonthOutpuImpl(
+            datas,
+            requestedMonth,
+            requestedYear
+    );
+  }
+  public ISoldAndBuyProductQuantityByMonth getSoldAndBuyProductQuantityByMonthImpl(
+          String monthWithYear,
+          String quantityType,
+          Integer totalQuantity
+  ) {
+    return new SoldAndBuyProductQuantityByMonthImpl(monthWithYear, quantityType, totalQuantity);
   }
 }

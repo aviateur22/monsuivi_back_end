@@ -1,14 +1,25 @@
 package com.ctoutweb.monsuivi.infra.repository.impl;
 
+import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductPriceByMonth;
+import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductQuantityByMonth;
+import com.ctoutweb.monsuivi.core.factory.CoreFactory;
 import com.ctoutweb.monsuivi.infra.repository.IChartRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 public class IChartRepositoryImpl implements IChartRepository {
   @PersistenceContext
   private EntityManager entityManager;
+  private final CoreFactory coreFactory;
+
+  public IChartRepositoryImpl(CoreFactory coreFactory) {
+    this.coreFactory = coreFactory;
+  }
+
   @Override
   public List<Object[]> getSoldAndBuyProductQuantityiesByCategoryAndMonthList(Long sellerId, String date) {
 
@@ -356,5 +367,105 @@ public class IChartRepositoryImpl implements IChartRepository {
 
     List<Object[]> results = query.getResultList();
     return  results;
+  }
+
+  @Override
+  public List<ISoldAndBuyProductQuantityByMonth> getSoldAndBuyProductQuantityByMonth(Long sellerId, String month) {
+    String sql = "WITH product_sold AS (\n" +
+            "        SELECT \n" +
+            "            SUM(\n" +
+            "                CASE \n" +
+            "                    WHEN p.seller_id = :sellerId AND to_char(DATE_TRUNC('month', p.product_sold_at), 'YYYY-MM') = :month \n" +
+            "                    THEN 1 \n" +
+            "                    ELSE 0 \n" +
+            "                END\n" +
+            "            ) AS total_quantity,\n" +
+            "            'quantité vendue' AS quantity_type,\n" +
+            "            :month  AS monthf\n" +
+            "        FROM sc_monsuivi.product p\n" +
+            "    ),\n" +
+            "    product_buy AS (\n" +
+            "        SELECT \n" +
+            "            SUM(\n" +
+            "                CASE \n" +
+            "                    WHEN p.seller_id = :sellerId AND to_char(DATE_TRUNC('month', p.product_buy_at), 'YYYY-MM') = :month  \n" +
+            "                    THEN 1 \n" +
+            "                    ELSE 0 \n" +
+            "                END\n" +
+            "            ) AS total_quantity,\n" +
+            "            'quantité achetée' AS quantity_type,\n" +
+            "            :month  AS monthf\n" +
+            "        FROM sc_monsuivi.product p\n" +
+            "    )\n" +
+            "    SELECT * FROM product_buy\n" +
+            "    UNION ALL\n" +
+            "    SELECT * FROM product_sold;";
+
+    Query query = entityManager.createNativeQuery(sql);
+    query.setParameter("sellerId", sellerId);
+    query.setParameter("month", month);
+
+    List<Object[]> results = query.getResultList();
+
+    if(results == null || results.isEmpty())
+      return List.of();
+
+    return results.stream()
+            .map(result -> coreFactory.getSoldAndBuyProductQuantityByMonthImpl(
+                    ((String) result[2]), // Mois avec année
+                    (String) result[1], // Type de quantité (Achat ou vente)
+                    ((Number) result[0]).intValue() // quantité
+            ))
+            .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<ISoldAndBuyProductPriceByMonth> getSoldAndBuyProductPriceByMonth(Long sellerId, String month) {
+    String sql = "WITH product_sold AS (\n" +
+            "        SELECT \n" +
+            "            SUM(\n" +
+            "                CASE \n" +
+            "                    WHEN p.seller_id = :sellerId AND to_char(DATE_TRUNC('month', p.product_sold_at), 'YYYY-MM') = :month \n" +
+            "                    THEN p.product_sold_price \n" +
+            "                    ELSE 0 \n" +
+            "                END\n" +
+            "            ) AS total_price,\n" +
+            "            'prix de vente' AS price_type,\n" +
+            "            :month  AS month\n" +
+            "        FROM sc_monsuivi.product p\n" +
+            "    ),\n" +
+            "    product_buy AS (\n" +
+            "        SELECT \n" +
+            "            SUM(\n" +
+            "                CASE \n" +
+            "                    WHEN p.seller_id = :sellerId AND to_char(DATE_TRUNC('month', p.product_buy_at), 'YYYY-MM') = :month  \n" +
+            "                    THEN p.product_purchase_price\n" +
+            "                    ELSE 0 \n" +
+            "                END\n" +
+            "            ) AS total_price,\n" +
+            "            'prix achat' AS price_type,\n" +
+            "            :month  AS month\n" +
+            "        FROM sc_monsuivi.product p\n" +
+            "    )\n" +
+            "    SELECT * FROM product_buy\n" +
+            "    UNION ALL\n" +
+            "    SELECT * FROM product_sold;";
+
+    Query query = entityManager.createNativeQuery(sql);
+    query.setParameter("sellerId", sellerId);
+    query.setParameter("month", month);
+
+    List<Object[]> results = query.getResultList();
+
+    if(results == null || results.isEmpty())
+      return List.of();
+
+    return results.stream()
+            .map(result -> coreFactory.getSoldAndBuyProductPriceByMonthImpl(
+                    ((String) result[2]), // Mois avec année
+                    (String) result[1], // Type de prix (Achat ou vente)
+                    ((Number) result[0]).doubleValue() // prix trotal
+            ))
+            .collect(Collectors.toList());
   }
 }

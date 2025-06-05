@@ -1,5 +1,8 @@
 package com.ctoutweb.monsuivi.infra.repository;
 
+import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductPriceByMonth;
+import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductQuantityByMonth;
+
 import java.util.List;
 
 /**
@@ -67,4 +70,6 @@ public interface IChartRepository {
    */
   List<Object[]> getSoldAndBuyProductPriceByYearList(Long sellerId, short year);
 
+  List<ISoldAndBuyProductQuantityByMonth> getSoldAndBuyProductQuantityByMonth(Long sellerId, String month);
+  public List<ISoldAndBuyProductPriceByMonth> getSoldAndBuyProductPriceByMonth(Long sellerId, String month);
 }
