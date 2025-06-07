@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ctoutweb.monsuivi.infra.constant.Constant.*;
+import static com.ctoutweb.monsuivi.infra.constant.Constant.HOVER_BUY_COLOR;
+
 @Component
 public class SoldAndBuyProductQuantityByYearMapper {
   private final CoreFactory coreFactory;
@@ -82,7 +85,7 @@ public class SoldAndBuyProductQuantityByYearMapper {
 
     IChartDataResponse chartDataResponse = infraFactory.getChartDataResponseImpl(
             SoldAndBuyProductPriceByYearStackedBar,
-            ""
+            String.format("Nombre d'article acheté et vendus pour l'année %s", yearRequest)
     );
 
     return new SoldAndBuyQuantityProductByYearResponseDto<>(chartDataResponse);
@@ -92,8 +95,8 @@ public class SoldAndBuyProductQuantityByYearMapper {
     var type = "bar";
     var label = datas.get(0).getQuantityType();
     var productBuyPrices = List.of(datas.get(0).getTotalQuantity());
-    var backgroundColor = "black";
-    var backgroundTouchColor = "grey";
+    var backgroundColor = SOLD_COLOR;
+    var backgroundTouchColor = HOVER_SOLD_COLOR;
 
     return new StackedBarDataSet(
             type,
@@ -108,8 +111,8 @@ public class SoldAndBuyProductQuantityByYearMapper {
     var type = "bar";
     var label = datas.get(1).getQuantityType();
     var productBuyPrices = List.of(datas.get(1).getTotalQuantity());
-    var backgroundColor = "orange";
-    var backgroundTouchColor = "blue";
+    var backgroundColor = BUY_COLOR;
+    var backgroundTouchColor = HOVER_BUY_COLOR;
 
 
     return new StackedBarDataSet(

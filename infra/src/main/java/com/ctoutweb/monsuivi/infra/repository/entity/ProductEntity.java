@@ -22,8 +22,6 @@ public class ProductEntity {
   private Double productPurchasePrice;
   @Column(name = "product_sold_price")
   private Double productSoldPrice;
-  @Column(name = "product_desired_sold_price")
-  private Double productDesiredSoldPrice;
   @Column(name = "product_category")
   private String productCategory;
   @Column(name = "product_status")
@@ -132,14 +130,6 @@ public class ProductEntity {
     this.productBuyAt = productBuyAt;
   }
 
-  public Double getProductDesiredSoldPrice() {
-    return productDesiredSoldPrice;
-  }
-
-  public void setProductDesiredSoldPrice(Double productDesiredSoldPrice) {
-    this.productDesiredSoldPrice = productDesiredSoldPrice;
-  }
-
   public List<ImageEntity> getImages() {
     return images;
   }
@@ -169,12 +159,12 @@ public class ProductEntity {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ProductEntity product = (ProductEntity) o;
-    return Objects.equals(id, product.id) && Objects.equals(productName, product.productName) && Objects.equals(productPurchasePrice, product.productPurchasePrice) && Objects.equals(productSoldPrice, product.productSoldPrice) && Objects.equals(productDesiredSoldPrice, product.productDesiredSoldPrice) && Objects.equals(productCategory, product.productCategory) && Objects.equals(productSoldAt, product.productSoldAt) && Objects.equals(productBuyAt, product.productBuyAt) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(seller, product.seller) && Objects.equals(images, product.images);
+    return Objects.equals(id, product.id) && Objects.equals(productName, product.productName) && Objects.equals(productPurchasePrice, product.productPurchasePrice) && Objects.equals(productSoldPrice, product.productSoldPrice) && Objects.equals(productCategory, product.productCategory) && Objects.equals(productSoldAt, product.productSoldAt) && Objects.equals(productBuyAt, product.productBuyAt) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(seller, product.seller) && Objects.equals(images, product.images);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, productName, productPurchasePrice, productSoldPrice, productDesiredSoldPrice, productCategory, productSoldAt, productBuyAt, createdAt, updatedAt, seller, images);
+    return Objects.hash(id, productName, productPurchasePrice, productSoldPrice, productCategory, productSoldAt, productBuyAt, createdAt, updatedAt, seller, images);
   }
 
   @Override
@@ -184,7 +174,6 @@ public class ProductEntity {
             ", productName='" + productName + '\'' +
             ", productPurchasePrice=" + productPurchasePrice +
             ", productSoldPrice=" + productSoldPrice +
-            ", productDesiredSoldPrice=" + productDesiredSoldPrice +
             ", productCategory='" + productCategory + '\'' +
             ", productSoldAt=" + productSoldAt +
             ", productBuyAt=" + productBuyAt +

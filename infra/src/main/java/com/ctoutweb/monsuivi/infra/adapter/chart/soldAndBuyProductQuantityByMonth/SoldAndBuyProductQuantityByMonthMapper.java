@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.ctoutweb.monsuivi.infra.constant.Constant.*;
+import static com.ctoutweb.monsuivi.infra.constant.Constant.HOVER_SOLD_COLOR;
+
 @Component
 public class SoldAndBuyProductQuantityByMonthMapper {
 
@@ -54,8 +57,8 @@ public class SoldAndBuyProductQuantityByMonthMapper {
     var type = "bar";
     var label = datas.get(0).getQuantityType();
     var productBuyPrices = List.of(datas.get(0).getTotalQuantity());
-    var backgroundColor = "black";
-    var backgroundTouchColor = "grey";
+    var backgroundColor = SOLD_COLOR;
+    var backgroundTouchColor = HOVER_SOLD_COLOR;
 
     return new StackedBarDataSet(
             type,
@@ -70,8 +73,8 @@ public class SoldAndBuyProductQuantityByMonthMapper {
     var type = "bar";
     var label = datas.get(1).getQuantityType();
     var productBuyPrices = List.of(datas.get(1).getTotalQuantity());
-    var backgroundColor = "orange";
-    var backgroundTouchColor = "blue";
+    var backgroundColor = BUY_COLOR;
+    var backgroundTouchColor = HOVER_BUY_COLOR;
 
 
     return new StackedBarDataSet(

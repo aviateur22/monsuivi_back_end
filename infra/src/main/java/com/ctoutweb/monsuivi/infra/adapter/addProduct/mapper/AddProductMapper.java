@@ -56,7 +56,6 @@ public class AddProductMapper {
     product.setCreatedAt(DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now()));
     product.setProductBuyAt(LocalDate.now());
     product.setIsActif(IS_PRODUCT_ACTIF_AT_CREATION);
-    product.setProductDesiredSoldPrice(productCoreInformation.getProductDesiredSoldPrice());
     product.setSeller(mapper.getSellerEntityFromSellerId(sellerId));
     product.setProductCategory(productCoreInformation.getProductCategoryCode());
     product.setProductStatus(productCoreInformation.getProductStatusCode());
@@ -149,7 +148,6 @@ public class AddProductMapper {
             getFileFromMultipart(productDto.uploadProductImage()),
                     productDto.productPurchasePrice(),
                     productDto.productName(),
-                    productDto.productDesiredSoldPrice(),
                     getProductCategoryCode(productDto.productCategory()),
                     ProductStatus.FOR_SALE.getProductStatusCode(),
             DateUtil.localDateTimeToZonedDateTime(ZoneId.of(zoneId), LocalDateTime.now())

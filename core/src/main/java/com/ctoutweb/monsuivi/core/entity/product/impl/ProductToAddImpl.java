@@ -9,7 +9,6 @@ public record ProductToAddImpl(
         File image,
         double purchasePrice,
         String productName,
-        double desiredSoldPrice,
         String productCategoryCode,
         String productStatusCode,
         ZonedDateTime productCreationDate
@@ -34,10 +33,6 @@ public record ProductToAddImpl(
     return productCreationDate;
   }
 
-  @Override
-  public Double getProductDesiredSoldPrice() {
-    return desiredSoldPrice;
-  }
 
   @Override
   public Double getProductSoldPrice() {

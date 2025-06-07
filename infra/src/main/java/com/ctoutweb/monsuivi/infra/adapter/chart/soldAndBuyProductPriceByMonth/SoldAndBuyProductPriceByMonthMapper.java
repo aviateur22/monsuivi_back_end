@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.ctoutweb.monsuivi.infra.constant.Constant.*;
+import static com.ctoutweb.monsuivi.infra.constant.Constant.HOVER_BUY_COLOR;
+
 @Component
 public class SoldAndBuyProductPriceByMonthMapper {
 
@@ -42,7 +45,7 @@ public class SoldAndBuyProductPriceByMonthMapper {
 
     IChartDataResponse chartDataResponse = infraFactory.getChartDataResponseImpl(
             SoldAndBuyProductPriceByYearStackedBar,
-            String.format("Dépense et vente totale pour %s %s", monthRequest, yearRequest));
+            String.format("Totale des dépenses et des ventes pour %s %s", monthRequest, yearRequest));
 
     return new SoldAndBuyProductPriceByMonthDto<>(chartDataResponse);
   }
@@ -51,8 +54,8 @@ public class SoldAndBuyProductPriceByMonthMapper {
     var type = "bar";
     var label = datas.get(0).getPriceType();
     var productBuyPrices = List.of(datas.get(0).getTotalPrice());
-    var backgroundColor = "black";
-    var backgroundTouchColor = "grey";
+    var backgroundColor = SOLD_COLOR;
+    var backgroundTouchColor = HOVER_SOLD_COLOR;
 
     return new StackedBarDataSet(
             type,
@@ -67,8 +70,8 @@ public class SoldAndBuyProductPriceByMonthMapper {
     var type = "bar";
     var label = datas.get(1).getPriceType();
     var productBuyPrices = List.of(datas.get(1).getTotalPrice());
-    var backgroundColor = "orange";
-    var backgroundTouchColor = "blue";
+    var backgroundColor = BUY_COLOR;
+    var backgroundTouchColor = HOVER_BUY_COLOR;
 
 
     return new StackedBarDataSet(
