@@ -33,7 +33,16 @@ public class CorsConfig {
     productCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
     productCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
     source.registerCorsConfiguration(apiVersion+"/products/**", productCorsConfig);
-    source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/products/**", productCorsConfig);
+    //source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/products/**", productCorsConfig);
+
+    // Configuration Cors pour la gestion des charts
+    CorsConfiguration chartsCorsConfig = new CorsConfiguration();
+    chartsCorsConfig.setAllowCredentials(true);
+    chartsCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
+    chartsCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
+    chartsCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
+    source.registerCorsConfiguration(apiVersion+"/charts/**", chartsCorsConfig);
+
     return source;
   }
 }

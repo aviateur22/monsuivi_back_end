@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface IProductRepository extends JpaRepository<ProductEntity, Long> {
+public interface IProductRepository extends JpaRepository<ProductEntity, Long>, IChartRepository {
   /**
    * Recherche d'une liste de produit actif appartenant a un vendeur
    * @param seller SellerEntity - Identifiant vendeur

@@ -1,5 +1,7 @@
 package com.ctoutweb.monsuivi.infra.dto.response;
 
+import com.ctoutweb.monsuivi.infra.model.message.response.IResponseMessage;
+
 import java.time.LocalDate;
 
 public record ProductUpdateResponseDto(

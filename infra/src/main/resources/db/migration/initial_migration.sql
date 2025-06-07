@@ -13,7 +13,7 @@ $do$;
 CREATE SCHEMA IF NOT EXISTS sc_monsuivi;
 ALTER SCHEMA sc_monsuivi OWNER TO monsuivi;
 
-DROP TABLE IF EXISTS sc_monsuivi."login", sc_monsuivi."jwt", sc_monsuivi."delay_login", sc_monsuivi."seller_account", sc_monsuivi."role_seller", sc_monsuivi."role", sc_monsuivi."image",sc_monsuivi.product, sc_monsuivi."seller" CASCADE;
+DROP TABLE IF EXISTS sc_monsuivi."login", sc_monsuivi."jwt", sc_monsuivi."delay_login", sc_monsuivi."seller_account", sc_monsuivi."role_seller", sc_monsuivi."role",sc_monsuivi."product_category_color", sc_monsuivi."product_category", sc_monsuivi."image",sc_monsuivi."product", sc_monsuivi."seller" CASCADE;
 
 -- Utilisateur --
 CREATE TABLE if NOT EXISTS sc_monsuivi.seller(
@@ -56,6 +56,24 @@ CREATE TABLE if NOT EXISTS sc_monsuivi.image(
     "updated_at" TIMESTAMPTZ
 );
 CREATE INDEX IF NOT EXISTS idx_image_product ON sc_monsuivi.image (product_id);
+
+-- Category produit --
+create table IF NOT EXISTS sc_monsuivi.product_category(
+    "id" INT PRIMARY KEY,
+    "category_name" TEXT NOT NULL,
+    "category_code" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+    "updated_at" TIMESTAMPTZ
+);
+
+create table IF NOT EXISTS sc_monsuivi.product_category_color(
+    "id" INT PRIMARY KEY,
+    "category_id" INT NOT NULL REFERENCES sc_monsuivi."product_category"("id") on delete cascade,
+    "color" TEXT NOT NULL,
+    "touch_color" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+    "updated_at" TIMESTAMPTZ
+);
 
 -- Role --
 create table IF NOT EXISTS sc_monsuivi.role(
@@ -126,6 +144,8 @@ CREATE INDEX IF NOT EXISTS idx_delay_login ON sc_monsuivi.delay_login(seller_id)
 ALTER table IF EXISTS sc_monsuivi.seller OWNER TO monsuivi;
 ALTER table IF EXISTS sc_monsuivi.product OWNER TO monsuivi;
 ALTER table IF EXISTS sc_monsuivi.image OWNER TO monsuivi;
+ALTER table IF EXISTS sc_monsuivi.product_category OWNER TO monsuivi;
+ALTER table IF EXISTS sc_monsuivi.product_category_color OWNER TO monsuivi;
 ALTER table IF EXISTS sc_monsuivi.jwt OWNER TO monsuivi;
 ALTER table IF EXISTS sc_monsuivi.role OWNER TO monsuivi;
 ALTER table IF EXISTS sc_monsuivi.role_seller OWNER TO monsuivi;
@@ -135,6 +155,8 @@ ALTER table IF EXISTS sc_monsuivi.delay_login OWNER TO monsuivi;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.seller TO monsuivi;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.image TO monsuivi;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.product_category TO monsuivi;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.product_category_color TO monsuivi;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.product TO monsuivi;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.jwt TO monsuivi;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE sc_monsuivi.role TO monsuivi;
@@ -202,7 +224,14 @@ INSERT INTO sc_monsuivi.role_seller ("seller_id", "role_id") VALUES
 (1, 1),
 (1, 2);
 
+INSERT INTO sc_monsuivi.product_category ("id","category_name", "category_code") VALUES
+(1,'livre', 'bk'),
+(2,'jeu', 'ga'),
+(3,'vétement', 'cl');
 
-
+INSERT INTO sc_monsuivi.product_category_color ("id","category_id", "color", "touch_color") VALUES
+(1, 1,'#f56218', '#f7915e'),
+(2, 2, '#802bf0', '#b889f5'),
+(3,3, '#fff536', '#faf58e');
 
 COMMIT;

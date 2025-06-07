@@ -16,9 +16,6 @@ public record AddProductDto(
         @NotNull(message = "Le prix d'achat est obligatoire")
         Double productPurchasePrice,
 
-        @NotNull(message = "Le prix de vente souhaité est obligatoire")
-        Double productDesiredSoldPrice,
-
         @NotNull(message = "La catégorie du produit est obligatoire")
         @NotBlank(message = "La catégorie du produit est obligatoire")
         String productCategory,

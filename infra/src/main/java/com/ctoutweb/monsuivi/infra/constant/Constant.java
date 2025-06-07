@@ -20,4 +20,12 @@ public class Constant {
   public static final byte[] PNG_MAGIC_NUMBER = {(byte) 0x89, 0x50, 0x4E, 0x47};
   public static final byte[] JPEG_MAGIC_NUMBER = {(byte) 0xFF, (byte) 0xD8, (byte) 0xFF};
 
+  // Couleur graphique regroupant toutes les catégories
+  public static final String SOLD_COLOR = "#ffcc00";
+  public static final String HOVER_SOLD_COLOR = "#fce897";
+
+  public static final String BUY_COLOR = "#ff3636";
+  public static final String HOVER_BUY_COLOR = "#fc8181";
+
+
 }

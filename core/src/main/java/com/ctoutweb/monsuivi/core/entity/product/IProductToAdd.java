@@ -8,7 +8,6 @@ public interface IProductToAdd {
   Double getProductPurchasePrice();
   String getProductName();
   ZonedDateTime getProductCreationDate();
-  Double getProductDesiredSoldPrice();
   Double getProductSoldPrice();
   String getProductStatusCode();
   String getProductCategoryCode();
