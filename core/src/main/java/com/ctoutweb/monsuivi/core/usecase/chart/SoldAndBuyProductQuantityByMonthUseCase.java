@@ -5,10 +5,9 @@ import com.ctoutweb.monsuivi.core.entity.chart.ISoldAndBuyProductQuantityByMonth
 import com.ctoutweb.monsuivi.core.exception.CoreException;
 import com.ctoutweb.monsuivi.core.factory.CoreFactory;
 import com.ctoutweb.monsuivi.core.factory.InstanceLoader;
-import com.ctoutweb.monsuivi.core.model.usecase.IUseCase;
-import com.ctoutweb.monsuivi.core.model.usecase.InputBase;
-import com.ctoutweb.monsuivi.core.model.usecase.OutputBase;
-import com.ctoutweb.monsuivi.core.port.chart.common.IBaseMonthGateway;
+import com.ctoutweb.monsuivi.core.usecase.base.IUseCase;
+import com.ctoutweb.monsuivi.core.usecase.base.InputBase;
+import com.ctoutweb.monsuivi.core.usecase.base.OutputBase;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.ISoldAndBuyProductQuantityByMonthGateway;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.ISoldAndBuyProductQuantityByMonthInput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByMonth.ISoldAndBuyProductQuantityByMonthOutput;
