@@ -271,7 +271,7 @@ public class FilterSellerProductsRulesTest {
     return List.of(
             new ProductDetailImpl(1, "/images/1.png", 100.0, "Product A", LocalDate.now(), LocalDate.of(2023, 2, 10), 150.0, "SOLD", "ELEC"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product B", LocalDate.now().minusMonths(6), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "HOME"),
-            new ProductDetailImpl(3, "/images/3.png", 300.0, "Product C", LocalDate.now().minusDays(10), null, 0, "AVAILABLE", "ELEC"),
+            new ProductDetailImpl(3, "/images/3.png", 300.0, "Product C", LocalDate.now().minusDays(10), null, 0.0, "AVAILABLE", "ELEC"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product D", LocalDate.now().minusDays(45), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "HOME"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product E", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "HOME")
     );
@@ -280,7 +280,7 @@ public class FilterSellerProductsRulesTest {
     return List.of(
             new ProductDetailImpl(1, "/images/1.png", 100.0, "Product A", LocalDate.now(), LocalDate.of(2023, 2, 10), 150.0, "SOLD", "ga"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product B", LocalDate.now().minusMonths(6), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "ga"),
-            new ProductDetailImpl(3, "/images/3.png", 300.0, "Product C", LocalDate.now().minusDays(10), null, 0, "AVAILABLE", "bk"),
+            new ProductDetailImpl(3, "/images/3.png", 300.0, "Product C", LocalDate.now().minusDays(10), null, 0.0, "AVAILABLE", "bk"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product D", LocalDate.now().minusDays(45), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "bk"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product E", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl")
     );
