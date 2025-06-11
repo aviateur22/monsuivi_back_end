@@ -10,4 +10,5 @@ public interface IProductDetail {
   LocalDate getProductSoldAt();
   Double getProductSoldPrice();
   String getProductStatus();
+  String getProductCategoryCode();
 }

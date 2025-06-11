@@ -5,9 +5,11 @@ import com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper.AddProductMapper;
 import com.ctoutweb.monsuivi.infra.annotation.DtoValidator;
 import com.ctoutweb.monsuivi.infra.dto.AddProductDto;
 import com.ctoutweb.monsuivi.infra.dto.DesactivateProductDto;
+import com.ctoutweb.monsuivi.infra.dto.FilterSellerProductsDto;
 import com.ctoutweb.monsuivi.infra.dto.UpdateProductDto;
 import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
 import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
+import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
 import com.ctoutweb.monsuivi.infra.dto.response.ProductUpdateResponseDto;
 import com.ctoutweb.monsuivi.infra.service.IProductService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -90,5 +92,14 @@ public class ProductController {
     dtoValidator.validateDto(productDto);
     ProductUpdateResponseDto dto = productService.updateProduct(productDto);
     return new ResponseEntity<>(dto, HttpStatus.OK);
+  }
+
+  @PostMapping("/seller/{sellerId}/filter")
+  public ResponseEntity<GetSellerProductsDtoReponse> filterProductList(
+          @PathVariable Long sellerId, @RequestBody FilterSellerProductsDto filterSellerProductsDto ) {
+
+    GetSellerProductsDtoReponse response = productService.filterSellerProducts(sellerId, filterSellerProductsDto);
+    return new ResponseEntity<>(response, HttpStatus.OK);
+
   }
 }
