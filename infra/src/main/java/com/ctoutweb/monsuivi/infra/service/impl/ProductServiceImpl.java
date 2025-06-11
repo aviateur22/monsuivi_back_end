@@ -1,13 +1,12 @@
 package com.ctoutweb.monsuivi.infra.service.impl;
 
-import com.ctoutweb.monsuivi.core.usecase.DesactivateProductUseCase;
-import com.ctoutweb.monsuivi.core.usecase.GetAllSellerProductsUseCase;
-import com.ctoutweb.monsuivi.core.usecase.GetProductDetailUseCase;
-import com.ctoutweb.monsuivi.core.usecase.ProductUpdateUseCase;
+import com.ctoutweb.monsuivi.core.usecase.*;
 import com.ctoutweb.monsuivi.infra.adapter.desactivateProduct.mapper.DesactivateProductMapper;
+import com.ctoutweb.monsuivi.infra.adapter.filterSellerProducts.FilterSellerProductsMapper;
 import com.ctoutweb.monsuivi.infra.adapter.getAllProducts.mapper.GetAllProductMapper;
 import com.ctoutweb.monsuivi.infra.adapter.getProductDetail.mapper.ProductDetailMapper;
 import com.ctoutweb.monsuivi.infra.adapter.updateProduct.ProductUpdateMapper;
+import com.ctoutweb.monsuivi.infra.dto.FilterSellerProductsDto;
 import com.ctoutweb.monsuivi.infra.dto.UpdateProductDto;
 import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
 import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
@@ -30,10 +29,12 @@ public class ProductServiceImpl implements IProductService {
   private final GetAllProductMapper mapper;
   private final ProductDetailMapper productDetailMapper;
   private final ProductUpdateMapper productUpdateMapper;
+  private final FilterSellerProductsMapper filterSellerProductsMapper;
   private final GetAllSellerProductsUseCase getAllSellerProductsUseCase;
   private final DesactivateProductUseCase desactivateProductUseCase;
   private final GetProductDetailUseCase productDetailUseCase;
   private final ProductUpdateUseCase productUpdateUseCase;
+  private final FilterSellerProductsUseCase filterSellerProductsUseCase;
 
   public ProductServiceImpl(
           GetAllSellerProductsUseCase getAllSellerProductsUseCase,
@@ -43,17 +44,21 @@ public class ProductServiceImpl implements IProductService {
           IFileService fileService,
           ProductDetailMapper productDetailMapper,
           ProductUpdateMapper productUpdateMapper,
+          FilterSellerProductsMapper filterSellerProductsMapper,
           GetProductDetailUseCase productDetailUseCase,
-          ProductUpdateUseCase updateProductUseCase) {
+          ProductUpdateUseCase updateProductUseCase,
+          FilterSellerProductsUseCase filterSellerProductsUseCase) {
     this.fileService = fileService;
     this.getAllSellerProductsUseCase = getAllSellerProductsUseCase;
     this.desactivateProductUseCase = desactivateProductUseCase;
     this.productUpdateMapper = productUpdateMapper;
+    this.filterSellerProductsMapper = filterSellerProductsMapper;
     this.productDetailUseCase = productDetailUseCase;
     this.mapper = mapper;
     this.desactivateProductMapper = desactivateProductMapper;
     this.productDetailMapper = productDetailMapper;
     this.productUpdateUseCase = updateProductUseCase;
+    this.filterSellerProductsUseCase = filterSellerProductsUseCase;
   }
 
   @Transactional
@@ -126,5 +131,19 @@ public class ProductServiceImpl implements IProductService {
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[updateProduct] - output: %s", output));
 
     return productUpdateMapper.mapToResponseDto(output.getOutputBoundary());
+  }
+
+  @Override
+  public GetSellerProductsDtoReponse filterSellerProducts(long sellerId, FilterSellerProductsDto dto) {
+    LOGGER.debug(()->"[ProductServiceImpl]-[filterSellerProducts]");
+    FilterSellerProductsUseCase.Input input = new FilterSellerProductsUseCase.Input(
+            filterSellerProductsMapper.mapToInput(sellerId, dto)
+    );
+
+    var output = filterSellerProductsUseCase.execute(input);
+
+    LOGGER.debug(()->String.format("[ProductServiceImpl]-[filterSellerProducts] - Output: %s", output));
+
+    return  filterSellerProductsMapper.mapToResponseDto(output.getOutputBoundary());
   }
 }

@@ -1,4 +1,4 @@
-package com.ctoutweb.monsuivi.core.model.usecase;
+package com.ctoutweb.monsuivi.core.usecase.base;
 
 public abstract class InputBase<T> {
   protected T inputPort;

@@ -5,9 +5,9 @@ import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductInput;
 import com.ctoutweb.monsuivi.core.port.addProduct.IAddProductOutput;
 import com.ctoutweb.monsuivi.core.annotation.CoreService;
 import com.ctoutweb.monsuivi.core.exception.CoreException;
-import com.ctoutweb.monsuivi.core.model.usecase.IUseCase;
-import com.ctoutweb.monsuivi.core.model.usecase.InputBase;
-import com.ctoutweb.monsuivi.core.model.usecase.OutputBase;
+import com.ctoutweb.monsuivi.core.usecase.base.IUseCase;
+import com.ctoutweb.monsuivi.core.usecase.base.InputBase;
+import com.ctoutweb.monsuivi.core.usecase.base.OutputBase;
 
 @CoreService
 public class AddProductUseCase implements IUseCase<AddProductUseCase.Input, AddProductUseCase.Output>  {

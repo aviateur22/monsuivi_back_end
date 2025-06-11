@@ -6,12 +6,13 @@ import java.time.LocalDate;
 public record ProductDetailImpl(
         long productid,
         String imagePath,
-        double productPurchasePrice,
+        Double productPurchasePrice,
         String productName,
         LocalDate productBuyDay,
         LocalDate productSoldDay,
-        double productSoldPrice,
-        String productStatus
+        Double productSoldPrice,
+        String productStatus,
+        String productCategoryCode
 
 ) implements IProductDetail {
   @Override
@@ -52,5 +53,10 @@ public record ProductDetailImpl(
   @Override
   public String getProductStatus() {
     return productStatus;
+  }
+
+  @Override
+  public String getProductCategoryCode() {
+    return productCategoryCode;
   }
 }

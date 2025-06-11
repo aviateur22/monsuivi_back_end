@@ -1,5 +1,6 @@
 package com.ctoutweb.monsuivi.infra.service;
 
+import com.ctoutweb.monsuivi.infra.dto.FilterSellerProductsDto;
 import com.ctoutweb.monsuivi.infra.dto.UpdateProductDto;
 import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
 import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
@@ -13,5 +14,5 @@ public interface IProductService {
   DesactivateProductDtoResponse desactivateProduct(long product, long sellerId);
   GetProductDetailResponseDto getDetailProduct(long product, long sellerId);
   ProductUpdateResponseDto updateProduct(UpdateProductDto dto);
-
+  GetSellerProductsDtoReponse filterSellerProducts(long sellerId, FilterSellerProductsDto dto);
 }
