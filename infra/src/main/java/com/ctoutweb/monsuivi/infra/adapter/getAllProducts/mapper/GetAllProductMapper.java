@@ -1,6 +1,5 @@
 package com.ctoutweb.monsuivi.infra.adapter.getAllProducts.mapper;
 
-import com.ctoutweb.monsuivi.core.factory.CoreFactory;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsInput;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
 import com.ctoutweb.monsuivi.infra.InfraFactory;
@@ -10,7 +9,6 @@ import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 import com.ctoutweb.monsuivi.infra.model.product.ISummarizeProduct;
 import com.ctoutweb.monsuivi.infra.model.product.ProductCategory;
 import com.ctoutweb.monsuivi.infra.model.product.ProductStatus;
-import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -20,39 +18,31 @@ import java.util.List;
 public class GetAllProductMapper {
   private static final Logger LOGGER = LogManager.getLogger();
   private final InfraFactory infraFactory;
-  private final CoreFactory coreFactory;
-  private final AdapterCommonMapper commonMapper;
   public GetAllProductMapper(
           InfraFactory factory,
-          CoreFactory coreFactory, AdapterCommonMapper commonMapper) {
+          AdapterCommonMapper commonMapper) {
     this.infraFactory = factory;
-    this.coreFactory = coreFactory;
-    this.commonMapper = commonMapper;
+
+
   }
 
-  /**
-   * Map un productEntity vers un IProductSummarize
-   * @param product ProductEntity - Issue de la base de données
-   * @return IProductSummarize
-   */
-  public IProductSummarize mapProductEntityToProductSummarize(ProductEntity product) {
-    return coreFactory.getProductSummarizeImpl(
-            product.getId(),
-            commonMapper.getFirstProductImagePath(product),
-            product.getProductName(),
-            product.getProductStatus(),
-            product.getProductCategory());
-  }
+
   /**
    * Récupération de input du UseCase GetAllSellerProducts
    * @param sellerId
+   * @param areSoldProductVisible
    * @return
    */
-  public IGetAllProductsInput getAllProductsInput(long sellerId) {
+  public IGetAllProductsInput getAllProductsInput(long sellerId, boolean areSoldProductVisible) {
     return new IGetAllProductsInput() {
       @Override
       public Long getUserId() {
         return sellerId;
+      }
+
+      @Override
+      public boolean getAreSoldProductVisible() {
+        return areSoldProductVisible;
       }
     };
   }

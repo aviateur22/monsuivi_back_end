@@ -1,7 +1,7 @@
 package com.ctoutweb.monsuivi.infra.adapter.filterSellerProducts;
 
 import com.ctoutweb.monsuivi.core.entity.product.IProductDetail;
-import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsGateway;
+import com.ctoutweb.monsuivi.core.port.common.ISellerProductsManagerGateway;
 import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
 import com.ctoutweb.monsuivi.infra.repository.IProductRepository;
 import com.ctoutweb.monsuivi.infra.repository.ISellerRepository;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FilterSellerProductsGatewayImpl implements IFilterSellerProductsGateway {
+public class FilterSellerProductsGatewayImpl implements ISellerProductsManagerGateway {
   private static final Logger LOGGER = LogManager.getLogger();
   private final IProductRepository productRepository;
   private final ISellerRepository sellerRepository;

@@ -5,5 +5,6 @@ public interface IFilterSellerProductsInput {
   String getFilterProductByNameInput();
   String getFilterProductByCategoryInput();
   Short getFilterPeriodInDayInput();
+  boolean getAreSoldProductVisible();
 
 }

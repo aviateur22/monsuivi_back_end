@@ -57,9 +57,10 @@ public class ProductController {
     return new ResponseEntity(addProductMapper.getAddProductResponseDto(output.getOutputBoundary()), HttpStatus.OK);
   }
 
-  @GetMapping("/seller/{sellerId}")
-  public ResponseEntity getSellerProducts(@PathVariable Long sellerId) {
-    var sellerProducts = productService.getAllSellerProducts(sellerId);
+  @GetMapping("/seller/{sellerId}/sold-product-visibility/{areSoldProductVisible}")
+  public ResponseEntity getSellerProducts(@PathVariable Long sellerId, @PathVariable Boolean areSoldProductVisible) {
+    LOGGER.info("Visibilité des produit vendu" + areSoldProductVisible);
+    var sellerProducts = productService.getAllSellerProducts(sellerId, areSoldProductVisible);
     return new ResponseEntity(sellerProducts, HttpStatus.OK);
   }
 

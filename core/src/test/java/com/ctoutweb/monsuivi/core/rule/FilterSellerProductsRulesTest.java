@@ -3,8 +3,8 @@ package com.ctoutweb.monsuivi.core.rule;
 import com.ctoutweb.monsuivi.core.entity.product.IProductDetail;
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 import com.ctoutweb.monsuivi.core.entity.product.impl.ProductDetailImpl;
-import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsGateway;
-import com.ctoutweb.monsuivi.core.rule.impl.FilterSellerProductsRuleImpl;
+import com.ctoutweb.monsuivi.core.port.common.ISellerProductsManagerGateway;
+import com.ctoutweb.monsuivi.core.rule.impl.SellerProductsManagerRuleImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.util.List;
 public class FilterSellerProductsRulesTest {
 
   @Mock
-  IFilterSellerProductsGateway filterSellerProductsGatewayMock;
+  ISellerProductsManagerGateway filterSellerProductsGatewayMock;
 
   @BeforeEach
   public void initTest() {
@@ -37,7 +37,7 @@ public class FilterSellerProductsRulesTest {
 
       Mockito.when(filterSellerProductsGatewayMock.getAllSellerProducts(Mockito.anyLong())).thenReturn(getProductsListToTestFilterByPeriodInDay());
       Mockito.when(filterSellerProductsGatewayMock.isSellerFind(Mockito.anyLong())).thenReturn(true);
-      IFilterSellerProductsRules filterSellerProductsRules = new FilterSellerProductsRuleImpl(filterSellerProductsGatewayMock);
+      ISellerProductsManagerRules filterSellerProductsRules = new SellerProductsManagerRuleImpl(filterSellerProductsGatewayMock);
 
     /**
      * when - nullPeriod
@@ -46,7 +46,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByRegisterPeriod(nullPeriod);
 
-    List<IProductSummarize> actualNullPeriodFilteredProduct = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualNullPeriodFilteredProduct = filterSellerProductsRules.getProducts();
 
     /**
      * when - oneWeekPeriod
@@ -55,7 +55,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByRegisterPeriod(oneWeekPeriod);
 
-    List<IProductSummarize> actualOneWeekPeriodFilteredProduct = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualOneWeekPeriodFilteredProduct = filterSellerProductsRules.getProducts();
 
     /**
      * when - oneMonthPeriod
@@ -64,7 +64,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByRegisterPeriod(oneMonthPeriod);
 
-    List<IProductSummarize> actualoneMonthPeriodFilteredProduct = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualoneMonthPeriodFilteredProduct = filterSellerProductsRules.getProducts();
 
     /**
      * when - twoMonthPeriod
@@ -73,7 +73,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByRegisterPeriod(twoMonthPeriod);
 
-    List<IProductSummarize> actualTwoMonthPeriodFilteredProduct = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualTwoMonthPeriodFilteredProduct = filterSellerProductsRules.getProducts();
 
     /**
      * when - threeMonthPeriod
@@ -82,7 +82,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByRegisterPeriod(threeMonthPeriod);
 
-    List<IProductSummarize> actualThreeMonthPeriodFilteredProduct = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualThreeMonthPeriodFilteredProduct = filterSellerProductsRules.getProducts();
 
     /**
      * then
@@ -113,7 +113,7 @@ public class FilterSellerProductsRulesTest {
     String nullCategory = null;
     Mockito.when(filterSellerProductsGatewayMock.getAllSellerProducts(Mockito.anyLong())).thenReturn(getProductsListToTestFilterByCategory());
     Mockito.when(filterSellerProductsGatewayMock.isSellerFind(Mockito.anyLong())).thenReturn(true);
-    IFilterSellerProductsRules filterSellerProductsRules = new FilterSellerProductsRuleImpl(filterSellerProductsGatewayMock);
+    ISellerProductsManagerRules filterSellerProductsRules = new SellerProductsManagerRuleImpl(filterSellerProductsGatewayMock);
 
     String bookCategory = "bk";
     String clotheCategory = "cl";
@@ -125,7 +125,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductCategory(nullCategory);
 
-    List<IProductSummarize> actualnullCategoryilteredProduct = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualnullCategoryilteredProduct = filterSellerProductsRules.getProducts();
 
     /**
      * when - bookCategory
@@ -134,7 +134,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductCategory(bookCategory);
 
-    List<IProductSummarize> actualBookCategoryFilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualBookCategoryFilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - clotheCategory
@@ -143,7 +143,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductCategory(clotheCategory);
 
-    List<IProductSummarize> actualClotheCategoryFilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualClotheCategoryFilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - gameCategory
@@ -152,18 +152,18 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductCategory(gameCategory);
 
-    List<IProductSummarize> actualGameCategoryFilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualGameCategoryFilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * then
      */
-    Assertions.assertEquals(5, actualnullCategoryilteredProduct.size());
+    Assertions.assertEquals(9, actualnullCategoryilteredProduct.size());
 
     Assertions.assertEquals(2, actualBookCategoryFilteredProducts.size());
     Assertions.assertEquals("Product C", actualBookCategoryFilteredProducts.get(0).getProductName());
     Assertions.assertEquals("Product D", actualBookCategoryFilteredProducts.get(1).getProductName());
 
-    Assertions.assertEquals(1, actualClotheCategoryFilteredProducts.size());
+    Assertions.assertEquals(5, actualClotheCategoryFilteredProducts.size());
     Assertions.assertEquals("Product E", actualClotheCategoryFilteredProducts.get(0).getProductName());
 
     Assertions.assertEquals(2, actualGameCategoryFilteredProducts.size());
@@ -184,10 +184,14 @@ public class FilterSellerProductsRulesTest {
     String name4 = "product E";
     String name5 = "PRoduct e";
     String name6 = "toto";
+    String name7 = "lélé";
+    String name8 = "lelé";
+    String name9 = "lele";
+    String name10 = "lelel";
 
     Mockito.when(filterSellerProductsGatewayMock.getAllSellerProducts(Mockito.anyLong())).thenReturn(getProductsListToTestFilterByCategory());
     Mockito.when(filterSellerProductsGatewayMock.isSellerFind(Mockito.anyLong())).thenReturn(true);
-    IFilterSellerProductsRules filterSellerProductsRules = new FilterSellerProductsRuleImpl(filterSellerProductsGatewayMock);
+    ISellerProductsManagerRules filterSellerProductsRules = new SellerProductsManagerRuleImpl(filterSellerProductsGatewayMock);
 
 
 
@@ -198,7 +202,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(nullName);
 
-    List<IProductSummarize> actualNullNameFilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualNullNameFilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - name is pro
@@ -207,7 +211,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(name1);
 
-    List<IProductSummarize> actualName1FilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualName1FilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - name is product
@@ -216,7 +220,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(name2);
 
-    List<IProductSummarize> actualName2FilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualName2FilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * When - name is PRODUCT
@@ -226,7 +230,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(name3);
 
-    List<IProductSummarize> actualName3FilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualName3FilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - name is product E
@@ -235,7 +239,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(name4);
 
-    List<IProductSummarize> actualName4FilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualName4FilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - name is PRoduct E
@@ -244,7 +248,7 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(name5);
 
-    List<IProductSummarize> actualName5FilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualName5FilteredProducts = filterSellerProductsRules.getProducts();
 
     /**
      * when - name is toto
@@ -253,17 +257,59 @@ public class FilterSellerProductsRulesTest {
     filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
     filterSellerProductsRules.filterByProductName(name6);
 
-    List<IProductSummarize> actualName6FilteredProducts = filterSellerProductsRules.filteredProducts();
+    List<IProductSummarize> actualName6FilteredProducts = filterSellerProductsRules.getProducts();
+
+    /**
+     * when - name is lélé
+     */
+    filterSellerProductsRules.initialiseRule();
+    filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
+    filterSellerProductsRules.filterByProductName(name7);
+
+    List<IProductSummarize> actualName7FilteredProducts = filterSellerProductsRules.getProducts();
+
+    /**
+     * when - name is lelé
+     */
+    filterSellerProductsRules.initialiseRule();
+    filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
+    filterSellerProductsRules.filterByProductName(name8);
+
+    List<IProductSummarize> actualName8FilteredProducts = filterSellerProductsRules.getProducts();
+
+    /**
+     * when - name is lele
+     */
+    filterSellerProductsRules.initialiseRule();
+    filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
+    filterSellerProductsRules.filterByProductName(name9);
+
+    List<IProductSummarize> actualName9FilteredProducts = filterSellerProductsRules.getProducts();
+
+    /**
+     * when - name is lelel
+     */
+    filterSellerProductsRules.initialiseRule();
+    filterSellerProductsRules.getSellerProducts(Mockito.anyLong());
+    filterSellerProductsRules.filterByProductName(name10);
+
+    List<IProductSummarize> actualName10FilteredProducts = filterSellerProductsRules.getProducts();
+
 
     /**
      * then
      */
-    Assertions.assertEquals(5, actualNullNameFilteredProducts.size());
+    Assertions.assertEquals(9, actualNullNameFilteredProducts.size());
     Assertions.assertEquals(5, actualName1FilteredProducts.size());
     Assertions.assertEquals(5, actualName2FilteredProducts.size());
     Assertions.assertEquals(5, actualName3FilteredProducts.size());
     Assertions.assertEquals(1, actualName4FilteredProducts.size());
     Assertions.assertEquals(1, actualName5FilteredProducts.size());
+    Assertions.assertEquals(4, actualName7FilteredProducts.size());
+    Assertions.assertEquals(4, actualName8FilteredProducts.size());
+    Assertions.assertEquals(4, actualName9FilteredProducts.size());
+    Assertions.assertEquals(0, actualName10FilteredProducts.size());
+
     Assertions.assertTrue(actualName6FilteredProducts.isEmpty());
   }
 
@@ -282,7 +328,11 @@ public class FilterSellerProductsRulesTest {
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product B", LocalDate.now().minusMonths(6), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "ga"),
             new ProductDetailImpl(3, "/images/3.png", 300.0, "Product C", LocalDate.now().minusDays(10), null, 0.0, "AVAILABLE", "bk"),
             new ProductDetailImpl(2, "/images/2.png", 200.0, "Product D", LocalDate.now().minusDays(45), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "bk"),
-            new ProductDetailImpl(2, "/images/2.png", 200.0, "Product E", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl")
+            new ProductDetailImpl(2, "/images/2.png", 200.0, "Product E", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl"),
+            new ProductDetailImpl(2, "/images/2.png", 200.0, "lélé E", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl"),
+            new ProductDetailImpl(2, "/images/2.png", 200.0, "pleleE", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl"),
+            new ProductDetailImpl(2, "/images/2.png", 200.0, "leleE", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl"),
+            new ProductDetailImpl(2, "/images/2.png", 200.0, "eléléE", LocalDate.now().minusDays(62), LocalDate.of(2023, 2, 15), 250.0, "SOLD", "cl")
     );
   }
 }

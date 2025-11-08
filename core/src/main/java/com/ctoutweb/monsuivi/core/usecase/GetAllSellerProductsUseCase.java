@@ -1,33 +1,40 @@
 package com.ctoutweb.monsuivi.core.usecase;
 
 import com.ctoutweb.monsuivi.core.annotation.CoreService;
-import com.ctoutweb.monsuivi.core.exception.CoreException;
+import com.ctoutweb.monsuivi.core.factory.InstanceLoader;
+import com.ctoutweb.monsuivi.core.port.common.ISellerProductsManagerGateway;
+import com.ctoutweb.monsuivi.core.rule.ISellerProductsManagerRules;
 import com.ctoutweb.monsuivi.core.usecase.base.IUseCase;
 import com.ctoutweb.monsuivi.core.usecase.base.InputBase;
 import com.ctoutweb.monsuivi.core.usecase.base.OutputBase;
-import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsGateway;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsInput;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
 
 @CoreService
 public class GetAllSellerProductsUseCase implements IUseCase<GetAllSellerProductsUseCase.Input, GetAllSellerProductsUseCase.Output> {
-  private final IGetAllProductsGateway getAllProductsGateway;
 
-  public GetAllSellerProductsUseCase(IGetAllProductsGateway getAllProductsGateway) {
-    this.getAllProductsGateway = getAllProductsGateway;
+  private final ISellerProductsManagerRules sellerProductsManagerRules;
+
+  public GetAllSellerProductsUseCase(ISellerProductsManagerGateway sellerProductsManagerGateway) {
+    sellerProductsManagerRules = InstanceLoader.getCoreFactory().getSellerProductsManagerRuleImpl(sellerProductsManagerGateway);
+
   }
   @Override
   public Output execute(Input input) {
-    IGetAllProductsInput getAllProductsInput = input.getUsecaseInput();
+    long sellerId = input.getUsecaseInput().getUserId();
+    boolean areSoldProductVisible = input.getUsecaseInput().getAreSoldProductVisible();
 
-    if(this.getAllProductsGateway.isSellerFind(getAllProductsInput.getUserId()) != true)
-      throw new CoreException("Utilisateur inconnu");
+    var sellerProducts = sellerProductsManagerRules
+            .getSellerProducts(sellerId)
+            .filterByAreSoldProductVisible(areSoldProductVisible)
+            .getProducts();
 
-    var getAllProducts = getAllProductsGateway.getAllProducts(
-            getAllProductsInput.getUserId(),
-            "La liste de vos produits");
+    var productsResponse = InstanceLoader.getCoreFactory().getGetAllProductsOutputImpl(
+            "La liste de vos produits",
+            sellerProducts
+    );
 
-    return new Output(getAllProducts);
+    return new Output(productsResponse);
   }
   public static class Input extends InputBase<IGetAllProductsInput> implements IUseCase.Input {
     public Input(IGetAllProductsInput productsInput) {
