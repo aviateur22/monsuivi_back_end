@@ -6,7 +6,8 @@ public record FilterSellerProductsInputImpl(
         long sellerId,
         String filterProductByNameInput,
         String filterProductByCategoryInput,
-        Short filterPeriodInDay
+        Short filterPeriodInDay,
+        boolean areSoldProductVisible
 
 ) implements IFilterSellerProductsInput {
   @Override
@@ -27,5 +28,10 @@ public record FilterSellerProductsInputImpl(
   @Override
   public Short getFilterPeriodInDayInput() {
     return filterPeriodInDay;
+  }
+
+  @Override
+  public boolean getAreSoldProductVisible() {
+    return areSoldProductVisible;
   }
 }

@@ -3,8 +3,8 @@ package com.ctoutweb.monsuivi.core.usecase;
 import com.ctoutweb.monsuivi.core.annotation.CoreService;
 import com.ctoutweb.monsuivi.core.factory.CoreFactory;
 import com.ctoutweb.monsuivi.core.factory.InstanceLoader;
-import com.ctoutweb.monsuivi.core.rule.IFilterSellerProductsRules;
-import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsGateway;
+import com.ctoutweb.monsuivi.core.rule.ISellerProductsManagerRules;
+import com.ctoutweb.monsuivi.core.port.common.ISellerProductsManagerGateway;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsInput;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsOutput;
 import com.ctoutweb.monsuivi.core.usecase.base.IUseCase;
@@ -13,13 +13,13 @@ import com.ctoutweb.monsuivi.core.usecase.base.OutputBase;
 
 @CoreService
 public class FilterSellerProductsUseCase implements IUseCase<FilterSellerProductsUseCase.Input, FilterSellerProductsUseCase.Output> {
-  private final IFilterSellerProductsGateway filterSellerProductsGateway;
+  private final ISellerProductsManagerGateway filterSellerProductsGateway;
   private final CoreFactory coreFactory = InstanceLoader.getCoreFactory();
-  private IFilterSellerProductsRules filterSellerProductsRule;
+  private ISellerProductsManagerRules filterSellerProductsRule;
 
-  public FilterSellerProductsUseCase(IFilterSellerProductsGateway filterSellerProductsGateway) {
+  public FilterSellerProductsUseCase(ISellerProductsManagerGateway filterSellerProductsGateway) {
     this.filterSellerProductsGateway = filterSellerProductsGateway;
-    filterSellerProductsRule = coreFactory.getFilterSellerProductsRuleImpl(filterSellerProductsGateway);
+    filterSellerProductsRule = coreFactory.getSellerProductsManagerRuleImpl(filterSellerProductsGateway);
   }
 
   @Override
@@ -28,6 +28,7 @@ public class FilterSellerProductsUseCase implements IUseCase<FilterSellerProduct
     String filterByProductName= input.getUsecaseInput().getFilterProductByNameInput();
     String filterByProductCategoryInput = input.getUsecaseInput().getFilterProductByCategoryInput();
     Short filterByPeriodInDayInput = input.getUsecaseInput().getFilterPeriodInDayInput();
+    boolean areProductSoldVisible = input.getUsecaseInput().getAreSoldProductVisible();
 
     var productFilteredList = filterSellerProductsRule
             .initialiseRule()
@@ -35,7 +36,8 @@ public class FilterSellerProductsUseCase implements IUseCase<FilterSellerProduct
             .filterByProductName(filterByProductName)
             .filterByProductCategory(filterByProductCategoryInput)
             .filterByRegisterPeriod(filterByPeriodInDayInput)
-            .filteredProducts();
+            .filterByAreSoldProductVisible(areProductSoldVisible)
+            .getProducts();
 
     return new Output(coreFactory.getFilterSellerProductsOutputImpl("La liste est filtrée", productFilteredList));
   }

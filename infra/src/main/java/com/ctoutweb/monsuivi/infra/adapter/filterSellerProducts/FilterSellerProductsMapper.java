@@ -35,7 +35,8 @@ public class FilterSellerProductsMapper {
             sellerId,
             dto.filterByName(),
             dto.filterByCategoryCode(),
-            mapDtoPeriodToPeriodInDay(dto.filterByRegisterPeriod())
+            mapDtoPeriodToPeriodInDay(dto.filterByRegisterPeriod()),
+            dto.areSoldProductVisible()
     );
 
   }

@@ -5,14 +5,14 @@ import com.ctoutweb.monsuivi.core.entity.chart.*;
 import com.ctoutweb.monsuivi.core.entity.chart.impl.*;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsOutput;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.impl.FilterSellerProductsOutputImpl;
-import com.ctoutweb.monsuivi.core.rule.IFilterSellerProductsRules;
+import com.ctoutweb.monsuivi.core.rule.ISellerProductsManagerRules;
 import com.ctoutweb.monsuivi.core.entity.product.IProductDesactivate;
 import com.ctoutweb.monsuivi.core.entity.product.IProductDetail;
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 import com.ctoutweb.monsuivi.core.entity.product.impl.ProductDesacativateImpl;
 import com.ctoutweb.monsuivi.core.entity.product.impl.ProductDetailImpl;
 import com.ctoutweb.monsuivi.core.entity.product.impl.ProductSummarizeImpl;
-import com.ctoutweb.monsuivi.core.rule.impl.FilterSellerProductsRuleImpl;
+import com.ctoutweb.monsuivi.core.rule.impl.SellerProductsManagerRuleImpl;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAndMonth.ISoldAndBuyProductPriceByCategoryAndMonthInput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAndMonth.ISoldAndBuyProductPriceByCategoryAndMonthOutput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductPriceByCategoryAndMonth.impl.SoldAndBuyProductPriceByCategoryAndMonthInputImpl;
@@ -49,7 +49,7 @@ import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductInp
 import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductOutput;
 import com.ctoutweb.monsuivi.core.port.desactivateProduct.impl.DesactivateProductInputImpl;
 import com.ctoutweb.monsuivi.core.port.desactivateProduct.impl.DesactivateProductOutputImpl;
-import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsGateway;
+import com.ctoutweb.monsuivi.core.port.common.ISellerProductsManagerGateway;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsInput;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.impl.FilterSellerProductsInputImpl;
 import com.ctoutweb.monsuivi.core.port.getAllSellerProducts.IGetAllProductsOutput;
@@ -380,18 +380,19 @@ public class CoreFactory {
   /**
    * Filtrage des Seller products
    */
-  public IFilterSellerProductsRules getFilterSellerProductsRuleImpl(IFilterSellerProductsGateway filterSellerProductsGateway) {
-    return new FilterSellerProductsRuleImpl(filterSellerProductsGateway);
+  public ISellerProductsManagerRules getSellerProductsManagerRuleImpl(ISellerProductsManagerGateway filterSellerProductsGateway) {
+    return new SellerProductsManagerRuleImpl(filterSellerProductsGateway);
   }
 
   public IFilterSellerProductsInput getFilterSellerProductsInputImpl(
           long sellerId,
           String filterProductByNameInput,
           String filterProductByCategoryInput,
-          Short filterPeriodInDay
+          Short filterPeriodInDay,
+          boolean areSoldProductVisible
   ) {
     return new FilterSellerProductsInputImpl(
-            sellerId, filterProductByNameInput, filterProductByCategoryInput, filterPeriodInDay
+            sellerId, filterProductByNameInput, filterProductByCategoryInput, filterPeriodInDay, areSoldProductVisible
     );
   }
 
