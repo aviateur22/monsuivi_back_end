@@ -191,7 +191,7 @@
                 <aws.bucket.name>lalamiam-app</aws.bucket.name>
 
                 <!--Cors -->
-                <cors.domains>http://localhost:4200,http://localhost:4200</cors.domains>
+                <cors.domains>https://moe.cbasic.fr,http://moe.cbasic.fr,http://localhost:4200</cors.domains>
 
                 <!--File-->
                 <max.file.size>10MB</max.file.size>
