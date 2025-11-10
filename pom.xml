@@ -6,7 +6,7 @@
 
     <groupId>com.ctoutweb.monsuivi</groupId>
     <artifactId>MonSuivi</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
