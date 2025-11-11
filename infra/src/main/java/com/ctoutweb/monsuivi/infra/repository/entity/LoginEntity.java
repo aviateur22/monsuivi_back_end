@@ -27,6 +27,17 @@ public class LoginEntity {
   @JoinColumn(name="seller_id", nullable=false)
   private SellerEntity seller;
 
+  public LoginEntity() {
+
+  }
+
+  public LoginEntity(boolean hasToBeCheck, boolean isLoginSuccess, ZonedDateTime loginAt, SellerEntity seller) {
+    this.hasToBeCheck = hasToBeCheck;
+    this.isLoginSuccess = isLoginSuccess;
+    this.loginAt = loginAt;
+    this.seller = seller;
+  }
+
   public Long getId() {
     return id;
   }

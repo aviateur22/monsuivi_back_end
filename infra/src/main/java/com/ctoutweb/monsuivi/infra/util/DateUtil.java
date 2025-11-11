@@ -10,12 +10,41 @@ import java.util.Locale;
 public class DateUtil {
   /**
    * Convertion d'une LocalDateTime to ZonedDateTime with specific ZoneId
+   *
    * @param zoneId
    * @param localDateTime
+   *
    * @return ZonedDateTime
    */
   public static ZonedDateTime localDateTimeToZonedDateTime(ZoneId zoneId, LocalDateTime localDateTime) {
     return localDateTime.atZone(zoneId);
+  }
+
+  /**
+   * Convertion d'une ZoneDateTime UTC to ZonedDateTime with specific ZoneId
+   *
+   * @param zoneId Identitifiant de la zone souhaité
+   * @param utcTime Heure en UTC
+   *
+   * @return ZonedDateTime
+   */
+  public static ZonedDateTime uctToZonedDateTime(ZoneId zoneId, ZonedDateTime utcTime) {
+    if(utcTime == null)
+      return null;
+
+    return utcTime.withZoneSameInstant(zoneId);
+  }
+
+  /**
+   * Formatte la date en date et HHmm
+   *
+   * @param time - LocalDateTime
+   *
+   * @return String
+   */
+  public static String toDateHour(ZonedDateTime time) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    return time.toLocalDateTime().format(formatter);
   }
 
   /**

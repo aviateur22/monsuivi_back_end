@@ -1,11 +1,14 @@
 package com.ctoutweb.monsuivi.infra.config;
 
+import com.ctoutweb.monsuivi.infra.config.authentication.CustomAuthenicationProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,11 +23,13 @@ public class WebSecurityConfig {
   private static final Logger LOGGER = LogManager.getLogger();
   @Value("${api.version}")
   private String apiVersion;
+  private final CustomAuthenicationProvider customAuthProvider;
   private final CorsConfigurationSource corsConfigurationSource;
   private final AccessDeniedHandler accessDeniedHandler;
   private final AuthenticationEntryPoint authenticationEntryPoint;
-  public WebSecurityConfig(@Qualifier("corsConfiguration") CorsConfigurationSource corsConfigurationSource, AccessDeniedHandler accessDeniedHandler, AuthenticationEntryPoint authenticationEntryPoint) {
-    this.corsConfigurationSource = corsConfigurationSource;
+  public WebSecurityConfig(CustomAuthenicationProvider customAuthProvider, @Qualifier("corsConfiguration") CorsConfigurationSource corsConfigurationSource, AccessDeniedHandler accessDeniedHandler, AuthenticationEntryPoint authenticationEntryPoint) {
+      this.customAuthProvider = customAuthProvider;
+      this.corsConfigurationSource = corsConfigurationSource;
     this.accessDeniedHandler = accessDeniedHandler;
     this.authenticationEntryPoint = authenticationEntryPoint;
   }
@@ -42,12 +47,19 @@ public class WebSecurityConfig {
             .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(request->request
                     .requestMatchers(
+                            apiVersion+"/auth/**",
                             apiVersion+"/products/**",
                             apiVersion+"/charts/**",
                             apiVersion+"/api").permitAll()
                     .anyRequest().authenticated());
 
     return http.build();
+  }
 
+  @Bean
+  AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+    return http.getSharedObject(AuthenticationManagerBuilder.class)
+            .authenticationProvider(customAuthProvider)
+            .build();
   }
 }
