@@ -8,6 +8,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class CorsConfig {
@@ -31,7 +32,8 @@ public class CorsConfig {
     productCorsConfig.setAllowCredentials(true);
     productCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
     productCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
-    productCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
+    productCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Post-Csrf-Token"));
+    productCorsConfig.setExposedHeaders(List.of("Post-Csrf-Token"));
     source.registerCorsConfiguration(apiVersion+"/products/**", productCorsConfig);
     //source.registerCorsConfiguration("/"+ applicationName+apiVersion+"/products/**", productCorsConfig);
 
@@ -40,9 +42,18 @@ public class CorsConfig {
     chartsCorsConfig.setAllowCredentials(true);
     chartsCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
     chartsCorsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
-    chartsCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type"));
+    chartsCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Post-Csrf-Token"));
+    productCorsConfig.setExposedHeaders(List.of("Post-Csrf-Token"));
     source.registerCorsConfiguration(apiVersion+"/charts/**", chartsCorsConfig);
 
-    return source;
+  // Configuration Cors pour la gestion des auth
+  CorsConfiguration authCorsConfig = new CorsConfiguration();
+  authCorsConfig.setAllowCredentials(true);
+  authCorsConfig.setAllowedOrigins(Arrays.asList(corsDomains.split(",")));
+  authCorsConfig.setAllowedMethods(Arrays.asList("POST"));
+  authCorsConfig.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "Post-Csrf-Token"));
+  authCorsConfig.setExposedHeaders(List.of("Post-Csrf-Token"));
+  source.registerCorsConfiguration(apiVersion+"/auth/**", authCorsConfig);
+  return source;
   }
 }

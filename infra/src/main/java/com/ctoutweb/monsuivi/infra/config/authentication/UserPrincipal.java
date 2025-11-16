@@ -34,6 +34,16 @@ public class UserPrincipal  implements UserDetails, UserLoginProcess {
         this.isAccountActive = isAccountActive;
     }
 
+    public UserPrincipal(
+            long id,
+            String email,
+            List<SimpleGrantedAuthority> authorities
+    ) {
+        this.id = id;
+        this.email = email;
+        this.authorities = authorities;
+    }
+
     /**
      * convertion list<RoleSellerEntity> en List<GrantedAuthority>
      *
@@ -77,7 +87,6 @@ public class UserPrincipal  implements UserDetails, UserLoginProcess {
     public String getUsername() {
         return email;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

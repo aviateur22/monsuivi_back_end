@@ -1,7 +1,7 @@
 package com.ctoutweb.monsuivi.infra.config.authentication;
 
 /**
- * Contrat permattant de recupérer les données d'un utilisateur en cours de connexion
+ * Contrat permattant de transferer les données d'un utilisateur en cours de connexion
  */
 public interface UserLoginProcess {
 

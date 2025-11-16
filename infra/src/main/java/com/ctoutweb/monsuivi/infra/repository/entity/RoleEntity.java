@@ -24,6 +24,13 @@ public class RoleEntity {
   @Column(name = "updated_at")
   private ZonedDateTime updatedAt;
 
+  public RoleEntity() {
+  }
+
+  public RoleEntity(Integer id) {
+    this.id = id;
+  }
+
   public Integer getId() {
     return id;
   }

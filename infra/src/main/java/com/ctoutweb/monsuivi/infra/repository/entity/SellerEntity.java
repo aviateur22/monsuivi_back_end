@@ -46,6 +46,12 @@ public class SellerEntity {
     this.id = id;
   }
 
+  public SellerEntity(String email, String hashPassword, String nickname) {
+    this.email = email;
+    this.password = hashPassword;
+    this.nickname = nickname;
+  }
+
   public Long getId() {
     return id;
   }

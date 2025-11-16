@@ -49,11 +49,11 @@ public class JwtServiceImpl implements IJwtService {
                 .collect(Collectors.toList());
 
         String token = JWT.create()
-                .withSubject(userPrincipal.getUsername())
+                .withSubject("seller")
                 .withJWTId(jwtId)
                 .withIssuer(jwtIssuer)
                 .withExpiresAt(expiredAt)
-                .withClaim("userId", userPrincipal.getId())
+                .withClaim("id", userPrincipal.getId())
                 .withClaim("authorities", authorities)
                 .sign(Algorithm.HMAC256(jwtSecret));
 
@@ -62,7 +62,9 @@ public class JwtServiceImpl implements IJwtService {
 
     @Override
     public DecodedJWT validateAndDecode(String token) {
-        return null;
+        return JWT.require(Algorithm.HMAC256(jwtSecret))
+            .build()
+            .verify(token);
     }
 
     @Override

@@ -33,6 +33,14 @@ public class RoleSellerEntity {
   @JoinColumn(name="role_id", nullable=false)
   private RoleEntity role;
 
+  public RoleSellerEntity() {
+  }
+
+  public RoleSellerEntity(SellerEntity seller, RoleEntity role) {
+    this.seller = seller;
+    this.role = role;
+  }
+
   public Long getId() {
     return id;
   }
