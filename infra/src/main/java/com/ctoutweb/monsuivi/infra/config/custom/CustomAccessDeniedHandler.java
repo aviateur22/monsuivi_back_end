@@ -23,7 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     LOGGER.debug(()->String.format("[CustomAccessDeniedHandler]-[handle] exception: %s", accessDeniedException.getMessage()));
     Map<String, String> errorResponse = new HashMap<>();
-    errorResponse.put("error",accessDeniedException.getMessage());
+    errorResponse.put("error","Vous ne pouvez pas accéder à cette demande");
     ObjectMapper mapper = new ObjectMapper();
     response.getOutputStream().write(mapper.writeValueAsBytes(errorResponse));
   }

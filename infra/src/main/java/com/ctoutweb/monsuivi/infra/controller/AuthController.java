@@ -8,10 +8,7 @@ import com.ctoutweb.monsuivi.infra.dto.response.response.IResponseMessage;
 import com.ctoutweb.monsuivi.infra.service.IAuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${api.version}/auth")
@@ -28,7 +25,7 @@ public class AuthController {
     ResponseEntity<IResponseMessage> login(@RequestBody RegisterSellerDto dto) {
         dtoValidator.validateDto(dto);
 
-        IResponseMessage responseMessage = authService.RegisterSeller(dto);
+        IResponseMessage responseMessage = authService.registerSeller(dto);
 
         return new ResponseEntity<>(responseMessage, HttpStatus.CREATED);
     }
@@ -41,4 +38,11 @@ public class AuthController {
 
         return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
     }
+
+    @PostMapping("/logout/{sellerId}")
+    ResponseEntity<IResponseMessage> logout(@PathVariable("sellerId") long sellerId) {
+        IResponseMessage logutMessage = authService.logout(sellerId);
+        return new ResponseEntity<>(logutMessage, HttpStatus.OK);
+    }
+
 }

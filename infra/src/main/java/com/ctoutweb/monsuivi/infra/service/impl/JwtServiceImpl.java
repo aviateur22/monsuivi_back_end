@@ -10,6 +10,8 @@ import com.ctoutweb.monsuivi.infra.repository.IJwtRepository;
 import com.ctoutweb.monsuivi.infra.repository.entity.JwtEntity;
 import com.ctoutweb.monsuivi.infra.repository.entity.SellerEntity;
 import com.ctoutweb.monsuivi.infra.service.IJwtService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +19,14 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class JwtServiceImpl implements IJwtService {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Value("${jwt.validity.hour}")
     Long jwtValidity;
     @Value("${jwt.secret.key}")
@@ -61,15 +66,22 @@ public class JwtServiceImpl implements IJwtService {
     }
 
     @Override
-    public DecodedJWT validateAndDecode(String token) {
-        return JWT.require(Algorithm.HMAC256(jwtSecret))
-            .build()
-            .verify(token);
+    public Optional<DecodedJWT> validateAndDecode(String token) {
+        try{
+            return Optional.of(JWT
+                    .require(Algorithm.HMAC256(jwtSecret))
+                    .build()
+                    .verify(token));
+        } catch (Exception exception) {
+            LOGGER.error(exception.getMessage());
+            return Optional.empty();
+        }
     }
 
     @Override
-    public void deleteJwtByUserEmail(String email) {
-
+    public void deleteJwtBySellerId(long sellerId) {
+        SellerEntity logoutSeller = new SellerEntity(sellerId);
+        jwtRepository.deleteBySeller(logoutSeller);
     }
 
     @Override
@@ -86,5 +98,13 @@ public class JwtServiceImpl implements IJwtService {
         insertJwtLogin.setIsValid(true);
 
         jwtRepository.save(insertJwtLogin);
+    }
+
+    @Override
+    public boolean isJwtUuidValid(String jwtUuid) {
+        return jwtRepository
+                .findFirstByJwtId(jwtUuid)
+                .map(JwtEntity::getIsValid)
+                .orElse(false);
     }
 }

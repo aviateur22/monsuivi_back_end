@@ -25,5 +25,14 @@ public interface IAuthService {
      *
      * @return Le message d'enregistrement
      */
-    IResponseMessage RegisterSeller(RegisterSellerDto dto);
+    IResponseMessage registerSeller(RegisterSellerDto dto);
+
+    /**
+     * Déconnexion d'un utilisateur
+     *
+     * @param sellerId L'identifiant de l'utilisateur
+     *
+     * @return Le message de deconnexion
+     */
+    IResponseMessage logout(long sellerId);
 }

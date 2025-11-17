@@ -9,6 +9,8 @@ import com.ctoutweb.monsuivi.infra.dto.response.response.ResponseMessageImpl;
 import com.ctoutweb.monsuivi.infra.exception.AuthenicationException;
 import com.ctoutweb.monsuivi.infra.exception.RegisterException;
 import com.ctoutweb.monsuivi.infra.model.jwt.JwtGenerated;
+import com.ctoutweb.monsuivi.infra.repository.ISellerRepository;
+import com.ctoutweb.monsuivi.infra.repository.entity.SellerEntity;
 import com.ctoutweb.monsuivi.infra.service.IAuthService;
 import com.ctoutweb.monsuivi.infra.service.IJwtService;
 import com.ctoutweb.monsuivi.infra.model.RegisterSeller;
@@ -20,14 +22,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements IAuthService {
+    private final ISellerRepository sellerRepository;
     private final AuthenticationManager authenticationManager;
     private final IJwtService jwtService;
     private final RegisterSeller registerSeller;
-    public AuthServiceImpl(AuthenticationManager authenticationManager, IJwtService jwtService, RegisterSeller registerSeller) {
+
+    public AuthServiceImpl(
+            ISellerRepository sellerRepository,
+            AuthenticationManager authenticationManager,
+            IJwtService jwtService,
+            RegisterSeller registerSeller) {
+        this.sellerRepository = sellerRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.registerSeller = registerSeller;
@@ -53,12 +64,23 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     @Transactional
-    public IResponseMessage RegisterSeller(RegisterSellerDto dto) throws RegisterException {
+    public IResponseMessage registerSeller(RegisterSellerDto dto) throws RegisterException {
 
         if(!registerSeller.isRegisterEmailAvailable(dto.email()))
             throw new RegisterException(String.format("L'email %s est déja utilisé", dto.email()));
 
         registerSeller.registerSeller(dto);
         return new ResponseMessageImpl("Félicitation votre compte est créé.");
+    }
+
+    @Override
+    @Transactional
+    public IResponseMessage logout(long sellerId) {
+        jwtService.deleteJwtBySellerId(sellerId);
+        String logoutMessage = sellerRepository.findById(sellerId)
+                .map(seller -> String.format("A bientôt %s", seller.getNickname()))
+                .orElse("A bientôt");
+
+        return new ResponseMessageImpl(logoutMessage);
     }
 }

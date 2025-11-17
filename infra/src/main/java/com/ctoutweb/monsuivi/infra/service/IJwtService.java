@@ -4,6 +4,8 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ctoutweb.monsuivi.infra.config.authentication.UserPrincipal;
 import com.ctoutweb.monsuivi.infra.model.jwt.JwtGenerated;
 
+import java.util.Optional;
+
 
 public interface IJwtService {
 
@@ -23,14 +25,14 @@ public interface IJwtService {
    *
    * @return Le jwt decodé
    */
-  public DecodedJWT validateAndDecode(String token);
+  public Optional<DecodedJWT> validateAndDecode(String token);
 
   /**
    * Suppression d'un JWT a partir d'un email
    *
-   * @param email L'email corresponsant au jwt
+   * @param SellerId L'identifiant du vendeur
    */
-  public void deleteJwtByUserEmail(String email);
+  public void deleteJwtBySellerId(long SellerId);
 
   /**
    * Sauvegarde d'un JWT
@@ -40,5 +42,14 @@ public interface IJwtService {
    * @param email String Email de la personne
    */
   public void saveJwt(Long userId, JwtGenerated jwt, String email);
+
+  /**
+   * Vérification si un JWT est bien présent et valide en base pour poursuivre une requete
+   *
+   * @param jwtUuid L'identifiant du JWT
+   *
+   * @return Treu si le JWT est en base et valide
+   */
+  public boolean isJwtUuidValid(String jwtUuid);
 
 }
