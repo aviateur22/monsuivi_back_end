@@ -7,9 +7,10 @@ import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
 import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
 import com.ctoutweb.monsuivi.infra.dto.response.ProductUpdateResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 
 public interface IProductService {
-  GetSellerProductsDtoReponse getAllSellerProducts(long sellerId, boolean areSoldProductVisible);
+  GetSellerProductsDtoReponse getAllSellerProducts(long sellerId);
   void streamProductImage(String imagePath, HttpServletResponse httpResponse);
   DesactivateProductDtoResponse desactivateProduct(long product, long sellerId);
   GetProductDetailResponseDto getDetailProduct(long product, long sellerId);

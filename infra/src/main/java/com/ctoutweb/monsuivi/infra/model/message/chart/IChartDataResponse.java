@@ -1,7 +1,7 @@
 package com.ctoutweb.monsuivi.infra.model.message.chart;
 
 import com.ctoutweb.monsuivi.infra.model.chart.IChart;
-import com.ctoutweb.monsuivi.infra.model.message.response.IResponseMessage;
+import com.ctoutweb.monsuivi.infra.dto.response.response.IResponseMessage;
 
 /**
  * Renvoie les données du composant graphique et un message

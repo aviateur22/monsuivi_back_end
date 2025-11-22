@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionHandlerWrapper {
   private static final Logger LOGGER = LogManager.getLogger();
+
   private final InfraFactory infraFactory;
   public ExceptionHandlerWrapper(InfraFactory infraFactory) {
     this.infraFactory = infraFactory;
@@ -44,6 +45,22 @@ public class ExceptionHandlerWrapper {
     LOGGER.error(()->exception);
     return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
   }
+
+  @ExceptionHandler(value = {AuthenicationException.class})
+  public  ResponseEntity<IErrorMessage> authenicationException(AuthenicationException exception) {
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(value = {RegisterException.class})
+  public  ResponseEntity<IErrorMessage> registerException(RegisterException exception) {
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.CONFLICT);
+  }
+
+  @ExceptionHandler(value = {AuthorizationException.class})
+  public  ResponseEntity<IErrorMessage> authorizationException(AuthorizationException exception) {
+    return new ResponseEntity<>(infraFactory.getErrorMessageImpl(exception.getMessage()), HttpStatus.UNAUTHORIZED);
+  }
+
   /**
    * Capture l'exception d'un champs manquant (Dto à null) avant l'éxecution du DtoValidator
    * @param exception  MethodArgumentNotValidException
@@ -53,7 +70,8 @@ public class ExceptionHandlerWrapper {
   public ResponseEntity<IErrorMessage> handleValidationErrors(MethodArgumentNotValidException exception) {
     LOGGER.error(String.format("[ExceptionHandlerWrapper] - handleValidationErrors: %s ", exception));
     return new ResponseEntity<>(infraFactory.getErrorMessageImpl("Des données sont manquantes pour compléter la demande"), HttpStatus.BAD_REQUEST);
-
   }
+
+
 
 }

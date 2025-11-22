@@ -35,6 +35,15 @@ public class SellerAccountEntity {
   @JoinColumn(name = "seller_id", referencedColumnName = "id")
   private SellerEntity seller;
 
+  public SellerAccountEntity() {
+  }
+
+  public SellerAccountEntity(SellerEntity seller, Boolean isAccountActive, ZonedDateTime accountActivationAt) {
+    this.seller = seller;
+    this.isAccountActive = isAccountActive;
+    this.accountActivationAt = accountActivationAt;
+  }
+
   public Long getId() {
     return id;
   }

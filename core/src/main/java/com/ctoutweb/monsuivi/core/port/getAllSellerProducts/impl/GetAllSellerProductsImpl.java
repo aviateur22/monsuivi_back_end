@@ -18,4 +18,9 @@ public record GetAllSellerProductsImpl(
   public List<IProductSummarize> getAllProducts() {
     return products;
   }
+
+  @Override
+  public long getProductQuantity() {
+    return products.size();
+  }
 }

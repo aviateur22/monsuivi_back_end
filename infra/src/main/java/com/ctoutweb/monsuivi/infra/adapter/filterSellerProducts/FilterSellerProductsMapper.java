@@ -74,7 +74,7 @@ public class FilterSellerProductsMapper {
             .map(coreProduct->mapToSummarizeProduct(coreProduct))
             .toList();
 
-    return new GetSellerProductsDtoReponse(output.getResponseMessage(), products);
+    return new GetSellerProductsDtoReponse(output.getResponseMessage(), products, products.size());
 
   }
   public ISummarizeProduct mapToSummarizeProduct(IProductSummarize productSummarize) {

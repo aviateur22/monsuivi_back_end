@@ -57,10 +57,9 @@ public class ProductController {
     return new ResponseEntity(addProductMapper.getAddProductResponseDto(output.getOutputBoundary()), HttpStatus.OK);
   }
 
-  @GetMapping("/seller/{sellerId}/sold-product-visibility/{areSoldProductVisible}")
-  public ResponseEntity getSellerProducts(@PathVariable Long sellerId, @PathVariable Boolean areSoldProductVisible) {
-    LOGGER.info("Visibilité des produit vendu" + areSoldProductVisible);
-    var sellerProducts = productService.getAllSellerProducts(sellerId, areSoldProductVisible);
+  @GetMapping("/seller/{sellerId}/all-products")
+  public ResponseEntity getSellerProductsWithoutSoldProduct(@PathVariable Long sellerId) {
+    var sellerProducts = productService.getAllSellerProducts(sellerId);
     return new ResponseEntity(sellerProducts, HttpStatus.OK);
   }
 
@@ -95,9 +94,15 @@ public class ProductController {
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }
 
-  @PostMapping("/seller/{sellerId}/filter")
+  @GetMapping("/seller/{sellerId}/filter")
   public ResponseEntity<GetSellerProductsDtoReponse> filterProductList(
-          @PathVariable Long sellerId, @RequestBody FilterSellerProductsDto filterSellerProductsDto ) {
+          @PathVariable Long sellerId,
+          @RequestParam(required = false) String filterByName,
+          @RequestParam(required = false) String filterByCategoryCode,
+          @RequestParam(required = false) Short filterByRegisterPeriod,
+          @RequestParam(required = false) Boolean areSoldProductVisible) {
+
+    FilterSellerProductsDto filterSellerProductsDto = new FilterSellerProductsDto(filterByName, filterByCategoryCode, filterByRegisterPeriod, areSoldProductVisible);
 
     GetSellerProductsDtoReponse response = productService.filterSellerProducts(sellerId, filterSellerProductsDto);
     return new ResponseEntity<>(response, HttpStatus.OK);
