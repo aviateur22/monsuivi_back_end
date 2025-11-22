@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IFilterSellerProductsOutput extends IResponsMessage {
   List<IProductSummarize> getSellerFilterProducts();
+  long getProductQuantity();
 }

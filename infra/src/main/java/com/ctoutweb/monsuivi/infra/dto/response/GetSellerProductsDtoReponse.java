@@ -6,6 +6,7 @@ import java.util.List;
 
 public record GetSellerProductsDtoReponse(
         String responseMessage,
-        List<ISummarizeProduct> sellerProducts) {
+        List<ISummarizeProduct> sellerProducts,
+        long productQuantity) {
 
 }

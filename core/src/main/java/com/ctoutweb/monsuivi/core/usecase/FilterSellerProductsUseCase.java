@@ -39,7 +39,7 @@ public class FilterSellerProductsUseCase implements IUseCase<FilterSellerProduct
             .filterByAreSoldProductVisible(areProductSoldVisible)
             .getProducts();
 
-    return new Output(coreFactory.getFilterSellerProductsOutputImpl("La liste est filtrée", productFilteredList));
+    return new Output(coreFactory.getFilterSellerProductsOutputImpl("La liste est filtrée", productFilteredList, productFilteredList.size()));
   }
 
   public static class Input extends InputBase<IFilterSellerProductsInput> implements IUseCase.Input {

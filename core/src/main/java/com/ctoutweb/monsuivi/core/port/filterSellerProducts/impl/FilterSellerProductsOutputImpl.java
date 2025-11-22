@@ -7,7 +7,8 @@ import java.util.List;
 
 public record FilterSellerProductsOutputImpl(
         String responseMessage,
-        List<IProductSummarize> productFilteredList
+        List<IProductSummarize> productFilteredList,
+        long prroductQuantity
 ) implements IFilterSellerProductsOutput {
   @Override
   public String getResponseMessage() {
@@ -17,5 +18,10 @@ public record FilterSellerProductsOutputImpl(
   @Override
   public List<IProductSummarize> getSellerFilterProducts() {
     return productFilteredList;
+  }
+
+  @Override
+  public long getProductQuantity() {
+    return prroductQuantity;
   }
 }

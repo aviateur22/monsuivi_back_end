@@ -63,10 +63,10 @@ public class ProductServiceImpl implements IProductService {
 
   @Transactional
   @Override
-  public GetSellerProductsDtoReponse getAllSellerProducts(long sellerId, boolean areSoldProductVisible) {
+  public GetSellerProductsDtoReponse getAllSellerProducts(long sellerId) {
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[getAllSellerProducts] - id seller:", sellerId));
 
-    GetAllSellerProductsUseCase.Input input = new GetAllSellerProductsUseCase.Input(mapper.getAllProductsInput(sellerId, areSoldProductVisible));
+    GetAllSellerProductsUseCase.Input input = new GetAllSellerProductsUseCase.Input(mapper.getAllProductsInput(sellerId));
 
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[getAllSellerProducts] - Input du useCase:", input));
 

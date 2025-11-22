@@ -6,4 +6,5 @@ import com.ctoutweb.monsuivi.core.entity.responseMessage.IResponsMessage;
 import java.util.List;
 public interface IGetAllProductsOutput extends IResponsMessage {
   List<IProductSummarize> getAllProducts();
+  long getProductQuantity();
 }

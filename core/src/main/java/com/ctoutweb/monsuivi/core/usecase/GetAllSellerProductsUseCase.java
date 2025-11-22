@@ -15,18 +15,20 @@ public class GetAllSellerProductsUseCase implements IUseCase<GetAllSellerProduct
 
   private final ISellerProductsManagerRules sellerProductsManagerRules;
 
-  public GetAllSellerProductsUseCase(ISellerProductsManagerGateway sellerProductsManagerGateway) {
+    public GetAllSellerProductsUseCase(ISellerProductsManagerGateway sellerProductsManagerGateway) {
     sellerProductsManagerRules = InstanceLoader.getCoreFactory().getSellerProductsManagerRuleImpl(sellerProductsManagerGateway);
 
   }
   @Override
   public Output execute(Input input) {
     long sellerId = input.getUsecaseInput().getUserId();
-    boolean areSoldProductVisible = input.getUsecaseInput().getAreSoldProductVisible();
 
-    var sellerProducts = sellerProductsManagerRules
+      // Par default on ne recupère pas les produits vendu des clients
+      boolean areSoldProductVisibme = false;
+
+      var sellerProducts = sellerProductsManagerRules
             .getSellerProducts(sellerId)
-            .filterByAreSoldProductVisible(areSoldProductVisible)
+            .filterByAreSoldProductVisible(areSoldProductVisibme)
             .getProducts();
 
     var productsResponse = InstanceLoader.getCoreFactory().getGetAllProductsOutputImpl(

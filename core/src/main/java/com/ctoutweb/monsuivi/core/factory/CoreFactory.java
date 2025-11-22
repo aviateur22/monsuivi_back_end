@@ -396,8 +396,8 @@ public class CoreFactory {
     );
   }
 
-  public IFilterSellerProductsOutput getFilterSellerProductsOutputImpl(String message, List<IProductSummarize> produtcsFilteredList) {
-    return new FilterSellerProductsOutputImpl(message, produtcsFilteredList);
+  public IFilterSellerProductsOutput getFilterSellerProductsOutputImpl(String message, List<IProductSummarize> produtcsFilteredList, long productQuantity) {
+    return new FilterSellerProductsOutputImpl(message, produtcsFilteredList, productQuantity);
   }
 
 }
