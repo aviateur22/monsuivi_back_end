@@ -1,9 +1,8 @@
 package com.ctoutweb.monsuivi.infra.adapter.desactivateProduct;
 
-import com.ctoutweb.monsuivi.core.entity.product.IProductDesactivate;
+import com.ctoutweb.monsuivi.core.entity.product.IUpdateProductActivation;
 import com.ctoutweb.monsuivi.core.factory.CoreFactory;
-import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductGateway;
-import com.ctoutweb.monsuivi.infra.InfraFactory;
+import com.ctoutweb.monsuivi.core.port.desactivateProduct.IUpdateProductActivationGateway;
 import com.ctoutweb.monsuivi.infra.adapter.common.AdapterCommonMapper;
 import com.ctoutweb.monsuivi.infra.repository.IProductRepository;
 import com.ctoutweb.monsuivi.infra.repository.entity.ProductEntity;
@@ -13,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Service
-public class DesactivateProductGatewayImpl implements IDesactivateProductGateway {
+public class DesactivateProductGatewayImpl implements IUpdateProductActivationGateway {
   private static final Logger LOGGER = LogManager.getLogger();
   private final IProductRepository productRepository;
   private final CoreFactory coreFactory;
@@ -22,7 +21,7 @@ public class DesactivateProductGatewayImpl implements IDesactivateProductGateway
   /**
    * Produit à desactiver
    */
-  private ProductEntity productToDesactivate = null;
+  private ProductEntity productActivationToUpdate = null;
 
   public DesactivateProductGatewayImpl(
           IProductRepository productRepository,
@@ -35,20 +34,20 @@ public class DesactivateProductGatewayImpl implements IDesactivateProductGateway
 
   @Override
   public boolean canSellerDesactivateProduct(long productId, long sellerId) {
-    LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [canSellerDesactivateProduct]. produit à desactiver: %s", this.productToDesactivate));
+    LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [canSellerDesactivateProduct]. produit à desactiver: %s", this.productActivationToUpdate));
 
-    this.productToDesactivate = productRepository.findByIdAndSeller(productId, commonMapper.getSellerEntityFromSellerId(sellerId))
+    this.productActivationToUpdate = productRepository.findByIdAndSeller(productId, commonMapper.getSellerEntityFromSellerId(sellerId))
             .orElse(null);
 
-    LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [canSellerDesactivateProduct]. produit à desactiver aprés recherche en base: %s", this.productToDesactivate));
+    LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [canSellerDesactivateProduct]. produit à desactiver aprés recherche en base: %s", this.productActivationToUpdate));
 
-    return this.productToDesactivate != null;
+    return this.productActivationToUpdate != null;
   }
   @Override
-  public IProductDesactivate desactivateProduct(long productId) {
-    LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [desactivateProduct]. produit.istActif avant sauvegarde de: %s", this.productToDesactivate.getIsActif()));
-    this.productToDesactivate.setIsActif(false);
-    var product = this.productRepository.save(productToDesactivate);
+  public IUpdateProductActivation updateProductActivation(long productId, boolean isProductActivate) {
+    LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [desactivateProduct]. produit.istActif avant sauvegarde de: %s", this.productActivationToUpdate.getIsActif()));
+    this.productActivationToUpdate.setIsActif(isProductActivate);
+    var product = this.productRepository.save(productActivationToUpdate);
     LOGGER.debug(()->String.format("[DesactivateProductGatewayImpl] - [desactivateProduct]. produit.istActif apres sauvegarde: %s", product.getIsActif()));
     return coreFactory.getProductDesactivate(product.getSeller().getId(), productId, product.getIsActif());
   }

@@ -43,6 +43,16 @@ public class SellerProductsManagerRuleImpl implements ISellerProductsManagerRule
   }
 
   @Override
+  public ISellerProductsManagerRules getDesactivateProducts(long sellerId) {
+    if(!filterSellerProductsGateway.isSellerFind(sellerId))
+      throw new CoreException("Utilisateur inconnu");
+
+    this.sellerProducts = filterSellerProductsGateway.getDesactivateSellerProducts(sellerId);
+
+    return this;
+  }
+
+  @Override
   public ISellerProductsManagerRules filterByProductName(String productNameInput) {
     if(productNameInput == null)
       return this;
@@ -109,7 +119,6 @@ public class SellerProductsManagerRuleImpl implements ISellerProductsManagerRule
             .collect(Collectors.toList());
     return this;
   }
-
 
   @Override
   public List<IProductSummarize> getProducts() {

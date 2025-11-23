@@ -7,4 +7,5 @@ import java.util.List;
 public interface ISellerProductsManagerGateway {
   boolean isSellerFind(long sellerId);
   List<IProductDetail> getAllSellerProducts(long sellerId);
+  List<IProductDetail> getDesactivateSellerProducts(long sellerId);
 }
