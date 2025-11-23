@@ -27,7 +27,7 @@ public class GetProductDetailGatewayImpl implements IGetProductDetailGateway {
   public boolean canSellerGetProductDetail(long productId, long sellerId) {
     LOGGER.debug(()->String.format("[GetProductDetailGatewayImpl] - [canSellerGetProductDetail]. productId: %s, sellerId: %s", productId, sellerId));
 
-    this.productDetail = productRepository.findByIdAndSellerAndIsActifTrue(productId, commonMapper.getSellerEntityFromSellerId(sellerId))
+    this.productDetail = productRepository.findByIdAndSeller(productId, commonMapper.getSellerEntityFromSellerId(sellerId))
             .orElse(null);
 
     return productDetail != null;

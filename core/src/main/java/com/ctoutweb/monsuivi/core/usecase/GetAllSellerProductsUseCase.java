@@ -24,11 +24,12 @@ public class GetAllSellerProductsUseCase implements IUseCase<GetAllSellerProduct
     long sellerId = input.getUsecaseInput().getUserId();
 
       // Par default on ne recupère pas les produits vendu des clients
-      boolean areSoldProductVisibme = false;
+      boolean areSoldProductVisible = false;
 
       var sellerProducts = sellerProductsManagerRules
+            .initialiseRule()
             .getSellerProducts(sellerId)
-            .filterByAreSoldProductVisible(areSoldProductVisibme)
+            .filterByAreSoldProductVisible(areSoldProductVisible)
             .getProducts();
 
     var productsResponse = InstanceLoader.getCoreFactory().getGetAllProductsOutputImpl(

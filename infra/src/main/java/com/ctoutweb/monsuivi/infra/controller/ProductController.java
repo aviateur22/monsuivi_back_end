@@ -3,11 +3,8 @@ package com.ctoutweb.monsuivi.infra.controller;
 import com.ctoutweb.monsuivi.core.usecase.AddProductUseCase;
 import com.ctoutweb.monsuivi.infra.adapter.addProduct.mapper.AddProductMapper;
 import com.ctoutweb.monsuivi.infra.annotation.DtoValidator;
-import com.ctoutweb.monsuivi.infra.dto.AddProductDto;
-import com.ctoutweb.monsuivi.infra.dto.DesactivateProductDto;
-import com.ctoutweb.monsuivi.infra.dto.FilterSellerProductsDto;
-import com.ctoutweb.monsuivi.infra.dto.UpdateProductDto;
-import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
+import com.ctoutweb.monsuivi.infra.dto.*;
+import com.ctoutweb.monsuivi.infra.dto.response.UpdateProductActivationDtoResponse;
 import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
 import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
 import com.ctoutweb.monsuivi.infra.dto.response.ProductUpdateResponseDto;
@@ -69,12 +66,23 @@ public class ProductController {
   }
 
   @PutMapping("/desactivate")
-  public ResponseEntity<DesactivateProductDtoResponse> desactivateProduct(@RequestBody DesactivateProductDto desactivateProductDto) {
+  public ResponseEntity<UpdateProductActivationDtoResponse> desactivateProduct(@RequestBody DesactivateProductDto desactivateProductDto) {
     LOGGER.debug(()->String.format("[ProductController]-[desactivateProduct] - Deasactivation d'un produit:", desactivateProductDto));
     dtoValidator.validateDto(desactivateProductDto);
-    DesactivateProductDtoResponse response = productService.desactivateProduct(
+    UpdateProductActivationDtoResponse response = productService.desactivateProduct(
             desactivateProductDto.productId(),
             desactivateProductDto.sellerId());
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  @PutMapping("/activate")
+  public ResponseEntity<UpdateProductActivationDtoResponse> activateProduct(@RequestBody ActivateProductDto activateProductDto) {
+    LOGGER.debug(()->String.format("[ProductController]-[activateProduct] - activation d'un produit:", activateProductDto));
+    dtoValidator.validateDto(activateProductDto);
+    UpdateProductActivationDtoResponse response = productService.activateProduct(
+            activateProductDto.productId(),
+            activateProductDto.sellerId());
 
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
@@ -98,14 +106,28 @@ public class ProductController {
   public ResponseEntity<GetSellerProductsDtoReponse> filterProductList(
           @PathVariable Long sellerId,
           @RequestParam(required = false) String filterByName,
-          @RequestParam(required = false) String filterByCategoryCode,
+          @RequestParam(required = false) String filterByCategory,
           @RequestParam(required = false) Short filterByRegisterPeriod,
           @RequestParam(required = false) Boolean areSoldProductVisible) {
 
-    FilterSellerProductsDto filterSellerProductsDto = new FilterSellerProductsDto(filterByName, filterByCategoryCode, filterByRegisterPeriod, areSoldProductVisible);
+    if(areSoldProductVisible == null)
+      areSoldProductVisible = false;
+
+    FilterSellerProductsDto filterSellerProductsDto = new FilterSellerProductsDto(
+            filterByName,
+            filterByCategory,
+            filterByRegisterPeriod,
+            areSoldProductVisible);
 
     GetSellerProductsDtoReponse response = productService.filterSellerProducts(sellerId, filterSellerProductsDto);
     return new ResponseEntity<>(response, HttpStatus.OK);
+  }
 
+  @GetMapping("/seller/{sellerId}/desactivate-products")
+  public ResponseEntity<GetSellerProductsDtoReponse> getSellerDesactivateProducts(
+          @PathVariable("sellerId")  long sellerId) {
+
+    GetSellerProductsDtoReponse desactivateProducts = productService.getDesactivateProducts(sellerId);
+    return new ResponseEntity<>(desactivateProducts, HttpStatus.OK);
   }
 }
