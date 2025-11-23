@@ -30,19 +30,13 @@ public class GetAllProductMapper {
   /**
    * Récupération de input du UseCase GetAllSellerProducts
    * @param sellerId
-   * @param areSoldProductVisible
    * @return
    */
-  public IGetAllProductsInput getAllProductsInput(long sellerId, boolean areSoldProductVisible) {
+  public IGetAllProductsInput getAllProductsInput(long sellerId) {
     return new IGetAllProductsInput() {
       @Override
       public Long getUserId() {
         return sellerId;
-      }
-
-      @Override
-      public boolean getAreSoldProductVisible() {
-        return areSoldProductVisible;
       }
     };
   }
@@ -54,12 +48,12 @@ public class GetAllProductMapper {
   public GetSellerProductsDtoReponse mapToResponseDto(IGetAllProductsOutput getAllProductsOutput) {
 
     List<ISummarizeProduct> products = getAllProductsOutput.getAllProducts().stream()
-            .map(coreProduct->mapToSummarizeProduct(coreProduct))
+            .map(this::mapToSummarizeProduct)
             .toList();
 
     String response = getAllProductsOutput.getResponseMessage();
 
-    return new GetSellerProductsDtoReponse(response, products);
+    return new GetSellerProductsDtoReponse(response, products, products.size());
   }
 
   /**

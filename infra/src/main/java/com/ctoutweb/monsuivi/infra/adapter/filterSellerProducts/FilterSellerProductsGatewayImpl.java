@@ -48,4 +48,14 @@ public class FilterSellerProductsGatewayImpl implements ISellerProductsManagerGa
             .map(filterSellerProductsMapper::mapProductEntityToProductDetail)
             .collect(Collectors.toList());
   }
+
+    @Override
+    public List<IProductDetail> getDesactivateSellerProducts(long sellerId) {
+        LOGGER.debug(()->"[FilterSellerProductsGatewayImpl] - [getDesactivateSellerProducts]");
+        List<ProductEntity> products = productRepository
+                .findByIsActifFalseAndSellerOrderByProductBuyAtDesc(commonMapper.getSellerEntityFromSellerId(sellerId));
+        return products.stream()
+                .map(filterSellerProductsMapper::mapProductEntityToProductDetail)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,6 +1,7 @@
 package com.ctoutweb.monsuivi.infra.dto.response;
 
-import com.ctoutweb.monsuivi.infra.model.message.response.IResponseMessage;
+import com.ctoutweb.monsuivi.infra.dto.response.response.IResponseMessage;
+import com.ctoutweb.monsuivi.infra.model.product.IProductCategory;
 
 public record GetProductDetailResponseDto(
         long productId,
@@ -11,6 +12,7 @@ public record GetProductDetailResponseDto(
         String productBuyAt,
         String productSoldAt,
         String productStatus,
+        IProductCategory productCategory,
         long sellerId,
         String responseMessage
 

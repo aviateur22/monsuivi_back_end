@@ -1,5 +1,6 @@
 package com.ctoutweb.monsuivi.infra.service.impl;
 
+import com.ctoutweb.monsuivi.core.port.getDesactivateSellerProducts.GetDesactivateSellerProductsInput;
 import com.ctoutweb.monsuivi.core.usecase.*;
 import com.ctoutweb.monsuivi.infra.adapter.desactivateProduct.mapper.DesactivateProductMapper;
 import com.ctoutweb.monsuivi.infra.adapter.filterSellerProducts.FilterSellerProductsMapper;
@@ -8,10 +9,7 @@ import com.ctoutweb.monsuivi.infra.adapter.getProductDetail.mapper.ProductDetail
 import com.ctoutweb.monsuivi.infra.adapter.updateProduct.ProductUpdateMapper;
 import com.ctoutweb.monsuivi.infra.dto.FilterSellerProductsDto;
 import com.ctoutweb.monsuivi.infra.dto.UpdateProductDto;
-import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
-import com.ctoutweb.monsuivi.infra.dto.response.GetProductDetailResponseDto;
-import com.ctoutweb.monsuivi.infra.dto.response.GetSellerProductsDtoReponse;
-import com.ctoutweb.monsuivi.infra.dto.response.ProductUpdateResponseDto;
+import com.ctoutweb.monsuivi.infra.dto.response.*;
 import com.ctoutweb.monsuivi.infra.service.IFileService;
 import com.ctoutweb.monsuivi.infra.service.IProductService;
 import com.ctoutweb.monsuivi.infra.util.DateUtil;
@@ -25,20 +23,21 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements IProductService {
   private static final Logger LOGGER = LogManager.getLogger();
   private final IFileService fileService;
-  private final DesactivateProductMapper desactivateProductMapper;
+  private final DesactivateProductMapper updateProductActivationMapper;
   private final GetAllProductMapper mapper;
   private final ProductDetailMapper productDetailMapper;
   private final ProductUpdateMapper productUpdateMapper;
   private final FilterSellerProductsMapper filterSellerProductsMapper;
   private final GetAllSellerProductsUseCase getAllSellerProductsUseCase;
-  private final DesactivateProductUseCase desactivateProductUseCase;
+  private final UpdateProductActivationUseCase desactivateProductUseCase;
   private final GetProductDetailUseCase productDetailUseCase;
   private final ProductUpdateUseCase productUpdateUseCase;
   private final FilterSellerProductsUseCase filterSellerProductsUseCase;
+  private final GetSellerDesactivateProductsUseCase getSellerDesactivateProductsUseCase;
 
   public ProductServiceImpl(
           GetAllSellerProductsUseCase getAllSellerProductsUseCase,
-          DesactivateProductUseCase desactivateProductUseCase,
+          UpdateProductActivationUseCase desactivateProductUseCase,
           GetAllProductMapper mapper,
           DesactivateProductMapper desactivateProductMapper,
           IFileService fileService,
@@ -47,7 +46,7 @@ public class ProductServiceImpl implements IProductService {
           FilterSellerProductsMapper filterSellerProductsMapper,
           GetProductDetailUseCase productDetailUseCase,
           ProductUpdateUseCase updateProductUseCase,
-          FilterSellerProductsUseCase filterSellerProductsUseCase) {
+          FilterSellerProductsUseCase filterSellerProductsUseCase, GetSellerDesactivateProductsUseCase getSellerDesactivateProductsUseCase) {
     this.fileService = fileService;
     this.getAllSellerProductsUseCase = getAllSellerProductsUseCase;
     this.desactivateProductUseCase = desactivateProductUseCase;
@@ -55,18 +54,19 @@ public class ProductServiceImpl implements IProductService {
     this.filterSellerProductsMapper = filterSellerProductsMapper;
     this.productDetailUseCase = productDetailUseCase;
     this.mapper = mapper;
-    this.desactivateProductMapper = desactivateProductMapper;
+    this.updateProductActivationMapper = desactivateProductMapper;
     this.productDetailMapper = productDetailMapper;
     this.productUpdateUseCase = updateProductUseCase;
     this.filterSellerProductsUseCase = filterSellerProductsUseCase;
+    this.getSellerDesactivateProductsUseCase = getSellerDesactivateProductsUseCase;
   }
 
   @Transactional
   @Override
-  public GetSellerProductsDtoReponse getAllSellerProducts(long sellerId, boolean areSoldProductVisible) {
+  public GetSellerProductsDtoReponse getAllSellerProducts(long sellerId) {
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[getAllSellerProducts] - id seller:", sellerId));
 
-    GetAllSellerProductsUseCase.Input input = new GetAllSellerProductsUseCase.Input(mapper.getAllProductsInput(sellerId, areSoldProductVisible));
+    GetAllSellerProductsUseCase.Input input = new GetAllSellerProductsUseCase.Input(mapper.getAllProductsInput(sellerId));
 
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[getAllSellerProducts] - Input du useCase:", input));
 
@@ -84,15 +84,18 @@ public class ProductServiceImpl implements IProductService {
 
   @Override
   @Transactional
-  public DesactivateProductDtoResponse desactivateProduct(long productId, long sellerId) {
+  public UpdateProductActivationDtoResponse desactivateProduct(long productId, long sellerId) {
     LOGGER.debug(()->"[ProductServiceImpl]-[desactivateProduct]");
-    DesactivateProductUseCase.Input input =   new DesactivateProductUseCase.Input(
-            desactivateProductMapper.mapToUseCaseInput(productId, sellerId));
 
-    DesactivateProductUseCase.Output output = desactivateProductUseCase.execute(input);
+    final boolean isProductActif = false;
+
+    UpdateProductActivationUseCase.Input input =   new UpdateProductActivationUseCase.Input(
+            updateProductActivationMapper.mapToUseCaseInput(productId, sellerId, isProductActif));
+
+    UpdateProductActivationUseCase.Output output = desactivateProductUseCase.execute(input);
 
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[desactivateProduct] - output du useCase:", output.getOutputBoundary()));
-    return desactivateProductMapper.mapToDtoResponse(output.getOutputBoundary());
+    return updateProductActivationMapper.mapToDtoResponse(output.getOutputBoundary());
   }
 
   @Override
@@ -145,5 +148,38 @@ public class ProductServiceImpl implements IProductService {
     LOGGER.debug(()->String.format("[ProductServiceImpl]-[filterSellerProducts] - Output: %s", output));
 
     return  filterSellerProductsMapper.mapToResponseDto(output.getOutputBoundary());
+  }
+
+  @Override
+  public GetSellerProductsDtoReponse getDesactivateProducts(long sellerId) {
+    LOGGER.debug(()->"[ProductServiceImpl]-[getDesactivateProducts]");
+    GetSellerDesactivateProductsUseCase.Input input = new GetSellerDesactivateProductsUseCase.Input(new GetDesactivateSellerProductsInput() {
+      @Override
+      public long getSellerId() {
+        return sellerId;
+      }
+    }
+    );
+
+    var output = getSellerDesactivateProductsUseCase.execute(input);
+
+    LOGGER.debug(()->String.format("[ProductServiceImpl]-[getDesactivateProducts] - Output: %s", output));
+
+    return mapper.mapToResponseDto(output.getOutputBoundary());
+  }
+
+  @Override
+  public UpdateProductActivationDtoResponse activateProduct(long productId, long sellerId) {
+    LOGGER.debug(()->"[ProductServiceImpl]-[activateProduct]");
+
+    final boolean isProductActif = true;
+
+    UpdateProductActivationUseCase.Input input =   new UpdateProductActivationUseCase.Input(
+            updateProductActivationMapper.mapToUseCaseInput(productId, sellerId, isProductActif));
+
+    UpdateProductActivationUseCase.Output output = desactivateProductUseCase.execute(input);
+
+    LOGGER.debug(()->String.format("[ProductServiceImpl]-[activateProduct] - output du useCase:", output.getOutputBoundary()));
+    return updateProductActivationMapper.mapToDtoResponse(output.getOutputBoundary());
   }
 }

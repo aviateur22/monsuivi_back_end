@@ -6,7 +6,7 @@ import com.ctoutweb.monsuivi.core.entity.chart.impl.*;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsOutput;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.impl.FilterSellerProductsOutputImpl;
 import com.ctoutweb.monsuivi.core.rule.ISellerProductsManagerRules;
-import com.ctoutweb.monsuivi.core.entity.product.IProductDesactivate;
+import com.ctoutweb.monsuivi.core.entity.product.IUpdateProductActivation;
 import com.ctoutweb.monsuivi.core.entity.product.IProductDetail;
 import com.ctoutweb.monsuivi.core.entity.product.IProductSummarize;
 import com.ctoutweb.monsuivi.core.entity.product.impl.ProductDesacativateImpl;
@@ -45,9 +45,9 @@ import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.ISo
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.ISoldAndBuyProductQuantityByYearOutput;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.impl.SoldAndBuyProductQuantityByYearInputImpl;
 import com.ctoutweb.monsuivi.core.port.chart.soldAndBuyProductQuantityByYear.impl.SoldAndBuyProductQuantityByYearOutputImpl;
-import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductInput;
+import com.ctoutweb.monsuivi.core.port.desactivateProduct.IUpdateProductActivationInput;
 import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductOutput;
-import com.ctoutweb.monsuivi.core.port.desactivateProduct.impl.DesactivateProductInputImpl;
+import com.ctoutweb.monsuivi.core.port.desactivateProduct.impl.UpdateProductActivationInputImpl;
 import com.ctoutweb.monsuivi.core.port.desactivateProduct.impl.DesactivateProductOutputImpl;
 import com.ctoutweb.monsuivi.core.port.common.ISellerProductsManagerGateway;
 import com.ctoutweb.monsuivi.core.port.filterSellerProducts.IFilterSellerProductsInput;
@@ -83,10 +83,10 @@ public class CoreFactory {
     return new GetAllSellerProductsImpl(responseMessage, products);
   }
 
-  public IDesactivateProductInput getDesactivateProductInputImpl(long productId, long sellerId) {
-    return new DesactivateProductInputImpl(productId, sellerId);
+  public IUpdateProductActivationInput getUpdateProductActivationInputImpl(long productId, long sellerId, boolean isProductActivate) {
+    return new UpdateProductActivationInputImpl(productId, sellerId, isProductActivate);
   }
-  public IProductDesactivate getProductDesactivate(long sellerId, long productId, boolean productIsActif) {
+  public IUpdateProductActivation getProductDesactivate(long sellerId, long productId, boolean productIsActif) {
     return new ProductDesacativateImpl(sellerId, productId, productIsActif);
   }
   public IDesactivateProductOutput getDesactivateProductOutputImpl(
@@ -396,8 +396,8 @@ public class CoreFactory {
     );
   }
 
-  public IFilterSellerProductsOutput getFilterSellerProductsOutputImpl(String message, List<IProductSummarize> produtcsFilteredList) {
-    return new FilterSellerProductsOutputImpl(message, produtcsFilteredList);
+  public IFilterSellerProductsOutput getFilterSellerProductsOutputImpl(String message, List<IProductSummarize> produtcsFilteredList, long productQuantity) {
+    return new FilterSellerProductsOutputImpl(message, produtcsFilteredList, productQuantity);
   }
 
 }

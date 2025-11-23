@@ -11,11 +11,11 @@ public interface ISellerProductsManagerRules {
    */
   ISellerProductsManagerRules initialiseRule();
   ISellerProductsManagerRules getSellerProducts(long sellerId);
+  ISellerProductsManagerRules getDesactivateProducts(long sellerId);
   ISellerProductsManagerRules filterByProductName(String productNameInput);
   ISellerProductsManagerRules filterByProductCategory(String productCategoryInput);
   ISellerProductsManagerRules filterByRegisterPeriod(Short periodInDays);
   ISellerProductsManagerRules filterByAreSoldProductVisible(boolean areSoldProductVisible);
-
   /**
    * Renvoie la liste filtrée au format IProductSummarize
    * @return List<IProductSummarize>

@@ -1,9 +1,9 @@
 package com.ctoutweb.monsuivi.infra.adapter.desactivateProduct.mapper;
 
 import com.ctoutweb.monsuivi.core.factory.CoreFactory;
-import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductInput;
+import com.ctoutweb.monsuivi.core.port.desactivateProduct.IUpdateProductActivationInput;
 import com.ctoutweb.monsuivi.core.port.desactivateProduct.IDesactivateProductOutput;
-import com.ctoutweb.monsuivi.infra.dto.response.DesactivateProductDtoResponse;
+import com.ctoutweb.monsuivi.infra.dto.response.UpdateProductActivationDtoResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,8 +20,8 @@ public class DesactivateProductMapper {
    * @param sellerId long
    * @return IDesactivateProductInput
    */
-  public IDesactivateProductInput mapToUseCaseInput(long productId, long sellerId) {
-    return coreFactory.getDesactivateProductInputImpl(productId, sellerId);
+  public IUpdateProductActivationInput mapToUseCaseInput(long productId, long sellerId, boolean isProductActivate) {
+    return coreFactory.getUpdateProductActivationInputImpl(productId, sellerId, isProductActivate);
   }
 
   /**
@@ -29,8 +29,8 @@ public class DesactivateProductMapper {
    * @param desactivateProductOutput
    * @return
    */
-  public DesactivateProductDtoResponse mapToDtoResponse(IDesactivateProductOutput desactivateProductOutput) {
-    return new DesactivateProductDtoResponse(
+  public UpdateProductActivationDtoResponse mapToDtoResponse(IDesactivateProductOutput desactivateProductOutput) {
+    return new UpdateProductActivationDtoResponse(
             desactivateProductOutput.getProductId(),
             desactivateProductOutput.getSellerId(),
             desactivateProductOutput.getProductIsActif(),

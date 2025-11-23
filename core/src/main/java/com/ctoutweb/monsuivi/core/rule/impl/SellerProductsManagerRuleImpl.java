@@ -43,6 +43,16 @@ public class SellerProductsManagerRuleImpl implements ISellerProductsManagerRule
   }
 
   @Override
+  public ISellerProductsManagerRules getDesactivateProducts(long sellerId) {
+    if(!filterSellerProductsGateway.isSellerFind(sellerId))
+      throw new CoreException("Utilisateur inconnu");
+
+    this.sellerProducts = filterSellerProductsGateway.getDesactivateSellerProducts(sellerId);
+
+    return this;
+  }
+
+  @Override
   public ISellerProductsManagerRules filterByProductName(String productNameInput) {
     if(productNameInput == null)
       return this;
@@ -93,19 +103,22 @@ public class SellerProductsManagerRuleImpl implements ISellerProductsManagerRule
 
   @Override
   public ISellerProductsManagerRules filterByAreSoldProductVisible(boolean areSoldProductVisible) {
-    if(areSoldProductVisible)
+    if(areSoldProductVisible) {
+      String statusProductSoldCode = ProductStatus.SOLD.getProductStatusCode();
+      this.sellerProducts = sellerProducts
+              .stream()
+              .filter(productDetail -> statusProductSoldCode.equalsIgnoreCase(productDetail.getProductStatus()))
+              .collect(Collectors.toList());
       return this;
+    }
 
     String statusProductSaleCode = ProductStatus.FOR_SALE.getProductStatusCode();
-
     this.sellerProducts = sellerProducts
             .stream()
             .filter(productDetail -> statusProductSaleCode.equalsIgnoreCase(productDetail.getProductStatus()))
             .collect(Collectors.toList());
-
     return this;
   }
-
 
   @Override
   public List<IProductSummarize> getProducts() {

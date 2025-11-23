@@ -75,11 +75,11 @@ public class JwtEntity {
     this.jwtId = jwtId;
   }
 
-  public Boolean getValid() {
+  public Boolean getIsValid() {
     return isValid;
   }
 
-  public void setValid(Boolean valid) {
+  public void setIsValid(Boolean valid) {
     isValid = valid;
   }
 

@@ -19,7 +19,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     response.setContentType("application/json");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     Map<String, String> errorResponse = new HashMap<>();
-    errorResponse.put("error", authException.getMessage());
+    errorResponse.put("error","Votre session a expirée, merci de vous reconnecter");
     ObjectMapper mapper = new ObjectMapper();
     response.getOutputStream().write(mapper.writeValueAsBytes(errorResponse));
   }

@@ -1,8 +1,8 @@
 package com.ctoutweb.monsuivi.infra.dto.response;
 
-import com.ctoutweb.monsuivi.infra.model.message.response.IResponseMessage;
+import com.ctoutweb.monsuivi.infra.dto.response.response.IResponseMessage;
 
-public record DesactivateProductDtoResponse(
+public record UpdateProductActivationDtoResponse(
         long productId,
         long sellerId,
         boolean isProductActif,

@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface IProductRepository extends JpaRepository<ProductEntity, Long>, IChartRepository {
   /**
    * Recherche d'une liste de produit actif appartenant a un vendeur
+   *
    * @param seller SellerEntity - Identifiant vendeur
    * @return List<ProductEntity>
    */
@@ -19,6 +20,7 @@ public interface IProductRepository extends JpaRepository<ProductEntity, Long>, 
 
   /**
    * Recherche d'un produit par product id et seller id
+   *
    * @param productId long
    * @param seller Selleterentity
    * @return Optional<ProductEntity>
@@ -27,10 +29,19 @@ public interface IProductRepository extends JpaRepository<ProductEntity, Long>, 
 
   /**
    * Recherche d'un produit actif par product id et seller id
+   *
    * @param productId long
    * @param seller Selleterentity
    * @return Optional<ProductEntity>
    */
   Optional<ProductEntity>findByIdAndSellerAndIsActifTrue(long productId, SellerEntity seller);
+
+  /**
+   * Récupération produit utilisateur désactivé
+   *
+   * @param seller Identifiant vendeur
+   * @return La liste des produits désactivé du vendeur
+   */
+  List<ProductEntity> findByIsActifFalseAndSellerOrderByProductBuyAtDesc(SellerEntity seller);
 
 }

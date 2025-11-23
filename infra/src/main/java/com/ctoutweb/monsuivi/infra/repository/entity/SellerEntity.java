@@ -30,8 +30,27 @@ public class SellerEntity {
   /**
    * Relation
    */
-  @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<ProductEntity> products;
+
+  @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  private List<RoleSellerEntity> roles;
+
+  @OneToOne(mappedBy = "seller", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  private SellerAccountEntity sellerAccount;
+
+  public SellerEntity() {
+  }
+
+  public SellerEntity(Long id) {
+    this.id = id;
+  }
+
+  public SellerEntity(String email, String hashPassword, String nickname) {
+    this.email = email;
+    this.password = hashPassword;
+    this.nickname = nickname;
+  }
 
   public Long getId() {
     return id;
@@ -87,6 +106,22 @@ public class SellerEntity {
 
   public void setProducts(List<ProductEntity> products) {
     this.products = products;
+  }
+
+  public List<RoleSellerEntity> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<RoleSellerEntity> roles) {
+    this.roles = roles;
+  }
+
+  public SellerAccountEntity getSellerAccount() {
+    return sellerAccount;
+  }
+
+  public void setSellerAccount(SellerAccountEntity sellerAccount) {
+    this.sellerAccount = sellerAccount;
   }
 
   @Override
